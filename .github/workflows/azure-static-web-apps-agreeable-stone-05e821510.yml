@@ -18,17 +18,17 @@ jobs:
       - uses: actions/checkout@v4
       
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
+          working-directory: ./event-driven
 
       - name: npm install, build, and test
         run: |
           npm run install
           npm run build --if-present
           npm run test --if-present
-        working-directory: ./website
       
       - name: Deploy
         id: builddeploy
