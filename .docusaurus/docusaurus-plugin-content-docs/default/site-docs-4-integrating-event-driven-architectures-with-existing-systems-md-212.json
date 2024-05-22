@@ -1,0 +1,25 @@
+{
+  "id": "Integrating Event-Driven Architectures With Existing Systems",
+  "title": "Integrating Event-Driven Architectures With Existing Systems",
+  "description": "Le passage à une architecture orientée événements consiste notamment à migrer les données vers un event broker pour qu'il deviennent la source de vérité (sourcing), ce processus s'appelle data liberation.",
+  "source": "@site/docs/4.Integrating Event-Driven Architectures With Existing Systems.md",
+  "sourceDirName": ".",
+  "slug": "/Integrating Event-Driven Architectures With Existing Systems",
+  "permalink": "/docs/Integrating Event-Driven Architectures With Existing Systems",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/4.Integrating Event-Driven Architectures With Existing Systems.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 4,
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Communication and Data Contract",
+    "permalink": "/docs/Communication and Data Contract"
+  },
+  "next": {
+    "title": "Event-Driven Processing Basics",
+    "permalink": "/docs/Event-Driven Processing Basics"
+  }
+}
