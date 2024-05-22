@@ -16,8 +16,6 @@ jobs:
     name: Build and Deploy Job
     steps:
       - uses: actions/checkout@v4
-        with:
-          sparse-checkout: 'event-driven'
       
       - name: Setup Node.js
         uses: actions/setup-node@v3
