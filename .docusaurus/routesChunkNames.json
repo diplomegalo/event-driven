@@ -1,0 +1,96 @@
+{
+  "/__docusaurus/debug-5ff": {
+    "__comp": "__comp---theme-debug-config-23-a-2ff",
+    "__context": {
+      "plugin": "plugin---docusaurus-debugb-38-ad3"
+    }
+  },
+  "/__docusaurus/debug/config-5ba": {
+    "__comp": "__comp---theme-debug-config-23-a-2ff",
+    "__context": {
+      "plugin": "plugin---docusaurus-debugb-38-ad3"
+    }
+  },
+  "/__docusaurus/debug/content-466": {
+    "__comp": "__comp---theme-debug-contentba-8-ce7",
+    "__context": {
+      "plugin": "plugin---docusaurus-debugb-38-ad3"
+    },
+    "__props": "__props---docusaurus-debug-content-10-f-697"
+  },
+  "/__docusaurus/debug/globalData-c3c": {
+    "__comp": "__comp---theme-debug-global-dataede-0fa",
+    "__context": {
+      "plugin": "plugin---docusaurus-debugb-38-ad3"
+    }
+  },
+  "/__docusaurus/debug/metadata-156": {
+    "__comp": "__comp---theme-debug-site-metadata-68-e-3d4",
+    "__context": {
+      "plugin": "plugin---docusaurus-debugb-38-ad3"
+    }
+  },
+  "/__docusaurus/debug/registry-88c": {
+    "__comp": "__comp---theme-debug-registry-679-501",
+    "__context": {
+      "plugin": "plugin---docusaurus-debugb-38-ad3"
+    }
+  },
+  "/__docusaurus/debug/routes-000": {
+    "__comp": "__comp---theme-debug-routes-946-699",
+    "__context": {
+      "plugin": "plugin---docusaurus-debugb-38-ad3"
+    }
+  },
+  "/markdown-page-3d7": {
+    "__comp": "__comp---theme-mdx-page-1-f-3-b90",
+    "__context": {
+      "plugin": "plugin---markdown-pagea-74-7b5"
+    },
+    "content": "content---markdown-page-393-028"
+  },
+  "/docs-3fc": {
+    "__comp": "__comp---theme-docs-root-5-e-9-0b6",
+    "__context": {
+      "plugin": "plugin---docsaba-d7c"
+    }
+  },
+  "/docs-35f": {
+    "__comp": "__comp---theme-doc-version-roota-7-b-5de",
+    "__props": "__props---docs-7-c-1-f86"
+  },
+  "/docs-0d7": {
+    "__comp": "__comp---theme-doc-roota-94-67a"
+  },
+  "/docs/Communication and Data Contract-961": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-communication-and-data-contract-88-d-f1a"
+  },
+  "/docs/Deterministic Stream Processing-3b0": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-deterministic-stream-processinga-8-d-265"
+  },
+  "/docs/Event-Driven Microservices Fundamentals-7b4": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-event-driven-microservices-fundamentals-7-cb-90d"
+  },
+  "/docs/Event-Driven Processing Basics-756": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-event-driven-processing-basics-51-d-218"
+  },
+  "/docs/Integrating Event-Driven Architectures With Existing Systems-e9a": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-integrating-event-driven-architectures-with-existing-systems-212-c9f"
+  },
+  "/docs/Why Event-Driven Microservices-a42": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-why-event-driven-microservices-78-b-fde"
+  },
+  "/-e5f": {
+    "__comp": "__comp---site-src-pages-index-tsx-1-df-d3e",
+    "__context": {
+      "plugin": "plugin---markdown-pagea-74-7b5"
+    },
+    "config": "config---5-e-9-4f3"
+  }
+}

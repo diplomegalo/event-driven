@@ -1,0 +1,58 @@
+{
+  "docusaurus-plugin-content-docs": {
+    "default": {
+      "path": "/docs",
+      "versions": [
+        {
+          "name": "current",
+          "label": "Next",
+          "isLast": true,
+          "path": "/docs",
+          "mainDocId": "Why Event-Driven Microservices",
+          "docs": [
+            {
+              "id": "Communication and Data Contract",
+              "path": "/docs/Communication and Data Contract",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Deterministic Stream Processing",
+              "path": "/docs/Deterministic Stream Processing",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Event-Driven Microservices Fundamentals",
+              "path": "/docs/Event-Driven Microservices Fundamentals",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Event-Driven Processing Basics",
+              "path": "/docs/Event-Driven Processing Basics",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Integrating Event-Driven Architectures With Existing Systems",
+              "path": "/docs/Integrating Event-Driven Architectures With Existing Systems",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Why Event-Driven Microservices",
+              "path": "/docs/Why Event-Driven Microservices",
+              "sidebar": "tutorialSidebar"
+            }
+          ],
+          "draftIds": [],
+          "sidebars": {
+            "tutorialSidebar": {
+              "link": {
+                "path": "/docs/Why Event-Driven Microservices",
+                "label": "Why Event-Driven Microservices"
+              }
+            }
+          }
+        }
+      ],
+      "breadcrumbs": true
+    }
+  }
+}

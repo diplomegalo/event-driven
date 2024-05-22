@@ -1,0 +1,21 @@
+{
+  "id": "Why Event-Driven Microservices",
+  "title": "Why Event-Driven Microservices",
+  "description": "Domain Driven Design and Bounded Contexts",
+  "source": "@site/docs/1.Why Event-Driven Microservices.md",
+  "sourceDirName": ".",
+  "slug": "/Why Event-Driven Microservices",
+  "permalink": "/docs/Why Event-Driven Microservices",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/1.Why Event-Driven Microservices.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "next": {
+    "title": "Event-Driven Microservices Fundamentals",
+    "permalink": "/docs/Event-Driven Microservices Fundamentals"
+  }
+}

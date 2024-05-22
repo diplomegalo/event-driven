@@ -1,0 +1,21 @@
+{
+  "id": "Deterministic Stream Processing",
+  "title": "Deterministic Stream Processing",
+  "description": "- Comment un microservice choisi l'ordre des événements à traiter lorsqu'il est consommateur de plusieurs partitions ?",
+  "source": "@site/docs/6.Deterministic Stream Processing.md",
+  "sourceDirName": ".",
+  "slug": "/Deterministic Stream Processing",
+  "permalink": "/docs/Deterministic Stream Processing",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/6.Deterministic Stream Processing.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 6,
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Event-Driven Processing Basics",
+    "permalink": "/docs/Event-Driven Processing Basics"
+  }
+}
