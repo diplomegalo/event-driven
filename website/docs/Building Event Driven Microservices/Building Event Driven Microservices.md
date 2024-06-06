@@ -23,7 +23,13 @@ graph TD
     A[Message] --> D[Query]
 ```
 
-Un événement est une spécification du message
+Un événement est une spécification du message. Il est utilisé pour notifier les autres systèmes d'un changement d'état. Il est considéré comme suffisant, c'est-à-dire qu'il contient toutes les informations nécessaires pour être traité par les systèmes qui le reçoivent.
+
+### Event Broker
+
+Un Event Broker est un composant logiciel qui permet de distribuer les événements aux différents systèmes qui en ont besoin.
+
+Fondamentalement, il existe deux types de topology pour les architectures orientées événements :
 
 Vous pouvez retrouver les différents chapitres de la documentation suivants :
 
