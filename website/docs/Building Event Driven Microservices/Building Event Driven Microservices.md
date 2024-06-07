@@ -19,6 +19,8 @@ Avant d'entamer le processus de construction d'une architecture orientée évén
 - **Modèle** : Le modèle est une représentation abstraite et simplifiée du domaine et des sous-domaine qui est utilisée pour répondre aux fonctionnalités de ce domaine.
 - **Bounded context** : Le _bounded context_ est une frontière conceptuelle dans laquelle un modèle spécifique est défini et maintenu, de même que les processus, les événements, les règles métier et les entités qui sont liées à ce modèle et pertinent pour un ou plusieurs sous-domaines.
 
+Les notions de domaine et bounded context sont des concepts qui peuvent se confondre. La où le domaine est lié à un métier, le bounded context est lié à la modélisation d'un processus métier. Par conséquent un bounded context peut être associé à un ou plusieurs sous-domaines. Les modèles seront alors adaptés pour répondre aux besoins du bounded context.
+
 ### Message vs. Event
 
 Un message est une unité de communication entre systèmes distribués. Il contient toutes les données utiles au traitement d'une tâche. Dans une représentation orientée objet, un message serait la classe abstraite qui contient les attributs de bases pour faire transiter des informations d'un système à un autre. Un des attributs définirait le type de message (ex: Command, Event, Query, etc.).
@@ -31,6 +33,8 @@ graph TD
 ```
 
 Un événement est une spécification du message. Il est utilisé pour notifier les autres systèmes d'un changement d'état. Il est considéré comme suffisant, c'est-à-dire qu'il contient toutes les informations nécessaires pour être traité par les systèmes qui le reçoivent.
+
+Dans tous les cas, le message et plus spécifiquement l'event est le lien, le seul point de cohésion, entre les systèmes. Il est dés lors primordial de bien les définir, les documenter et les valider de manière à éviter les erreurs d'interprétation.
 
 ### Communication et Data Driven
 
@@ -51,20 +55,41 @@ Par exemple, lorsque l'application de calcule des salaires termine le traitement
 ```mermaid
 graph LR
     A[Gestion des salaires] -- Event --> B[Paiement des salaires]
+    A -- Event --> C[Autre système]
 ```
 
 La réponse technique implique une distribution des événements aux systèmes qui en ont besoin, c'est-à-dire, une approche _publish-subscribe_. Ce paradigme ne nécessite pas de stockage centralisé des événements.
 
 Chaque système est responsable de la gestion des événements qu'il reçoit et stocke les informations utiles pour son traitement. Les données sont gardées et le cas échéant dupliquées dans chaque système qui en a besoin.
 
-> Selon les cas, il peut être nécessaire de déterminer des systèmes maîtres de la données pour éviter les incohérences.
+Selon les cas, il peut être nécessaire de déterminer des systèmes maîtres (_single source of truth_) de la données pour éviter les incohérences.
 
 #### Data Driven
 
-Les événements sont considérés comme une données à part entière. Ils sont stockés de manière centralisées dans un _event stream_ et produits et consommés par des microservices.
+La construction des systèmes s'articulent autour des **données** et plus spécifiquement des événements. Sur base de ceux-ci, les microservices vont pouvoir exécuter des traitements et produire eux-mêmes des événements qui seront stockés et mis à disposition.
 
+Dans ce contexte, les événements sont stockés dans des zones de stockage centralisées. Dès lors, la production des événements est dissociée de leur stockage et accès.
 
+Pour reprendre l'exemple précédent, l'application de gestion des salaires va produire un événement qui sera stocké dans une zone de stockage centralisée. Le système de paiement va alors consommer cet événement pour traiter le lot de paiement.
 
+```mermaid
+graph LR
+    A[Gestion des salaires] -- Event --> B[Stockage des événements]
+    B -- Event --> C[Paiement des salaires]
+    B -- Event --> D[Autre système]
+```
+
+Ce type d'architecture introduit également la notion de _single version source of truth_ qui est la source de vérité pour les données. Cela permet de garantir que les données sont cohérentes et que les systèmes qui les consomment ont accès à la dernière version des données. Dans ce cas la _single version of truth_ est l'event stream.
+
+Une différence fondamentale est que, par le biais de mécanisme natif aux différents outils de stockage des événements, un nouveau système va pouvoir consommer les événements passés et ainsi se mettre à jour.
+
+```mermaid
+graph LR
+    A[Gestion des salaires] -- Event --> B[Stockage des événements]
+    B -- Event --> C[Paiement des salaires]
+    B -- Event --> D[Autre système]
+    E[Nouveau système] --> B
+```
 
 ### Event Broker
 
