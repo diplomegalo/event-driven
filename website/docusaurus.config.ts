@@ -10,6 +10,7 @@ const config: Config = {
   markdown:{
     mermaid: true
   },
+
   themes: ['@docusaurus/theme-mermaid'],
 
   // Set the production url of your site here
@@ -39,12 +40,11 @@ const config: Config = {
       'classic',
       {
         docs: {
+          routeBasePath: '/',
           sidebarPath: './sidebars.ts',
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
           editUrl:
             'https://github.com/diplomegalo/event-driven/tree/master/website/docs',
-          routeBasePath: '/',
+          
         },
         blog: false,
         pages: false,
@@ -68,12 +68,6 @@ const config: Config = {
         src: 'img/logo.svg',
       },
       items: [
-        {
-          type: 'docSidebar',
-          sidebarId: 'tutorialSidebar',
-          position: 'left',
-          label: 'Building Event-Driven Microservices',
-        },
         {
           href: 'https://github.com/diplomegalo/event-driven',
           label: 'GitHub',
