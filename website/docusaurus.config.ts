@@ -6,6 +6,11 @@ const config: Config = {
   title: 'Event-Driven Architecture',
   tagline: 'Recueil de notes sur l\'architecture orientée événements',
   favicon: 'img/favicon.ico',
+  
+  markdown:{
+    mermaid: true
+  },
+  themes: ['@docusaurus/theme-mermaid'],
 
   // Set the production url of your site here
   url: 'https://agreeable-stone-05e821510.5.azurestaticapps.net',
