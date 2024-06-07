@@ -42,8 +42,7 @@ const config: Config = {
         docs: {
           routeBasePath: '/',
           sidebarPath: './sidebars.ts',
-          editUrl:
-            'https://github.com/diplomegalo/event-driven/tree/master/website/docs',
+          // editUrl: 'https://github.com/diplomegalo/event-driven/tree/master/website/docs',
           
         },
         blog: false,
@@ -56,8 +55,6 @@ const config: Config = {
   ],
 
   themeConfig: {
-    // Replace with your project's social card
-    image: 'img/docusaurus-social-card.jpg',
     colorMode: {
       defaultMode: 'dark'
     },
