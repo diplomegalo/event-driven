@@ -101,13 +101,36 @@ L'architecture orienté évènement repose avant tout sur la distribution des é
 
 ### Event Broker
 
-L'_event broker_ est composant logiciel qui permet de stocker et de distribuer les événements aux différents systèmes qui en ont besoin. Les principaux concepts liés à l'event broker sont :
+L'_event broker_ est composant logiciel qui permet de stocker et de distribuer les événements aux différents systèmes qui en ont besoin.
 
-- **Event Stream** : flux d'événements qui est stocké dans un système de stockage centralisé.
+Lorsqu'un événement est émis, il est stocké **dans l'ordre de réception** dans un _event stream_. Cet _event_ peut être reparti dans plusieurs partitions pour garantir la scalabilité et la performance. Une partition est une division d'un _event stream_ en plusieurs sous-ensembles.
 
-- **Partition** : division d'un event stream en plusieurs sous-ensembles de manière à garantir la scalabilité et la performance.
+Chaque microservice qui a besoin de consommer les événements d'un _event stream_ va être associé à un _consumer group_ qui est responsable de la lecture des événements sur une ou plusieurs partitions.
 
-- **Consumer Group** : groupe de consommateurs qui vont traiter les événements d'un event stream. Les consommateurs sont assimilables à des microservices. Un consumer group est associé à une partition ou plusieurs partition.
+Le microservice va alors lire les événements de manière séquentielle et stocker l'_offset_ de lecture pour reprendre la lecture là où il s'est arrêté. L'_offset_ est la position de lecture dans une partition d'un _event stream_.
+
+```mermaid
+graph LR    
+    subgraph Event Stream
+    A[Partition 1]
+    B[Partition 2]
+    C[Partition 3]
+
+    D[Consumer Group 1] -- offset 1 --> A
+    D -- offset 2 --> B
+    E[Consumer Group 2] -- offset --> C
+    end
+    
+    W[Microservice Instance A #1] -- offset 1 --> D
+    X[Microservice Instance A #2] -- offset 2 --> D
+    Y[Microservice Instance B #2] -- offset --> E
+```
+
+> Dans le graphiques ci-dessus, les _consumer group_ ont la responsabilité d'associer la lecture d'une partition à une instance de microservice et de gérer son offset de lecture.
+
+L'attribution des partitions à un _consumer group_ est gérée par le _event broker_ et permet de garantir que chaque partition est lue par un seul _consumer group_ à la fois.
+
+Il existe plusieurs type d'événements :
 
 - **Unkeyed Events** : les événements sans clé sont utilisé pour les événements qui n'ont pas besoin d'être identifié de manière unique et qui décrivent un changement global. Par exemple, un événement de _heartbeat_.
 
@@ -121,6 +144,6 @@ Les messages brokers ne peuvent pas être utilisés pour stocker des événement
 
 Il sont essentiellement utilisé pour faire communiquer des systèmes de manière synchrone. Les messages sont stockés de manière temporaire dans des queues et sont distribués aux systèmes qui en ont besoin.
 
-Lorsqu'un message n'est pas distribué, il est stocké dans une _dead letter queue_ pour être traité ultérieurement.
+Lorsqu'un message n'est pas distribué, car le _message broker_ n'a pas reçu d'accusé de réception, il est stocké dans une _dead letter queue_ pour être traité ultérieurement.
 
 Chaque consommateur a sa propre subscription à la queue et peut donc consommer les messages de manière indépendante des autres consommateurs.
