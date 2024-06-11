@@ -87,9 +87,21 @@ graph LR
     E[Nouveau système] --> B
 ```
 
-## Events
+## Event Broker vs. Message Broker
 
-- **Event Broker** : composant logiciel qui permet de distribuer les événements aux différents systèmes qui en ont besoin.
+L'architecture orienté évènement repose avant tout sur la distribution des événements. Pour répondre à ce besoin, il existe deux types de brokers : les _Event Broker_ et les _Message Broker_.
+
+| Event Broker | Message Broker |
+|--------------|----------------|
+| Stocke les événements de manière durable | Stocke les messages de manière temporaire |
+| Utilise des streams pour stocker les événements | Utilise des queues pour stocker les messages |
+| N'utilise pas de _dead letter queue_ | Utilise une _dead letter queue_ pour les messages non distribués |
+| N'utilise pas d'accusé de réception | Utilise des accusés de réception pour garantir la distribution des messages |
+| Permet l'accès à l'ensemble des événements de tous les streams | Permet l'accès aux messages non-consommés |
+
+### Event Broker
+
+L'_event broker_ est composant logiciel qui permet de stocker et de distribuer les événements aux différents systèmes qui en ont besoin. Les principaux concepts liés à l'event broker sont :
 
 - **Event Stream** : flux d'événements qui est stocké dans un système de stockage centralisé.
 
@@ -102,3 +114,13 @@ graph LR
 - **Entity Events** : les événements d'entité représentent une entité unique où la clé est l'identifiant de celle-ci. Généralement, ces événements sont utilisés pour conserver un historique des changements d'une entité où le dernier événement est la source de vérité.
 
 - **Keyed Event** : les événements à clé ne représentent pas une entité unique, mais une événement identifiable. Généralement ceux-ci sont enregistrés dans des streams différent sur base de leur types, assurant ainsi le partitionnement des événements permettant ensuite de retrouver les événements de manière efficace.
+
+### Message Broker
+
+Les messages brokers ne peuvent pas être utilisés pour stocker des événements de manière durable et ne sont donc pas adaptés pour une architecture _event driven_ avec _event stream_.
+
+Il sont essentiellement utilisé pour faire communiquer des systèmes de manière synchrone. Les messages sont stockés de manière temporaire dans des queues et sont distribués aux systèmes qui en ont besoin.
+
+Lorsqu'un message n'est pas distribué, il est stocké dans une _dead letter queue_ pour être traité ultérieurement.
+
+Chaque consommateur a sa propre subscription à la queue et peut donc consommer les messages de manière indépendante des autres consommateurs.
