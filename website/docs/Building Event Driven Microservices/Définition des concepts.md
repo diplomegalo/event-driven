@@ -109,6 +109,8 @@ Chaque microservice qui a besoin de consommer les événements d'un _event strea
 
 Le microservice va alors lire les événements de manière séquentielle et stocker l'_offset_ de lecture pour reprendre la lecture là où il s'est arrêté. L'_offset_ est la position de lecture dans une partition d'un _event stream_.
 
+L'attribution des partitions à un _consumer group_ est gérée par le _event broker_ et permet de garantir que chaque partition est lue par un seul _consumer group_ à la fois.
+
 ```mermaid
 graph LR    
     subgraph Event Stream
@@ -126,23 +128,21 @@ graph LR
     Y[Microservice Instance B #2] -- offset --> E
 ```
 
-> Dans le graphiques ci-dessus, les _consumer group_ ont la responsabilité d'associer la lecture d'une partition à une instance de microservice et de gérer son offset de lecture.
+> Dans le graphique ci-dessus, les _consumer group_ ont la responsabilité d'associer la lecture d'une partition à une instance de microservice et de gérer son _offset_ de lecture. Une partition ne peut être lue que par un seul _consumer group_ à la fois.
 
-L'attribution des partitions à un _consumer group_ est gérée par le _event broker_ et permet de garantir que chaque partition est lue par un seul _consumer group_ à la fois.
+Il existe plusieurs types d'événements :
 
-Il existe plusieurs type d'événements :
-
-- **Unkeyed Events** : les événements sans clé sont utilisé pour les événements qui n'ont pas besoin d'être identifié de manière unique et qui décrivent un changement global. Par exemple, un événement de _heartbeat_.
+- **Unkeyed Events** : les événements sans clé sont utilisés pour les événements qui n'ont pas besoin d'être identifiés de manière unique et qui décrivent un changement global. Par exemple, un événement de _heartbeat_.
 
 - **Entity Events** : les événements d'entité représentent une entité unique où la clé est l'identifiant de celle-ci. Généralement, ces événements sont utilisés pour conserver un historique des changements d'une entité où le dernier événement est la source de vérité.
 
-- **Keyed Event** : les événements à clé ne représentent pas une entité unique, mais une événement identifiable. Généralement ceux-ci sont enregistrés dans des streams différent sur base de leur types, assurant ainsi le partitionnement des événements permettant ensuite de retrouver les événements de manière efficace.
+- **Keyed Event** : les événements à clé ne représentent pas une entité unique, mais une événement identifiable. Généralement ceux-ci sont enregistrés dans des streams différents sur base de leurs types, assurant ainsi le partitionnement des événements permettant ensuite de retrouver les événements de manière efficace.
 
 ### Message Broker
 
 Les messages brokers ne peuvent pas être utilisés pour stocker des événements de manière durable et ne sont donc pas adaptés pour une architecture _event driven_ avec _event stream_.
 
-Il sont essentiellement utilisé pour faire communiquer des systèmes de manière synchrone. Les messages sont stockés de manière temporaire dans des queues et sont distribués aux systèmes qui en ont besoin.
+Ils sont essentiellement utilisés pour faire communiquer des systèmes de manière synchrone. Les messages sont stockés de manière temporaire dans des queues et sont distribués aux systèmes qui en ont besoin.
 
 Lorsqu'un message n'est pas distribué, car le _message broker_ n'a pas reçu d'accusé de réception, il est stocké dans une _dead letter queue_ pour être traité ultérieurement.
 
