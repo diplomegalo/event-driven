@@ -152,5 +152,3 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-# Obsidian
-.obsidian/
