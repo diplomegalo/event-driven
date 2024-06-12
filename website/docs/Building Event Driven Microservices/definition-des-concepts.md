@@ -3,8 +3,6 @@ title: Définition des concepts
 description: Définition des concepts fondamentaux liés à l'architecture orientée événements.
 ---
 
-# Définition des concepts
-
 Avant d'entamer le processus de mise en place d'une architecture orientée événement, il est important de définir les concepts de base qui seront utilisés. La définition des concepts permet de comprendre ce que l'on fait et pourquoi on le fait. Autrement dit, à quoi répondent les concepts liés à l'architecture orientée événement et comment le font-ils.
 
 ## Domain Driven et Bounded Context
