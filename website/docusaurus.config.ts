@@ -39,12 +39,10 @@ const config: Config = {
       'classic',
       {
         docs: {
-          sidebarPath: './sidebars.ts',
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/diplomegalo/event-driven/tree/master/website/docs',
           routeBasePath: '/',
+          sidebarPath: './sidebars.ts',
+          // editUrl: 'https://github.com/diplomegalo/event-driven/tree/master/website/docs',
+          
         },
         blog: false,
         pages: false,
@@ -56,8 +54,6 @@ const config: Config = {
   ],
 
   themeConfig: {
-    // Replace with your project's social card
-    image: 'img/docusaurus-social-card.jpg',
     colorMode: {
       defaultMode: 'dark'
     },
@@ -68,12 +64,6 @@ const config: Config = {
         src: 'img/logo.svg',
       },
       items: [
-        {
-          type: 'docSidebar',
-          sidebarId: 'tutorialSidebar',
-          position: 'left',
-          label: 'Building Event-Driven Microservices',
-        },
         {
           href: 'https://github.com/diplomegalo/event-driven',
           label: 'GitHub',
