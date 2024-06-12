@@ -18,32 +18,31 @@ Les notions de domaine et bounded context sont des concepts qui peuvent se confo
 
 ## Message vs. Event
 
-Un message est une unité de communication entre systèmes distribués. Il contient toutes les données utiles au traitement d'une tâche. Dans une représentation orientée objet, un message serait la classe abstraite qui contient les attributs de bases pour faire transiter des informations d'un système à un autre. Un des attributs définirait le type de message (ex: Command, Event, Query, etc.).
+Un message est une unité de communication entre systèmes distribués. Il contient toutes les données utiles au traitement d'une tâche. Dans une représentation orientée objet, un message serait la classe abstraite qui contient les attributs de bases pour faire transiter des informations d'un système à un autre. Un des attributs définirait le type de message (ex: Command, Event, etc.).
 
 ```mermaid
 graph TD
     A[Message] --> B[Event]
-    A[Message] --> C[Command]
-    A[Message] --> D[Query]
+    A --> C[Command]
 ```
 
 Un événement est une spécification du message. Il est utilisé pour notifier les autres systèmes d'un changement d'état. Il est considéré comme suffisant, c'est-à-dire qu'il contient toutes les informations nécessaires pour être traitées par les systèmes qui le reçoivent.
 
 Dans tous les cas, le message et plus spécifiquement l'event est le lien, le seul point de cohésion, entre les systèmes. Il est dès lors primordial de bien les définir, les documenter et les valider de manière à éviter les erreurs d'interprétation.
 
-## Communication et Data Driven
+## Communication orientée implémentation et données
 
-Le _D_ de _Driven_, que ce soit pour le TDD (Test Driven Development), le DDD (Domain Driven Development), etc.,  défini qui est le moteur de la conception.
+Le _D_ de _Driven_, que ce soit pour le TDD (Test Driven Development), le DDD (Domain Driven Development), etc., défini qui est le moteur de la conception.
 
 L'_Event Driven Architecture_ se construit autour des événements. Par conséquent, dans le processus de conception, l'identification des événements est la première étape (_Event Storming_).
 
-Ces événements vont soit être utilisés pour faire communiquer les systèmes entre eux (_Communication Driven_), soit vont être stockés comme une donnée à part entière et consommée par une application (_Data Driven_).
+Ces événements vont soit être utilisés pour faire communiquer les systèmes entre eux, soit vont être stockés comme une donnée à part entière et consommée par une application.
 
 Cette différence est fondamentale pour la conception de l'architecture orientée événement, car la réponse technique est différente en termes de topologie, de stockage, de distribution, etc.
 
-### Communication Driven
+### Communication orienté implémentation
 
-Dans le cas d'une _Communication Driven_, les événements sont utiles pour **communiquer** et sont utilisés pour notifier les autres systèmes d'un changement d'état de manière asynchrone.
+Dans le cas d'une communication orienté implémentation, les événements sont utiles pour **faire communiquer deux implémentations entre-elles** et sont utilisés pour notifier le `System B` d'un message envoyé de manière asynchrone depuis le `System A`.
 
 Par exemple, lorsque l'application de calcule des salaires termine le traitement de génération d'un lot de virement à effectuer, il envoie un événement pour notifier le système de paiement que le lot est prêt à être traité. Celui peut alors récupérer le lot et créer les paiements associés.
 
@@ -59,7 +58,7 @@ Chaque système est responsable de la gestion des événements qu'il reçoit et 
 
 Selon les cas, il peut être nécessaire de déterminer des systèmes maîtres (_single source of truth_) de la donnée pour éviter les incohérences.
 
-### Data Driven
+### Construction sur base des événements
 
 La construction des systèmes s'articule autour des **données** et plus spécifiquement des événements. Sur base de ceux-ci, les microservices vont pouvoir exécuter des traitements et produire eux-mêmes des événements qui seront stockés et mis à disposition.
 
