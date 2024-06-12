@@ -101,7 +101,17 @@ L'architecture orienté évènement repose avant tout sur la distribution des é
 
 ### Event Broker
 
-L'_event broker_ est composant logiciel qui permet de stocker et de distribuer les événements aux différents systèmes qui en ont besoin.
+L'_event broker_ est composant logiciel qui permet de distribuer les événements aux différents systèmes qui en ont besoin. L'_event store_ est une base de données qui stocke les événements de manière durable. L'_event stream_ est une séquence d'événements stockés dans l'_event store_.
+
+```mermaid
+graph LR
+    subgraph Event Broker
+    subgraph Event Store
+    subgraph Event Stream
+    end
+    end
+    end
+```
 
 Lorsqu'un événement est émis, il est stocké **dans l'ordre de réception** dans un _event stream_. Cet _event_ peut être reparti dans plusieurs partitions pour garantir la scalabilité et la performance. Une partition est une division d'un _event stream_ en plusieurs sous-ensembles.
 
