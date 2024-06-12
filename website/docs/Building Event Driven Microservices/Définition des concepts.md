@@ -133,9 +133,9 @@ graph LR
     E[Consumer Group 2] -- offset --> C
     end
     
-    W[Microservice Instance A #1] -- offset 1 --> D
-    X[Microservice Instance A #2] -- offset 2 --> D
-    Y[Microservice Instance B #2] -- offset --> E
+    W[Microservice A Instance #1] -- offset 1 --> D
+    X[Microservice A Instance #2] -- offset 2 --> D
+    Y[Microservice B Instance #1] -- offset --> E
 ```
 
 > Dans le graphique ci-dessus, les _consumer group_ ont la responsabilité d'associer la lecture d'une partition à une instance de microservice et de gérer son _offset_ de lecture. Une partition ne peut être lue que par un seul _consumer group_ à la fois.
