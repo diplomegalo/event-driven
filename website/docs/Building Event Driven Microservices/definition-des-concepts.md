@@ -104,6 +104,8 @@ L'_event broker_ est composant logiciel qui permet de stocker et de distribuer l
 
 Lorsqu'un événement est émis, il est stocké **dans l'ordre de réception** dans un _event stream_. Cet _event_ peut être reparti dans plusieurs partitions pour garantir la scalabilité et la performance. Une partition est une division d'un _event stream_ en plusieurs sous-ensembles.
 
+#### Consumer Group
+
 Chaque microservice qui a besoin de consommer les événements d'un _event stream_ va être associé à un _consumer group_ qui est responsable de la lecture des événements sur une ou plusieurs partitions.
 
 Le microservice va alors lire les événements de manière séquentielle et stocker l'_offset_ de lecture pour reprendre la lecture là où il s'est arrêté. L'_offset_ est la position de lecture dans une partition d'un _event stream_.
@@ -112,18 +114,20 @@ L'attribution des partitions à une instance est gérée en coordination entre l
 
 ```mermaid
 graph LR    
+    subgraph Event Broker
     subgraph Event Stream
     A[Partition 1]
     B[Partition 2]
     C[Partition 3]
     D[Partition 4]
     E[Partition 5]
-    
+    end
+
     I[Consumer Group 4] -- offset --> A
-    I[Consumer Group 4] -- offset --> B
-    I[Consumer Group 4] -- offset --> C
-    I[Consumer Group 4] -- offset --> D
-    I[Consumer Group 4] -- offset --> E
+    I -- offset --> B
+    I -- offset --> C
+    I -- offset --> D
+    I -- offset --> E
     end
     
     U[Microservice A Instance #1] -- offset --> I
@@ -132,31 +136,43 @@ graph LR
 
 Dans le graphique ci-dessous, les _consumer group_ ont la responsabilité d'associer la lecture d'une partition à une instance de microservice et de gérer son _offset_ de lecture. Depuis un consumer group, il ne peut pas avoir plusieurs _offset_ sur la même partition. Par contre, plusieurs consumer group peuvent lire la même partition.
 
+> Les cas ci-dessous sont possibles mais ne font pas partie des cas d'usage classiques. Ils sont présentés ici pour illustrer les possibilités offertes par l'_event broker_.
+
 ```mermaid
 graph LR    
-    subgraph Event Stream
-    A[Partition 1]
-    B[Partition 2]
-    C[Partition 3]
-    D[Partition 4]
-    E[Partition 5]
-    
+    subgraph Event Broker
+    subgraph Event Stream 1
+    part1[Partition 1]
+    part2[Partition 2]
+    part3[Partition 3]
+    part4[Partition 4]
+    part5[Partition 5]
+    end
 
-    F[Consumer Group 1] -- offset #1 --> A
-    F -- offset #2 --> B
-    G[Consumer Group 2] -- offset #1 --> C
-    G -- offset #2 --> B
-    H[Consumer Group 3] -- offset #1 --> D
-    H -- offset #2 --> E
+    subgraph Event Stream 2
+    part6[Partition 1]
     end
     
-    U[Microservice A Instance #1] -- offset #1 --> F
-    V[Microservice A Instance #2] -- offset #2 --> F
-    W[Microservice B Instance #1] -- offset #1 --> G
-    W[Microservice B Instance #1] -- offset #2 --> G
-    X[Microservice C Instance #1] -- offset#1 --> H
-    X -- offset#2 --> H
+    consg1[Consumer Group 1] -- offset #1 --> part1
+    consg1 -- offset #2 --> part2
+    consg2[Consumer Group 2] -- offset #2 --> part3
+    consg2 -- offset #1 --> part2
+    consg3[Consumer Group 3] -- offset #1 --> part4
+    consg3 -- offset #2 --> part5
+    consg4[Consumer Group 4] -- offset #2 --> part6
+    consg4 -- offset #1 --> part5
+    end
+
+    msa1[Microservice A Instance #1] -- offset #1 --> consg1
+    msa2[Microservice A Instance #2] -- offset #2 --> consg1
+    msb1[Microservice B Instance #1] -- offset #1 --> consg2
+    msb1 -- offset #2 --> consg2
+    msc1[Microservice C Instance #1] -- offset #1 --> consg3
+    msc1 -- offset#2 --> consg3
+    msd1[Microservice D Instance #1] -- offset --> consg4
 ```
+
+#### Types d'événements
 
 Il existe plusieurs types d'événements :
 
