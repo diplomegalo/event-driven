@@ -10,6 +10,10 @@ const config: Config = {
   markdown:{
     mermaid: true
   },
+<<<<<<< HEAD
+
+=======
+>>>>>>> origin/master
   themes: ['@docusaurus/theme-mermaid'],
 
   // Set the production url of your site here
