@@ -14,6 +14,8 @@ Avant d'entamer le processus de mise en place d'une architecture orientée évé
 
 Les notions de domaine et bounded context sont des concepts qui peuvent se confondre. La où le sous-domaine est lié à un métier, le bounded context est lié à la modélisation d'un processus métier. Par conséquent un bounded context peut être associé à un ou plusieurs sous-domaines. Les modèles seront alors adaptés pour répondre aux besoins du bounded context.
 
+Le _bounded context_ est une notion fondamentale et importante dans le _Domain Driven Design_ (DDD). Il définit un périmètre qui trace les limites d'un context métier dans lequel une ou plusieurs fonctionnalités sont définies ainsi qu'un modèle qui est adapté à ce contexte. Généralement le modèle d'un _bounded context_ est limité a celui-ci et par conséquent invisible pour les autres _bounded context_ et domaines. Concrètement, ce _bounded context_ peut être une fonction, une application, un projet, un programme (ensemble d'application), etc.
+
 ![Bound Context](../../static/img/bounded-context.png)
 
 ## Message vs. Event
