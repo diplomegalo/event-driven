@@ -5,7 +5,7 @@ description: Définition des concepts fondamentaux liés à l'architecture orien
 
 Avant d'entamer le processus de mise en place d'une architecture orientée événement, il est important de définir les concepts de base qui seront utilisés. La définition des concepts permet de comprendre ce que l'on fait et pourquoi on le fait. Autrement dit, à quoi répondent les concepts liés à l'architecture orientée événement et comment le font-ils.
 
-## Domain Driven et Bounded Context
+## Définitions des domaines
 
 - **Domaine** : Le domaine défini l'ensemble des concepts, des règles métier et des entités qui sont liées entre elles et qui définissent un certain contexte métier. Vulgairement, le domaine est le métier de l'entreprise.
 - **Sous-domaine** : Un sous-domaine est un sous-ensemble spécifique du domaine qui se concentre sur un aspect particulier du domaine global.
@@ -14,7 +14,11 @@ Avant d'entamer le processus de mise en place d'une architecture orientée évé
 
 Les notions de domaine et bounded context sont des concepts qui peuvent se confondre. La où le sous-domaine est lié à un métier, le bounded context est lié à la modélisation d'un processus métier. Par conséquent un bounded context peut être associé à un ou plusieurs sous-domaines. Les modèles seront alors adaptés pour répondre aux besoins du bounded context.
 
-Le _bounded context_ est une notion fondamentale et importante dans le _Domain Driven Design_ (DDD). Il définit un périmètre qui trace les limites d'un context métier dans lequel une ou plusieurs fonctionnalités sont définies ainsi qu'un modèle qui est adapté à ce contexte. Généralement le modèle d'un _bounded context_ est limité a celui-ci et par conséquent invisible pour les autres _bounded context_ et domaines. Concrètement, ce _bounded context_ peut être une fonction, une application, un projet, un programme (ensemble d'application), etc.
+### Bounded Context
+
+Le _bounded context_ est une notion fondamentale et importante dans le _Domain Driven Design_ (DDD). Il définit un périmètre qui trace les limites d'un context métier dans lequel une ou plusieurs fonctionnalités sont définies ainsi qu'un modèle qui est adapté à ce contexte (_Ubiquitous Language_). Concrètement, ce _bounded context_ peut être une fonction, une application, un projet, un programme (ensemble d'application), etc.
+
+Généralement le modèle d'un _bounded context_ est limité a celui-ci et par conséquent invisible pour les autres _bounded context_ et domaines. Néanmoins, il se peut que plusieurs _bounded context_ soient interconnectés et partagent des éléments de modélisation (une partie du modèle). Dans ce cas, il est important de définir les limites de ce partage pour éviter les incohérences et les erreurs d'interprétation de même que les effets de bord dûs à des changements d'architecture.
 
 ![Bound Context](../../static/img/bounded-context.png)
 
@@ -32,7 +36,7 @@ Un événement est une spécification du message. Il est utilisé pour notifier 
 
 Dans tous les cas, le message et plus spécifiquement l'event est le lien, le seul point de cohésion, entre les systèmes. Il est dès lors primordial de bien les définir, les documenter et les valider de manière à éviter les erreurs d'interprétation.
 
-## Implémentation orientée communication vs. construction sur base des événements
+## Implémentation orientée communication vs. orienté événement
 
 Le _D_ de _Driven_, que ce soit pour le TDD (Test Driven Development), le DDD (Domain Driven Development), etc., défini qui est le moteur de la conception.
 
@@ -42,7 +46,7 @@ Ces événements vont soit être utilisés pour faire communiquer les systèmes 
 
 Cette différence est fondamentale pour la conception de l'architecture orientée événement, car la réponse technique est différente en termes de topologie, de stockage, de distribution, etc.
 
-### Implémentation orientée communication
+### Implémentation orientée communication (communication-driven)
 
 Dans le cas d'une implémentation orientée communication, les événements sont utiles pour **faire communiquer** deux applications entre-elles. Par exemple, le `System B` doit être notifié d'un message envoyé de manière asynchrone depuis le `System A`.
 
@@ -60,7 +64,7 @@ Chaque système est responsable de la gestion des événements qu'il reçoit et 
 
 Selon les cas, il peut être nécessaire de déterminer des systèmes maîtres de la donnée pour éviter les incohérences.
 
-### Construction sur base des événements
+### Implémentation orienté événement (data-driven)
 
 La construction des systèmes s'articule autour des **données** et plus spécifiquement des événements. Sur base de ceux-ci, les microservices vont pouvoir exécuter des traitements et produire eux-mêmes des événements qui seront stockés et mis à disposition.
 
