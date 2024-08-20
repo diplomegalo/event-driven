@@ -88,5 +88,3 @@ Cette astuce peut également servir pour les opportunités.
 ## Remise en question du processus
 
 :construction: **En construction** : Cette section est en cours de rédaction.
-
-## 

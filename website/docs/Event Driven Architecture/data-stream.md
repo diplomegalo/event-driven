@@ -11,7 +11,13 @@ Autrement dit, lorsque la question se pose de comment consommer et traiter une q
 
 ## Single Source of Truth (SSOT) et Single version of the truth (SVOT)
 
-:construction: Work in progress
+Ces deux principes sont souvent utilisés pour décrire l'objectif d'une architecture événementielle avec un flux de données.
+
+Le _single source of truth_ (SSOT) va définir un seul endroit d'où les données peuvent être consommées, tandis que le _single version of the truth_ (SVOT) va définir une seule versions de la données que ce soit en termes de format ou de contenu.
+
+Dans le cadre d'une architecture distribuée et plus spécifiquement événementielle, le principe SVOT va permettre de garantir que les données sont mise à disposition de manière à donner une image unique (non redondante), cohérente et à jour. Il peut s'agir de l'_event stream_ lui-même ou d'une vue matérialisée des données (ayant plusieurs _event stream_ comme sources).
+
+En outre le SSOT va permettre de garantir que les données sont disponible de manière centralisée à un seul endroit. Les données peuvent être néanmoins copiées et dupliquées dans des vue matérialisées (_materialized state_) qui sont accessibles en lecture seules.
 
 ## Event Stream
 
@@ -21,13 +27,13 @@ Ces événements sont stockés dans des _event streams_ qui sont des flux de don
 
 ### Production vs Consommation
 
-La mise en place d'un _event stream_ va permettre de séparer la production des événements de leur consommation. Cela permet de déconnecter les différents services et de les rendre indépendants les uns des autres. En outre, les applications productrice n'étant plus en charge de la consommation des événements, elles peuvent se concentrer sur leur métier et ne pas être impactées par les éventuels problèmes de performance lors de la consommation.
+La mise en place d'un _event stream_ va permettre de séparer la production des événements de leur consommation. Cela permet de déconnecter les différents services et de les rendre indépendants les uns des autres (_point to point coupling_). En outre, les applications productrice n'étant plus en charge de la mise à disposition des données, elles peuvent se concentrer sur leur métier et ne pas être impactées par les problématique lié à la consommation, notamment la performance.
 
 #### Couplage de la production et de la consommation
 
 Dans une architecture classique, la production et la consommation des événements sont couplées au sein d'une même application. L'application va utiliser une couche de persistance pour stocker des données et une couche de consommation pour lire ces données. Au mieux ces deux couches sont séparées (par exemple en utilisant des vues matérialisées) mais elles restent au sein d'une même application.
 
-![coupled-production-consommation](../../static/img/data-stream-production-vs-consomation-coupled.png)
+![figure 1 - la production et la consommation de la données est implémenté dans la même API.](../../static/img/data-stream-production-vs-consomation-coupled.png)
 
 #### Découplage de la production et de la consommation
 
@@ -35,13 +41,18 @@ Dans une architecture événementielle avec une _event stream_, la production et
 
 Les applications productrices n'ont plus à se soucier de la consommation des événements en offrant API spécifique et peuvent se concentrer sur leur métier.
 
-Les applications consommatrices n'ont plus à se soucier de la production des événements et vont chercher les données dans une zone centralisé. Les applications productrices et consommatrices sont donc indépendantes les unes des autres.
+Les applications consommatrices n'ont plus à se soucier de la production des événements et vont chercher les données dans une zone centralisée. Les applications productrices et consommatrices sont donc indépendantes les unes des autres.
 
-En outre, en fonction des framework et des outils utilisés, il est possible de mettre en place des mécanismes de transformation des données pour créer de nouvelles stream adaptées aux besoins des applications consommatrices, de même que des _materialized state_ qui permettent une lecture des données multi sources dans un format de table SQL adapté à l'application consommatrice.
+![figure 2 - la production de données est découplée de la consommation.](../../static/img/data-stream-production-vs-consomation-not-coupled.png)
 
-![not-coupled-production-consommation](../../static/img/data-stream-production-vs-consomation-not-coupled.png)
+#### Organisation des équipes
 
-### Organisation des équipes
+La gestion des _event streams_ peut être confiée à une équipe dédiée qui va mettre en place les _event streams_ et les _materialized state_ en fonction des besoins des applications consommatrices. Il est important de noter que cette équipe peut vite se retrouver submergée par la demande des différentes équipes, celle-ci doit donc être de taille suffisante pour répondre à la demande.
 
-:construction: Work in progress
+## Stream Processing et Materialized State
 
+En fonction des framework et des outils utilisés, il est possible de mettre en place des mécanismes de transformation des données pour créer de nouvelles stream adaptées aux besoins des applications consommatrices, de même que des _materialized state_ qui permettent une lecture des données multi sources dans un format de table SQL adapté à l'application consommatrice (cf. diagramme où la production de données est découplée de la consommation).
+
+### Stream Processing
+
+:construction: **En construction** : Cette section est en cours de rédaction.

@@ -5,20 +5,22 @@ description: Définition des concepts fondamentaux liés à l'architecture orien
 
 Avant d'entamer le processus de mise en place d'une architecture orientée événement, il est important de définir les concepts de base qui seront utilisés. La définition des concepts permet de comprendre ce que l'on fait et pourquoi on le fait. Autrement dit, à quoi répondent les concepts liés à l'architecture orientée événement et comment le font-ils.
 
-## Définitions des domaines
+## Domaine, sous-domaine, modèle et bounded context
+
+Les concepts de domaine, sous-domaine, modèle et bounded context sont des concepts fondamentaux du _Domain Driven Design_ (DDD). Ils permettent de définir un contexte métier et de modéliser (strategic design) les entités, les processus et les règles métier qui sont liées à ce contexte et par conséquent d'organiser les équipes et les systèmes en fonction de ce contexte.
 
 - **Domaine** : Le domaine défini l'ensemble des concepts, des règles métier et des entités qui sont liées entre elles et qui définissent un certain contexte métier. Vulgairement, le domaine est le métier de l'entreprise.
 - **Sous-domaine** : Un sous-domaine est un sous-ensemble spécifique du domaine qui se concentre sur un aspect particulier du domaine global.
 - **Modèle** : Le modèle est une représentation abstraite et simplifiée du domaine et des sous-domaines qui est utilisée pour répondre aux fonctionnalités de ce domaine.
 - **Bounded context** : Le _bounded context_ est une frontière conceptuelle dans laquelle un modèle spécifique est défini et maintenu, de même que les processus, les événements, les règles métier et les entités qui sont liées à ce modèle et pertinentes pour un ou plusieurs sous-domaines.
 
-Les notions de domaine et bounded context sont des concepts qui peuvent se confondre. La où le sous-domaine est lié à un métier, le bounded context est lié à la modélisation d'un processus métier. Par conséquent un bounded context peut être associé à un ou plusieurs sous-domaines. Les modèles seront alors adaptés pour répondre aux besoins du bounded context.
+Les notions de domaine et bounded context sont des concepts qui peuvent se confondre. La où le sous-domaine est lié à un métier, le bounded context est lié à la modélisation d'un processus métier (fonction, application, etc.). Par conséquent un bounded context peut être associé à un ou plusieurs sous-domaines. Les modèles seront alors adaptés pour répondre aux besoins du bounded context.
 
 ### Bounded Context
 
 Le _bounded context_ est une notion fondamentale et importante dans le _Domain Driven Design_ (DDD). Il définit un périmètre qui trace les limites d'un context métier dans lequel une ou plusieurs fonctionnalités sont définies ainsi qu'un modèle qui est adapté à ce contexte (_Ubiquitous Language_). Concrètement, ce _bounded context_ peut être une fonction, une application, un projet, un programme (ensemble d'application), etc.
 
-Généralement le modèle d'un _bounded context_ est limité a celui-ci et par conséquent invisible pour les autres _bounded context_ et domaines. Néanmoins, il se peut que plusieurs _bounded context_ soient interconnectés et partagent des éléments de modélisation (une partie du modèle). Dans ce cas, il est important de définir les limites de ce partage pour éviter les incohérences et les erreurs d'interprétation de même que les effets de bord dûs à des changements d'architecture.
+Généralement le modèle de conception d'un _bounded context_ est limité a celui-ci et par conséquent invisible pour les autres _bounded context_ et domaines. Néanmoins, il se peut que plusieurs _bounded context_ soient interconnectés et partagent des éléments de modélisation (_context mapping_). Dans ce cas, il est important de définir les limites de ce partage pour éviter les incohérences et les erreurs d'interprétation de même que les effets de bord dûs à des changements d'architecture.
 
 ![Bound Context](../../static/img/bounded-context.png)
 
@@ -34,11 +36,11 @@ graph TD
 
 Un événement est une spécification du message. Il est utilisé pour notifier les autres systèmes d'un changement d'état. Il est considéré comme suffisant, c'est-à-dire qu'il contient toutes les informations nécessaires pour être traitées par les systèmes qui le reçoivent.
 
-Dans tous les cas, le message et plus spécifiquement l'event est le lien, le seul point de cohésion, entre les systèmes. Il est dès lors primordial de bien les définir, les documenter et les valider de manière à éviter les erreurs d'interprétation.
+Dans tous les cas, le message et plus spécifiquement l'event est le lien, et le seul point de cohésion, entre les systèmes. Il est dès lors primordial de bien les définir, les documenter et les valider de manière à éviter les erreurs d'interprétation.
 
 ## Implémentation orientée communication vs. orienté événement
 
-Le _D_ de _Driven_, que ce soit pour le TDD (Test Driven Development), le DDD (Domain Driven Development), etc., défini qui est le moteur de la conception.
+Le _D_ de _Driven_, que ce soit pour le TDD (Test Driven Development), le DDD (Domain Driven Development), etc., défini quel est la base de conception d'un système informatique.
 
 L'_Event Driven Architecture_ se construit autour des événements. Par conséquent, dans le processus de conception, l'identification des événements est la première étape (_Event Storming_).
 
@@ -48,7 +50,7 @@ Cette différence est fondamentale pour la conception de l'architecture orienté
 
 ### Implémentation orientée communication (communication-driven)
 
-Dans le cas d'une implémentation orientée communication, les événements sont utiles pour **faire communiquer** deux applications entre-elles. Par exemple, le `System B` doit être notifié d'un message envoyé de manière asynchrone depuis le `System A`.
+Dans le cas d'une implémentation orientée communication, les messages sont utiles pour **faire communiquer** deux applications entre-elles. Par exemple, le `System B` doit être notifié d'un message envoyé de manière asynchrone depuis le `System A`.
 
 Par exemple, lorsque l'application de calcule des salaires termine le traitement de génération d'un lot de virement à effectuer, il envoie un événement pour notifier le système de paiement que le lot est prêt à être traité. Celui peut alors récupérer le lot et créer les paiements associés.
 
@@ -66,9 +68,9 @@ Selon les cas, il peut être nécessaire de déterminer des systèmes maîtres d
 
 ### Implémentation orienté événement (data-driven)
 
-La construction des systèmes s'articule autour des **données** et plus spécifiquement des événements. Sur base de ceux-ci, les microservices vont pouvoir exécuter des traitements et produire eux-mêmes des événements qui seront stockés et mis à disposition.
+Dans ce cas, la construction des systèmes s'articule autour des **données** (_data contract). Sur base des évènements, les microservices vont pouvoir exécuter des traitements et produire eux-mêmes des événements qui seront stockés et mis à disposition.
 
-Dans ce contexte, les événements sont stockés dans des zones de stockage centralisées. Dès lors, la production des événements est dissociée de leur stockage et accès.
+Dans ce contexte, les événements sont stockés dans des zones de stockage centralisées (_Event Stream_). Dès lors, la production des événements est dissociée de leur stockage et accès.
 
 Pour reprendre l'exemple précédent, l'application de gestion des salaires va produire un événement qui sera stocké dans une zone de stockage centralisée. Le système de paiement va alors consommer cet événement pour traiter le lot de paiement.
 
@@ -105,13 +107,15 @@ L'architecture orienté évènement repose avant tout sur la distribution des é
 
 ### Event Broker
 
-L'_event broker_ est composant logiciel qui permet de stocker et de distribuer les événements aux différents systèmes qui en ont besoin.
+L'_event broker_ est le composant logiciel qui permet de stocker et de distribuer les événements aux différents systèmes qui en ont besoin.
 
 Lorsqu'un événement est émis, il est stocké **dans l'ordre de réception** dans un _event stream_. Cet _event_ peut être reparti dans plusieurs partitions pour garantir la scalabilité et la performance. Une partition est une division d'un _event stream_ en plusieurs sous-ensembles.
 
 Chaque microservice qui a besoin de consommer les événements d'un _event stream_ va être associé à un _consumer group_ qui est responsable de la lecture des événements sur une ou plusieurs partitions.
 
 Le microservice va alors lire les événements de manière séquentielle et stocker l'_offset_ de lecture pour reprendre la lecture là où il s'est arrêté. L'_offset_ est la position de lecture dans une partition d'un _event stream_.
+
+#### Partitions
 
 L'attribution des partitions à une instance est gérée en coordination entre les instances du microservice et le broker. Ce mécanisme permet de garantir que chaque partition est lue par une seule instance pour chaque consumer group.
 
@@ -135,7 +139,7 @@ graph LR
     
 ```
 
-Dans le graphique ci-dessous, les _consumer group_ ont la responsabilité d'associer la lecture d'une partition à une instance de microservice et de gérer son _offset_ de lecture. Depuis un consumer group, il ne peut pas avoir plusieurs _offset_ sur la même partition. Par contre, plusieurs consumer group peuvent lire la même partition.
+Dans le graphique ci-dessous, les _consumer group_ ont la responsabilité d'associer la lecture d'une partition à une instance de microservice et de gérer son _offset_ de lecture. Un même consumer group ne peut pas avoir plusieurs _offset_ sur la même partition, mais par contre, plusieurs consumer group différents peuvent lire la même partition.
 
 ```mermaid
 graph LR    
@@ -149,8 +153,8 @@ graph LR
 
     F[Consumer Group 1] -- offset #1 --> A
     F -- offset #2 --> B
-    G[Consumer Group 2] -- offset #1 --> C
-    G -- offset #2 --> B
+    G[Consumer Group 2] -- offset #2 --> C
+    G -- offset #1 --> B
     H[Consumer Group 3] -- offset #1 --> D
     H -- offset #2 --> E
     end
@@ -162,6 +166,8 @@ graph LR
     X[Microservice C Instance #1] -- offset#1 --> H
     X -- offset#2 --> H
 ```
+
+#### Types d'événements
 
 Il existe plusieurs types d'événements :
 
