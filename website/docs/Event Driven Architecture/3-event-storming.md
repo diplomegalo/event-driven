@@ -79,7 +79,7 @@ Une opportunité peut être une amélioration du processus, une automatisation, 
 
 ### Résolution des problèmes
 
-Les problèmes identifiés peuvent être particulièrement variés et nombreux. Il n'est souvent pas possible de tous les régler en une seule session. Une méthode pour les traiter serait de les prioriser sur base de vote. Les participants peuvent voter pour les problèmes qu'ils jugent les plus importants à résoudre en marquant. 
+Les problèmes identifiés peuvent être particulièrement variés et nombreux. Il n'est souvent pas possible de tous les régler en une seule session. Une méthode pour les traiter serait de les prioriser sur base de vote. Les participants peuvent voter pour les problèmes qu'ils jugent les plus importants à résoudre en marquant.
 
 > :bulb: **Astuce** : Vous pouvez utiliser de petits post-it de couleur pour les votes, ou des points de couleur ou encore simplement un point avec un marqueur.
 
@@ -87,4 +87,10 @@ Cette astuce peut également servir pour les opportunités.
 
 ## Remise en question du processus
 
-:construction: **En construction** : Cette section est en cours de rédaction.
+Le diable se cache dans les détails et c'est toujours quand on commence à réfléchir à la mise en place du processus que les problèmes apparaissent. Les discussions initiées et tenues durant les ateliers permettent à différents profils de confronter leurs points de vue. En effet, un développeur va naturellement penser au détails d'implémentation, comme les conditions de validation, les erreurs possibles, les paramètres nécessaires, etc., de même qu'un architecte va penser à la découpe du système, à la scalabilité, à la sécurité notamment les autorisations, etc., tandis qu'un responsable métier va penser à la simplicité d'utilisation, à la clarté des informations, à la pertinence des données, etc. Ces questions sont essentielles pour permettre de mettre en lumière les problèmes et les opportunités d'un processus. En outre, les itérations permettront de systématiquement revenir sur les informations et de les améliorer. De plus, dans certains cas, il peut être intéressant de faire des ateliers avec des acteurs d'autres métiers similaires pour comparer les processus et ainsi tendre vers une standardisation.
+
+Par conséquent, les processus seront naturellement remis en question et améliorés suivant une stratégie de rationalisation et simplification.
+
+## Travail d'équipe
+
+Dans les grandes entreprise où l'organisation est particulièrement cloisonnée (silos), il est souvent difficile de faire travailler ensemble des équipes de différents services. Généralement, les échanges sont limités à des réunions de coordination et des envoies de mails. L'Event Storming permet de réunir des équipes de différents services pour travailler ensemble sur un processus métier offrant ainsi un canal supplémentaire de communication propice à la collaboration. Les équipes s'incrivent alors dans une démarche plus spontanée et plus naturelle de partage offrant des interactions dynamiques et constructives grâce aux liens créés entre les participants.
