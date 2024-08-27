@@ -49,10 +49,10 @@ Les applications consommatrices n'ont plus à se soucier de la production des é
 
 La gestion des _event streams_ peut être confiée à une équipe dédiée qui va mettre en place les _event streams_ et les _materialized state_ en fonction des besoins des applications consommatrices. Il est important de noter que cette équipe peut vite se retrouver submergée par la demande des différentes équipes, celle-ci doit donc être de taille suffisante pour répondre à la demande.
 
-## Stream Processing et Materialized State
+## Stream Processing
 
 En fonction des framework et des outils utilisés, il est possible de mettre en place des mécanismes de transformation des données pour créer de nouvelles stream adaptées aux besoins des applications consommatrices, de même que des _materialized state_ qui permettent une lecture des données multi sources dans un format de table SQL adapté à l'application consommatrice (cf. diagramme où la production de données est découplée de la consommation).
 
-### Stream Processing
+### Produire une donnée consommée
 
 :construction: **En construction** : Cette section est en cours de rédaction.
