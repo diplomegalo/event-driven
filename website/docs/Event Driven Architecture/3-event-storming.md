@@ -22,6 +22,24 @@ Un événement peut être déclenché par plusieurs éléments :
 
 > :pen: **Note** : Ces définitions peuvent être affichées comme légende lors de l'atelier.
 
+### Pourquoi faire un atelier Event Storming ?
+
+Les raisons de faire un atelier d'Event Storming sont directement liées aux objectifs (cf. [Les objectifs de l'Event Storming](#les-objectifs-de-levent-storming)) et avantages de cette méthode :
+
+1. **Modéliser un processus métier de manière simple et efficace** : identifier les événements, les commandes, les acteurs, les modèles et les systèmes externes.
+1. **Créer un langage commun entre les différents acteurs d'un processus** : établir un glossaire commun qui est partagé par toutes les strates de l'entreprise.
+1. **Identifier les problèmes et les opportunités d'un processus au travers d'une vue globale** : identifier les manques et les étapes pouvant être améliorées, rationalisées ou simplifiées.
+1. **Définir les limites d'un ou plusieurs périmètres fonctionnels** : organiser les fonctionnalités d'un processus dans des zones de responsabilités claires qui auront un impact sur l'architecture du système.
+1. **Améliorer la collaboration et l'échange d'informations entre les différents services** : les échanges sont dynamiques, la coordination entre les équipes est naturelle et les interactions permettent une co-construction du processus, ainsi qu'un échange d'informations efficace.
+
+Cette méthode convient donc très bien pour animer des ateliers sur bases des principes expliqués ci-dessus. De même, que ces principes peuvent être adaptés le cas échéant.
+
+### Ce que l'Event Storming n'est pas
+
+L'event storming n'est pas une méthode de modélisation de processus métier classique telle que le BPMN. En effet, la manipulation de Post-its permet une approche plus visuelle et plus collaborative, mais ne permet pas une modélisation de processus selon des normes ou des standards stricts.
+
+> :pen: **Note** : Alberto Brandolini, l'initiateur de la méthode, s'est essayé à l'écriture d'un [livre](https://www.eventstorming.com/book) disponible en ligne sur son [site](https://www.eventstorming.com/). Néanmoins ce livre est toujours en cours d'édition depuis 2021 et n'est toujours pas terminé à ce stade (2024).
+
 ## Les objectifs de l'Event Storming
 
 1. **Ubiquitous Language** : L'Event Storming permet de créer un langage commun entre les différents acteurs d'un processus. En effet, les participants de l'atelier vont collaborer pour identifier les événements, les commandes, les acteurs, les modèles et les systèmes externes. Cette collaboration permet de mettre en lumière les différences de compréhension et de langage. Par exemple, un développeur peut avoir une vision technique d'un processus tandis qu'un responsable métier peut avoir une vision fonctionnelle. L'Event Storming permet de mettre en lumière ces différences et de les résoudre de manière collaborative.
@@ -108,21 +126,3 @@ Ces questions sont essentielles pour permettre de mettre en lumière les problè
 Dans les grandes entreprises où l'organisation est particulièrement cloisonnée (silos), il est souvent difficile de faire travailler ensemble des équipes de différents services. Généralement, les échanges sont limités à des réunions de coordination et des envois de mails.
 
 L'Event Storming permet de réunir des équipes de différents services pour travailler ensemble sur un processus métier offrant ainsi un canal supplémentaire de communication propice à la collaboration. Les équipes s'inscrivent alors dans une démarche plus spontanée et plus naturelle de partage offrant des interactions dynamiques et constructives grâce aux liens créés entre les participants.
-
-## Pourquoi faire un atelier Event Storming ?
-
-Les raisons de faire un atelier d'Event Storming sont directement liées aux objectifs (cf. [Les objectifs de l'Event Storming](#les-objectifs-de-levent-storming)) et avantages de cette méthode :
-
-1. **Modéliser un processus métier de manière simple et efficace** : identifier les événements, les commandes, les acteurs, les modèles et les systèmes externes.
-1. **Créer un langage commun entre les différents acteurs d'un processus** : établir un glossaire commun qui est partagé par toutes les strates de l'entreprise.
-1. **Identifier les problèmes et les opportunités d'un processus au travers d'une vue globale** : identifier les manques et les étapes pouvant être améliorées, rationalisées ou simplifiées.
-1. **Définir les limites d'un ou plusieurs périmètres fonctionnels** : organiser les fonctionnalités d'un processus dans des zones de responsabilités claires qui auront un impact sur l'architecture du système.
-1. **Améliorer la collaboration entre les différents services** : les échanges sont dynamiques, la coordination entre les équipes est naturelle et les interactions permettent une co-construction du processus.
-
-Cette méthode convient donc très bien pour animer des ateliers sur bases des principes expliqués ci-dessus. De même, que ces principes peuvent être adaptés le cas échéant.
-
-### Ce que l'Event Storming n'est pas
-
-L'event storming n'est pas une méthode de modélisation de processus métier classique telle que le BPMN. En effet, la manipulation de Post-its permet une approche plus visuelle et plus collaborative, mais ne permet pas une modélisation de processus selon des normes ou des standards stricts.
-
-> :pen: **Note** : Alberto Brandolini, l'initiateur de la méthode, s'est essayé à l'écriture d'un [livre](https://www.eventstorming.com/book) disponible en ligne sur son [site](https://www.eventstorming.com/). Néanmoins ce livre est toujours en cours d'édition depuis 2021 et n'est toujours pas terminé à ce stade (2024).
