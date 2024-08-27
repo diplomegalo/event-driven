@@ -12,7 +12,7 @@ L'Event Storming est un processus d'animation qui permet une modélisation colla
 1. **Modèle** : en **vert** (foncé), il s'agit de la liste des informations exhaustives nécessaires durant le traitement de l'étape décrite (paramètres, des objets, des données, etc.).
 1. **Problème** (_risk_) : en **fuchsia**, il s'agit des problèmes de tous types liés à l'étape décrite, que ce soit dû à une incompréhension, un manque d'information, un problème ou une erreur.
 1. **Système externe** : en **jaune** (clair), il s'agit des systèmes externes qui interagissent avec le processus et qui sont les déclencheurs d'événements.
-1. **Contexte** (_policy_): la raison ou la condition dans laquelle ou pour laquelle une commande s'opère. Typiquement peut s'exprimer avec un "si" ou "lorsque" ou encore "à chaque fois que".
+1. **Contexte** (_policy_): en **mauve**, la raison ou la condition dans laquelle ou pour laquelle une commande s'opère. Typiquement peut s'exprimer avec un "si" ou "lorsque" ou encore "à chaque fois que".
 
 Un événement peut être déclenché par plusieurs éléments :
 
