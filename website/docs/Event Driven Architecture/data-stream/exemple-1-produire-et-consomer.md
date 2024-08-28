@@ -1,5 +1,5 @@
 ---
-title: Exemple 1 : Produire et consommer une donnée
+title: "Exemple 1 : Produire et consommer une donnée"
 ---
 
 Prenons le cas d'une mise à jour d'une adresse mail, où une application `App`, dédiée à une gestion spécifique, doit modifier une donnée dont elle n'est pas maître, en l'occurrence l'adresse mail (`email`) d'un utilisateur (`User`).
