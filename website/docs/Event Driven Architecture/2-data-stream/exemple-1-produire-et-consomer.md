@@ -38,6 +38,12 @@ Par conséquent, il serait préférable de découper le service de mise à jour 
 
 Néanmoins cette approche peut être plus complexe à mettre en place, car elle nécessite potentiellement de mettre place des _queues_ pour chaque attribut de l'utilisateur. Il est donc important de trouver un juste milieu entre la granularité des services et la complexité de l'architecture.
 
+### Erreur de communication
+
+Grâce au mécanisme de _queue_, il est possible de gérer les erreurs de communication entre l'application `App` et le référentiel. En effet, si le référentiel est en panne, l'application `App` peut continuer à envoyer des commandes de mise à jour de l'adresse mail, sans que celles-ci soient perdues. Une fois le référentiel de nouveau disponible, il pourra traiter les commandes en attente.
+
+De même, si le référentiel se trouve dans un état dégradé et qu'il n'est plus en mesure de traiter les commandes, le mécanisme de _queue_ permet de mettre en place un système de _retry_ qui va tenter de renvoyer la commande de mise à jour de l'adresse mail à intervalle régulier. Le cas échéant, si le référentiel ne peut pas traiter la commande, il est possible de mettre en place un système de _dead letter queue_ qui permet de stocker les commandes qui n'ont pas pu être traitées et d'attendre que le référentiel soit de nouveau disponible.
+
 ## Étape 2 : Le traitement
 
 Une fois la commande parvenue au référentiel, par le biais de la _queue_, celui-ci va traiter la commande et mettre à jour l'adresse mail de l'utilisateur. Dans ce cas, la mise à jour est assez simple et ne demande que très peu de logique métier. Néanmoins, la données doit être validée avant d'être mise à jour, ne serait ce que pour vérifier que l'adresse mail est bien au bon format.
@@ -46,22 +52,26 @@ Une fois la commande parvenue au référentiel, par le biais de la _queue_, celu
 
 ### Request-Reply
 
-Dans le cas d'une mise à jour de données, il est souvent nécessaire de renvoyer un résultat à l'application qui a envoyé la commande. Cela permet de garantir que la commande a bien été reçue et traitée. Dans le cas d'une _queue_, il est possible de mettre en place un mécanisme de _request-reply_ qui permet de renvoyer un message de confirmation à l'application `App`.
+Dans le cas d'une mise à jour de données, il est souvent nécessaire de renvoyer un résultat à l'application qui a envoyé la commande. Cela permet de garantir que la commande a bien été reçue et traitée. Dans le cas d'une _queue_, il est possible de mettre en place un mécanisme de _request-reply_ qui permet de renvoyer un message de confirmation (_reply_) à l'application `App`.
 
 Néanmoins, il est important de noter que le mécanisme de _request-reply_ peut être complexe à mettre en place, notamment dans un environnement distribué. En effet, il est nécessaire de garantir que le message de confirmation est bien envoyé et reçu par la bonne instance de l'application `App`. De plus, il est nécessaire de gérer les cas d'erreurs, notamment si le message de confirmation n'est pas reçu.
 
-Le diagramme ci-dessous montre le mécanisme de _request-reply_ qui permet de renvoyer un message de confirmation à l'application `App` une fois la commande de mise à jour de l'adresse mail traitée. Ce qui est important de comprendre c'est que le message de confirmation est envoyé par le référentiel sur une _queue_ **temporaire** dédié à l'**instance** de l'application qui a envoyé la commande.
+Le diagramme ci-dessous montre le mécanisme de _request-reply_ qui permet de renvoyer un message de confirmation à l'application `App` une fois la commande de mise à jour de l'adresse mail traitée. Ce qui est important de comprendre c'est que le message de confirmation est envoyé par le référentiel sur une _queue_ **temporaire** créé par l'instance qui a envoyé la commande et uniquement dédiée à cette instance, autrement dit l'instance qui a envoyé la commande est la seule à pouvoir lire le message de confirmation. En outre, la queue temporaire est supprimée une fois le message de confirmation lu. Par conséquent, lors du retour du message de confirmation , il est nécessaire de spécifier l'identifiant de la queue temporaire pour que le référentiel puisse envoyer le message de confirmation.
 
 ![figure 5 - request-reply](../../../static/img/request-reply.png)
 
+> :pencil: **Note** : Ce type de mécanisme permet de garantir la scalabilité de l'application `App`, car chaque instance de celle-ci va créer sa propre _queue_ temporaire pour recevoir le message de confirmation.
+
 ### Scalabilité
 
-:construction: **En construction** : Cette section est en cours de rédaction.
+Le mécanisme de _queue_ permet de mettre en place un système scalable, car il est possible de mettre en place plusieurs instances de l'application `App` qui vont envoyer des commandes de mise à jour de l'adresse mail. Le référentiel va traiter les commandes en parallèle et garantir que les commandes sont traitées dans l'ordre d'arrivée.
 
+![figure 6 - scalabilité](../../../static/img/scalabilité.png)
+
+> :pencil: **Note** : Dans ce cas, le mécanisme de request-reply expliqué précédemment est toujours valable, car chaque instance de l'application `App` va créer sa propre queue temporaire pour recevoir le message de confirmation (_reply_).
 
 ## Etape 3 : Rafraîchissement de l'affichage
 
-:construction: **En construction** : Cette section est en cours de rédaction.
 
 
 ## Gestion des erreurs

@@ -3,17 +3,13 @@ slug: /
 title: En route vers les microservices événementiels
 ---
 
-Cette documentation est un carnet de route dans lequel j'inscris les étapes et les notions qui m'ont été nécessaires pour comprendre et mettre en place des microservices événementiels.
+Cette documentation est un carnet de route dans lequel sont inscris les étapes et les notions qui ont été nécessaires à la compréhension et la mise en place de microservices dans une architecture événementiels.
 
 ## Remerciements
 
-Merci à tous ceux qui m'ont aidé à comprendre et à mettre en place des microservices événementiels. Merci à mes collègues, amis et à ma famille pour leur soutien et leur patience.
+Merci à [Mathieu Scolas](https://github.com/worming004) pour ses précieux conseils, son aide et sa relecture pour la rédaction de cette documentation.
 
-- [Mathieu Scolas](https://github.com/worming004)
-
-## Inspiration
-
-Cette documentation s'inspire largement des livres
+## Sources
 
 [![Building Event-Driven Microservices](../../static/img/building-event-driven-microservices-book.jpg)](https://www.oreilly.com/library/view/building-event-driven-microservices/9781492057881/)
 

@@ -83,19 +83,8 @@ De même que des _materialized state_ qui permettent une lecture des données mu
 
 :construction: **En construction** : Cette section est en cours de rédaction.
 
-## Exemple 2 : Cascade d'opération
+---
 
-- Résilience
-- Retry & Idempotence
-- Transaction
-- Condition de concurrence
-- Rollback
-- Sortie de la cascade
+import DocCardList from '@theme/DocCardList';
 
-## Exemple 3 : Sequence d'événements
-
-- Ordre
-- Windowing
-- Late arrival
-
-## Exemple 4 : Consultation de données en masses
+<DocCardList />
