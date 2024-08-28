@@ -38,6 +38,16 @@ Un événement est une spécification du message. Il est utilisé pour notifier 
 
 Dans tous les cas, le message et plus spécifiquement l'event est le lien, et le seul point de cohésion, entre les systèmes. Il est dès lors primordial de bien les définir, les documenter et les valider de manière à éviter les erreurs d'interprétation.
 
+### Types d'événements
+
+Il existe plusieurs types d'événements :
+
+- **Unkeyed Events** : les événements sans clé sont utilisés pour les événements qui n'ont pas besoin d'être identifiés de manière unique et qui décrivent un changement global. Par exemple, un événement de _heartbeat_.
+
+- **Entity Events** : les événements d'entité représentent une entité unique où la clé est l'identifiant de celle-ci. Généralement, ces événements sont utilisés pour conserver un historique des changements d'une entité où le dernier événement est la source de vérité.
+
+- **Keyed Event** : les événements à clé ne représentent pas une entité unique, mais un événement identifiable. Généralement ceux-ci sont enregistrés dans des _event streams_ différents sur base de leurs types, assurant ainsi le partitionnement des événements permettant ensuite de retrouver les événements de manière efficace.
+
 ## Implémentation orientée communication vs. orienté événement
 
 Le _D_ de _Driven_, que ce soit pour le TDD (Test Driven Development), le DDD (Domain Driven Development), etc., défini quel est la base de conception d'un système informatique.
@@ -166,16 +176,6 @@ graph LR
     X[Microservice C Instance #1] -- offset#1 --> H
     X -- offset#2 --> H
 ```
-
-#### Types d'événements
-
-Il existe plusieurs types d'événements :
-
-- **Unkeyed Events** : les événements sans clé sont utilisés pour les événements qui n'ont pas besoin d'être identifiés de manière unique et qui décrivent un changement global. Par exemple, un événement de _heartbeat_.
-
-- **Entity Events** : les événements d'entité représentent une entité unique où la clé est l'identifiant de celle-ci. Généralement, ces événements sont utilisés pour conserver un historique des changements d'une entité où le dernier événement est la source de vérité.
-
-- **Keyed Event** : les événements à clé ne représentent pas une entité unique, mais un événement identifiable. Généralement ceux-ci sont enregistrés dans des _event streams_ différents sur base de leurs types, assurant ainsi le partitionnement des événements permettant ensuite de retrouver les événements de manière efficace.
 
 ### Message Broker
 
