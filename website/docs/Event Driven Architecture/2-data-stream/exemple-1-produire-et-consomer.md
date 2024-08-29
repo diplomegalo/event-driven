@@ -120,7 +120,7 @@ sequenceDiagram
     User-)EventBroker: Lecture et traitement de la commande de màj
     note over EventBroker: La lecture de la commande et<br/>l'envoi du message de confirmation<br/>se fait sur deux queues différentes
     User-)EventBroker: Enregistrement de la mise à jour (entity event)
-    note over EventBroker: Un nouvelle événement est émis<br/>pour notifier les applications dépendantes 
+    note over EventBroker: Un nouvel événement est émis<br/>pour notifier les applications dépendantes 
     User-)EventBroker: Envoie du message de confirmation
     App-)EventBroker: Lecture de la confirmation de confirmation
     App->>Table Matérialisée: Lecture des données mises à jour
@@ -150,7 +150,7 @@ En outre, toujours dans le cas où les données sont partitionnées, cette techn
 
 ![figure 8 - table interne partitionnée](../../../static/img/internal-partition-materialized-table.png)
 
-> :memo: **Note** : Une partition est associée à une (ou plusieurs) clé. Cette information est connue du _consumer group_. Celui-ci permet d'associer une instance à une (ou plusieurs) partition, donc par extension, une instance est associée à une (ou plusieurs) clé. Par conséquent, chaque instance, à l'aide du _consumer group_, connaît sa (ou ses) propre clé, mais également celle(s) de ses voisins. Dès lors chaque instance est en mesure de router une requête sur la bonne instance.
+> :memo: **Note** : Une partition est associée à une (ou plusieurs) clé. Cette information est connue du _consumer group_. Celui-ci permet d'associer une instance à une (ou plusieurs) partition, donc par extension, une instance est associée à une (ou plusieurs) clé. Par conséquent, chaque instance, à l'aide de sa connaissance de l'algorithme de redistribution, connaît sa (ou ses) propre clé, mais également celle(s) de ses voisins. Dès lors chaque instance est en mesure de router une requête sur la bonne instance.
 >
 > :warning: **Attention** : Une instance peut être associée à plusieurs partitions, mais une partition ne peut être associée qu'à une seule instance. Par conséquent, il n'est pas possible de mettre à l'échelle une instance sur une même partition. Le seul moyen de mettre à l'échelle est de re-partitionner les données. Au maximum, on pourrait avoir autant de partitions qu'il existe de clé, et autant d'instance qu'il existe de partition : 1 clé -> 1 partition -> 1 instance.
 
@@ -174,18 +174,67 @@ Dans le cas qui nous concerne, la table matérialisée externe est une solution 
 
 On peut observer que la différence entre les deux approches se situe surtout au niveau de la découpe, que ce soit en termes d'implémentation ou de gestion de plateforme (Ops) ou encore d'infrastructure. Par conséquent, le passage d'une architecture à l'autre peut se faire relativement facilement, en ce sens qu'il ne demande pas de changement majeur dans le code de l'application, à condition que les principes de bonnes pratiques soient respectés.
 
-## Gestion des erreurs
+## Étude stratégique de l'architecture
 
-:construction: **En construction** : Cette section est en cours de rédaction.
+### Architecture et composants
 
-## Débogage et audit
+#### Performance
 
-:construction: **En construction** : Cette section est en cours de rédaction.
+D'un point de vue architectural, cette solution est relativement simple. La découpe **des composants** suit les principes du DDD. Par conséquent, les termes choisis sont explicites et communs à tous les acteurs du projet et permettent ainsi de comprendre le fonctionnement de l'architecture.
 
-## Infrastructure et déploiement
+L'objectif, d'un point de vue de la **performance**, dans le cadre de ce scénario, est d'avoir un temps de réponse acceptable pour une application Web.
 
-:construction: **En construction** : Cette section est en cours de rédaction.
+Le nombre de **composants** peut être considéré comme élevé, en effet, l’existante de composants intermédiaires vient ajouté une complexité supplémentaire. Néanmoins, cette complexité est nécessaire pour garantir le découplage des composants, découplage qui fait partie de la stratégie de l'entreprise de manière à garantir la **haute disponibilité** des applications.
 
-## Architecture et stratégie
+Le principe de **découplage** est donc respecté grâce au mécanisme de _queue_, de l'architecture hexagonale et de l'utilisation d'_event stream_ et _materialized state_. Le seul couplage existant se trouve dans les modèles de données partagés entre :
 
-:construction: **En construction** : Cette section est en cours de rédaction.
+- L'application `App` et la _queue_ `UserModified`.
+- Le référentiel de données et la _queue_ `UserModified`.
+- Le(s) stream(s) nécessaire(s) à la construction de la table matérialisée.
+- La table matérialisée et l'application `App`.
+
+Par composant, le nombre de **dépendances** est limité, ce qui permet de diminuer l'effort d'intégration. Des librairies peuvent être utilisées pour faciliter l'intégration :
+
+- des _queues_ : sur cette partie, il est hautement recommandé d'encapsuler la logique de création de _queue_ à la volée dans une librairie mise à disposition des équipes de développement pour faciliter l'intégration.
+- de(s) table(s) matérialisée(s) : il est primordial d'établir le modèle de données de la table matérialisée en amont, de manière à garantir que les données nécessaires soient bien présentes dans l'_event stream_ et que la table matérialisée soit facilement intégrable.
+
+La **scalabilité** des composants applicatifs `App` et référentiel est garantie par l'architecture. Autrement dit, il est possible de supporter de grosse campagne de mise à jour des données sans impacter la performance des applications.
+
+Le **package de déploiement** comprend l'application `App` et le composant de construction de la table matérialisée. La _queue_ `UserModified` fait partie du service de catalogue du référentiel de données et par conséquent n'est pas déployé avec l'application `App`. Les composants doivent être configurés avec les informations de connexion à la _queue_ `UserModified` et à la base de données.
+
+### Contrôle qualité
+
+#### Tests
+
+Seul l'application `App` nécessite d'être **testé** de même qu'être contrôlé en termes de qualité. La testabilité du scénario exige la mise en place d'un environnement distribué comprenant :
+
+- **L'application `App`** : l'image du container doit être construite à la volée avec le package de l'application construite (_build_ local ou dans la pipeline de CI) et lancée en local de la machine d'exécution des tests pour tester la fonctionnalité de mise à jour.
+- **La base de données `App`** : soit en local de la machine, soit à une base de données de développement pour valider les opérations d'écriture et lecture.
+- **La _queue_** : soit en local de la machine, soit à une _queue_ de développement pour valider la technologie utilisée ainsi que les données sur base du schéma de données (de la queue).
+- **La table matérialisée** : une instance de la table matérialisée doit être mise à disposition pour valider la lecture des données.
+
+Les tests **end-to-end** demandent une intégration avec le référentiel `User` disponible en environnement de développement et de tests. Ceci implique que la _queue_ utilisé pour les tests soit connue du référentiel et que les données soient bien envoyées sur la _queue_ de test.
+
+#### Sécurité
+
+- **L'application `App`** doit être accessible uniquement par les utilisateurs authentifiés. Les utilisateurs doivent être autorisés à modifier les données, de même que l'utilisateur doit avoir accès à la données pour la modifier.
+- **La _queue_ `UserModified`** est uniquement accessible par toutes les instances de l'application `App` ainsi que celles du référentiel `User`.
+- **les instances des _queues_ temporaire** doivent être sécurisées pour garantir que seule l'instance de l'application `App` qui a envoyé la commande puisse lire le message de confirmation. L'architecture ne peut pas garantir que seul l'instance du référentiel `User` qui a traité la commande puisse envoyer le message de confirmation sur la bonne _queue_ temporaire.
+- **Le référentiel `User`** doit garantir que les données envoyées sur la _queue_ `UserModified` peuvent être modifiées. Un audit des accès à la donnée pour modification doit être mis en place pour garantir la traçabilité des modifications.
+- **La table matérialisée** doit être accessible uniquement en lecture par l'application `App`.
+
+### Déploiement
+
+Si les déploiements et les rollback n'impliquent pas une modification des modèles de données impactante (_breaking_), ceux-ci peuvent être **planifiés** de manière **complètement indépendante**.
+
+D'une point de vue de la **maintenance**, le mécanisme de création de la table matérialisée est directement lié à l'_event broker_ ainsi qu'à la base de données. Par conséquent, une mise à jour de la base de données ou des API de l'_event broker_ peut potentiellement impacter la table matérialisée. De même, une mise à jour des API de la _queue_ va impacter l'application `App` et le référentiel `User`.
+
+Tout changement de modèle de donnée impactant (_breaking_) va avoir des conséquences sur les composants directement liés.
+
+### Ressources
+
+Un membre de l'**équipe Platform** est nécessaire pour la création de la table matérialisée sur base de l'analyse des besoins. Un membre de l'équipe **data engineering** peut être associé de manière à garantir la pertinence des attributs sélectionnés.
+
+Les opérations de modifications des données d'un utilisateur sont relativement limitées en nombre et ne demandent pas une **performance** supérieure à la normale. Les rafraîchissements de la table matérialisée sont donc limités et ne demandent pas de ressources supplémentaires.
+
+L'application `App` peut-être complètement décommissionnée sans impacter le référentiel `User`. Le cas échéant, lorsque l'application `App` devra être décommissionner tout en gardant un accès aux données, celles-ci peuvent être poussées sur l'_event broker_ pour garantir la continuité de service.
