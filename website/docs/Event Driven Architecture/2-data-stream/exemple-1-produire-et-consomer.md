@@ -118,10 +118,13 @@ sequenceDiagram
     Portail->>+App: Mise à jour de l'email de l'utilisateur
     App-)+EventBroker: Envoie de la commande de mise à jour
     User-)EventBroker: Lecture et traitement de la commande de màj
+    note over EventBroker: La lecture de la commande et<br/>l'envoi du message de confirmation<br/>se fait sur deux queues différentes
+    User-)EventBroker: Enregistrement de la mise à jour (entity event)
+    note over EventBroker: Un nouvelle événement est émis<br/>pour notifier les applications dépendantes 
     User-)EventBroker: Envoie du message de confirmation
     App-)EventBroker: Lecture de la confirmation de confirmation
-    note over EventBroker: La lecture de la commande et<br/>l'envoi du message de confirmation<br/>se fait sur deux queues différentes
     App->>Table Matérialisée: Lecture des données mises à jour
+    note over Table Matérialisée: La table matérialisée est mise à jour<br/>en temps réel sur base des événements
     App-->>-Portail: Affichage des données mises à jour
 ```
 
@@ -139,7 +142,7 @@ Les tables internes offrent l'énorme avantage de pouvoir être construire en m�
 
 Dans un certain cas de figure, lorsque la totalité des données est divisée en plusieurs tables internes (_partition_) et par conséquent sur plusieurs instances, chaque requête doit être routée sur la bonne instance. Ce mécanisme est transparent pour l'application, et permet d'alléger le flux de récupération grâce à la répartition de la charge sur plusieurs instances. Néanmoins, ce mécanisme de routage ajoute une certaine complexité en termes de topologie infra, de même qu'un certain coût en termes de performance dû à la nécessité de router (quasi) toutes les requêtes.
 
-> :memo: **Note** : La chance de tombé sur la bonne partition est de `1/n` avec `n` le nombre de partition. Par conséquent au plus le nombre de partitions est grand, au plus la chance de tomber sur la bonne partition est faible et dès lors de devoir router la requête vers une autre partition.
+> :memo: **Note** : La chance de tombé sur la bonne instance de l'application `App` est de `1/n` avec `n` le nombre d'instance de l'application `App`. Par conséquent au plus le nombre de d'instance est grand, au plus la chance de tomber sur la bonne partition est faible et dès lors de devoir router la requête vers une autre partition.
 
 En outre, toujours dans le cas où les données sont partitionnées, cette technique est sensible au mécanisme de re-balancement des partitions. Dans ce cas, les _consumer group_ doivent être mises à jour pour prendre en compte les modifications, ce qui peut provoquer un léger _downtime_.
 
@@ -147,9 +150,9 @@ En outre, toujours dans le cas où les données sont partitionnées, cette techn
 
 ![figure 8 - table interne partitionnée](../../../static/img/internal-partition-materialized-table.png)
 
-> :memo: **Note** : Le transfert d'une requête entre deux API est possible grâce aux informations du consumer group qui connaît sa partition et celle des ces voisins. Chaque API doit être capable de router la requête vers la bonne partition grâce à ce mécanisme. Dans les cas les plus lourds, il est possible de mettre en place un système autonome en tête qui va router les requêtes vers la bonne partition. Une sorte de double _load balancer_ : un pour la répartition de la charge et un pour la répartition des requêtes.
+> :memo: **Note** : Une partition est associé à une (ou plusieurs) clé. Cette informations est connu du _consumer group_. Celui-ci permet d'associer une instance à une (ou plusieurs) partition, donc par extension, une instance est associée à une (ou plusieurs) clé. Par conséquent, chaque instance, à l'aide du _consumer group_ connaît sa (ou ses) propre clé, mais également celle(s) de ses voisins. Dès lors chaque instance est en mesure de router une requête sur la bonne instance.
 >
-> :question: **Question** : Je n'ai aucune idée de la manière dont est géré le routage lorsqu'il y a plusieurs instances.
+> :warning: **Attention** : Une instance peut être associée à plusieurs partitions, mais une partition ne peut être associée qu'à une seule instance. Par conséquent, il n'est pas possible de mettre à l'échelle une instance sur une même partition. Le seul moyen de mettre à l'échelle est de re-partitionner les données. Au maximum, on pourrait avoir autant de partition qu'il existe de clé, et autant d'instance qu'il existe de partition : 1 clé -> 1 partition -> 1 instance.
 
 #### Table externe
 
@@ -163,9 +166,11 @@ Néanmoins, étant une ressource partagée, elle représente un goulot d'étrang
 
 En conclusion, le choix entre une table interne et une table externe dépend de la manière dont les données sont utilisées :
 
-- **Table interne** : Si les données sont utilisées uniquement par l'application `App` et qu'elle doit pouvoir être mise à l'échelle rapidement, alors une table interne est préférable. Mais cette option doit être utilisée avec précaution, car elle peut être difficile à mettre en place et à maintenir, surtout si la partition sont utilisée pour répartir la charge entre plusieurs API.
+- **Table interne** : Si les données doivent être mise à disposition dans le cadre d'une utilisation **très** intensive, alors une table interne est préférable. Mais cette option doit être utilisée avec précaution, car elle peut être difficile à mettre en place et à maintenir, surtout s'il existe une instance par partitions, avec un très grand nombre de partition.
 
 - **Table externe** : Si les données sont partagées entre plusieurs applications et qu'elles doivent être mises à jour fréquemment, alors une table externe est préférable. Mais il faut également s'assurer que la charge sur la table externe ne devienne pas un goulot d'étranglement.
+
+> :construction: **Todo** : Quel type choisir pour le cas qui nous concerne ? Éventuellement précisé les contraintes de l'exemple, où donner un exemple concret des deux contraintes dans le cas qui concerne.
 
 ## Gestion des erreurs
 
@@ -176,3 +181,9 @@ En conclusion, le choix entre une table interne et une table externe dépend de 
 :construction: **En construction** : Cette section est en cours de rédaction.
 
 ## Infrastructure et déploiement
+
+:construction: **En construction** : Cette section est en cours de rédaction.
+
+## Architecture et stratégie
+
+:construction: **En construction** : Cette section est en cours de rédaction.
