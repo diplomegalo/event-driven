@@ -170,7 +170,9 @@ En conclusion, le choix entre une table interne et une table externe dépend de 
 
 - **Table externe** : Si les données sont partagées entre plusieurs applications et qu'elles doivent être mises à jour fréquemment, alors une table externe est préférable. Mais il faut également s'assurer que la charge sur la table externe ne devienne pas un goulot d'étranglement.
 
-> :construction: **Todo** : Quel type choisir pour le cas qui nous concerne ? Éventuellement précisé les contraintes de l'exemple, où donner un exemple concret des deux contraintes dans le cas qui concerne.
+Dans le cas qui nous concerne, la table matérialisée externe est une solution suffisante. D'ailleurs, cette solution sera la plus adéquate dans la plupart des cas.
+
+On peut observer que la différence entre les deux approches se situe surtout au niveau de la découpe, que ce soit en termes d'implémentation ou de gestion de platform (Ops) ou encore d'infrastructure. Par conséquent, le passage d'une architecture à l'autre peut se faire relativement facilement, en ce sens qu'il ne demande pas de changement majeur dans le code de l'application, à condition que les principes de bonnes pratiques soient respectés.
 
 ## Gestion des erreurs
 
