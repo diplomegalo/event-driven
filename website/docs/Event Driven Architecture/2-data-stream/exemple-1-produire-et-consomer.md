@@ -14,6 +14,8 @@ Le diagramme ci-dessous montre le processus de mise à jour de l'adresse mail d'
 
 ![figure 3 - exemple de mise à jour d'une adresse mail](../../../static/img/produce-and-consume-data.png)
 
+> :memo: **Note** : Le type d'événement stocké dans la stream `User` est un _entity event_ qui permet de stocker l'ensemble des attributs de l'entité `User` et de garantir que les applications consommatrices disposent de l'ensemble des informations nécessaires pour effectuer les traitements. Néanmoins, il est possible de stocker un _keyed event_ qui ne contient que l'identifiant de l'utilisateur et l'adresse mail dans un autre stream, mais dans ce cas, il est nécessaire d'extraire les informations de plusieurs _event stream_.
+
 ## Étape 1 : La commande
 
 La première étape consiste à envoyer une commande de mise à jour de l'adresse email au référentiel maître de ces données.
@@ -23,6 +25,8 @@ Dans ce contexte, `App` connaît l'application maître de la donnée `User` et e
 L'envoi de la commande peut être fait en asynchrone via une _queue_, ou via une API REST. Le désavantage de l'API REST est de garder un lien "point à point" entre le référentiel est l'application `App` et par conséquent un couplage fort. Au contraire de l'envoi de la commande via une _queue_, qui permet de déconnecter les deux applications. Attention néanmoins que ce découplage est technique et non fonctionnel, car fonctionnellement, il s'agit bien de modifier la valeur d'un attribut au sein du référentiel. Par conséquent, l'application `App`, reste dépendante du référentiel pour la mise à jour de l'adresse mail.
 
 > :memo: **Note** : Le couplage fort signifie que, si le référentiel tombe en panne, ne serait-ce que pour une courte durée, l'application `App` ne pourra plus fonctionner. Cela peut être un problème si l'application `App` est critique pour l'entreprise.
+>
+> :construction: **En construction** : Ajouter les détails concernant le frontend.
 
 ### Context Mapping
 
@@ -42,9 +46,15 @@ Dans l'exemple de la figure 3, l'envoi de la commande de mise à jour de l'adres
 
 Par conséquent, il serait préférable de découper le service de mise à jour de l'utilisateur en plusieurs services plus fins, qui permettent de mettre à jour un attribut spécifique de l'utilisateur. De cette manière, il sera également plus facile de comprendre les actions métiers qui sont réalisés, a fortiori dans un environnement distribué. Le cas échéant, les différentes applications distribuées pourront logger des informations plus précises et par conséquent, l'audit et le débogage seront facilités.
 
+> :construction: **Todo** : Expliquer comment une _queue_ orienté métier va favoriser le traitement des _events late arrival_.
+
 Néanmoins cette approche peut être plus complexe à mettre en place, car dans le pire des cas, une _queue_ est nécessaire pour chaque attribut de l'utilisateur, et l'application cliente devra envoyer autant de messages qu'elle modifie d'attribut. Il est donc important de trouver un juste milieu entre la granularité des services et la complexité de l'architecture.
 
-### Erreur de communication
+### Gestion des erreurs
+
+> :construction: **Todo** : Intégrer la gestion des incidents de production lorsqu'un message tombe en DLQ et reprendre les erreurs sur base de ce qui peut arrivé : le traitement de la commande n'est pas possible parce que la data est mauvaise, il y a une erreur métier prévue, il y a une erreur dans le traitement non prévue, la _queue_ n'est plus disponible, le référentiel n'est plus disponible, l'application `App` tombe en timeout.
+
+#### Erreur de communication
 
 Grâce au mécanisme de _queue_, il est possible de gérer les erreurs de communication entre l'application `App` et le référentiel. En effet, si le référentiel est en panne, l'application `App` peut continuer à envoyer des commandes de mise à jour de l'adresse mail, sans que celles-ci soient perdues. Une fois le référentiel de nouveau disponible, il pourra traiter les commandes en attente.
 
@@ -58,7 +68,7 @@ Dans le cas où le référentiel ne peut pas traiter la commande pour des raison
 
 En tous les cas, le référentiel doit être capable de gérer les erreurs de communication et de renvoyer un message d'erreur à l'application `App` si la commande de mise à jour de l'adresse mail n'a pas pu être traitée (cf. [Etape 2 : Le traitement](#étape-2--le-traitement)).
 
-### Timeout dans le traitement de la commande
+#### Timeout dans le traitement de la commande
 
 Il se peut que la commande de mise à jour mette plus de temps à être traitée que prévu. Si le [traitement](#étape-2--le-traitement) tombe en erreur, il est possible que le message tombe en _dead letter queue_ après plusieurs _retry_ et que l'application `App` ne soit notifiée de l'erreur que tardivement. Dans ce cas l'application `App` ne doit pas attendre indéfiniment la réponse du référentiel, mais doit mettre en place un mécanisme de _timeout_. De même, l'application `App` ne doit pas effectuer de _retry_ au risque de renvoyer une commande de mise à jour de l'adresse mail identique à celle qui n'a pas pu être traitée, et ce de manière infinie.
 
@@ -66,7 +76,7 @@ Il se peut que la commande de mise à jour mette plus de temps à être traitée
 
 ## Étape 2 : Le traitement
 
-Une fois la commande parvenue au référentiel, par le biais de la _queue_, celui-ci va la traiter et mettre à jour l'adresse mail de l'utilisateur dans l'_event stream_. 
+Une fois la commande parvenue au référentiel, par le biais de la _queue_, celui-ci va la traiter et mettre à jour l'adresse mail de l'utilisateur dans l'_event stream_.
 
 Il s'agit maintenant d'une [communication orientée donnée](../1-definition-des-concepts.md#types-dévénements). En effet l'application va mettre à jour la donnée sans prendre en compte les applications qui en sont dépendantes. Dès lors, un événement sera émis et les applications dépendantes seront notifiées de manière à effectuer les traitements nécessaires, le cas échéant.
 
@@ -92,7 +102,7 @@ Ce qui est important de comprendre c'est que le message de confirmation est envo
 >
 > :warning: **Attention** : Il est nécessaire de spécifier l'identifiant de la _queue_ temporaire au référentiel pour qu'il puisse envoyer le message de confirmation sur la bonne _queue_.
 
-### Scalabilité
+### Augmentation de la charge
 
 Le mécanisme de _queue_ permet la scalabilité tant pour l'application `App` que pour le référentiel :
 
@@ -127,6 +137,8 @@ sequenceDiagram
     note over Table Matérialisée: La table matérialisée est mise à jour<br/>en temps réel sur base des événements
     App-->>-Portail: Affichage des données mises à jour
 ```
+
+:construction: **En cours de rédaction** : Les données sont injectées dans une table au sein de la même base de données que l'application `App`. Cette table est mise à jour en temps réel sur base des événements émis par l'_event broker_. Les données peuvent donc être lues et jointes à d'autres tables pour être affichées sur le portail.
 
 ### Table matérialisée
 
@@ -176,65 +188,153 @@ On peut observer que la différence entre les deux approches se situe surtout au
 
 ## Étude stratégique de l'architecture
 
-### Architecture et composants
+L'architecture tant à apporter des solutions aux problèmes de performances, de couplage fort, de scalabilité, de gestion des erreurs et de complexité. Des stratégies sont dès lors mises en place pour garantir le bon fonctionnement de l'ensemble des systèmes.
 
-#### Performance
+### Dépendance
 
-D'un point de vue architectural, cette solution est relativement simple. La découpe **des composants** suit les principes du DDD. Par conséquent, les termes choisis sont explicites et communs à tous les acteurs du projet et permettent ainsi de comprendre le fonctionnement de l'architecture.
+Seul le modèle de donnée reste le véritable point de couplage technique et fonctionnel, inévitable, entre les composants. Par conséquent toute modification impactante (_breaking_) au niveau du modèle de données aura des répercutions sur les systèmes qui l'utilisent.
 
-L'objectif, d'un point de vue de la **performance**, dans le cadre de ce scénario, est d'avoir un temps de réponse acceptable pour une application Web.
+La _queue_, dans la phase d'envoie de commandes au référentiel, permet d'avoir un découplage technique entre les composants `App` et `User`, mais d'un point de vue fonctionnel les deux applications reste dépendante l'une de l'autre. Par conséquent, si le référentiel `User` ne traite pas la commande (_timeout_), ou renvoie une erreur non-fonctionnel, cela est considéré comme une rupture de contrat de service (SLA) et doit être notifier comme incident de production aux acteurs en charge de l'application (toutes équipes confondues). Dans ce cas, l'application `App` doit intégrer une gestion d'erreur spécifique à ce cas de figure (cf. [Erreurs & pannes](#erreurs--pannes)).
 
-Le nombre de **composants** peut être considéré comme élevé, en effet, l’existante de composants intermédiaires vient ajouté une complexité supplémentaire. Néanmoins, cette complexité est nécessaire pour garantir le découplage des composants, découplage qui fait partie de la stratégie de l'entreprise de manière à garantir la **haute disponibilité** des applications.
+Chaque composant n'est lié qu'à un seul type de dépendance (_queue_, _event broker_, db), il est donc possible d'envisager des connecteurs ou client intelligent (orienté métier) mis à disposition sous forme de librairie et à intégrer dans les composants. Dans le même ordre d'idée, la gestion du scénario [_request-reply_](#request-reply) avec la _queue_ reste le plus compliqué à intégrer, mais cette complexité pourrait être encapsulé dans une librairie d'intégration offrant une fonctionnalité spécifique pour ce cas.
 
-Le principe de **découplage** est donc respecté grâce au mécanisme de _queue_, de l'architecture hexagonale et de l'utilisation d'_event stream_ et _materialized state_. Le seul couplage existant se trouve dans les modèles de données partagés entre :
+L'architecture hexagonale permet d'isoler les logique métier de l'application `App`.
 
-- L'application `App` et la _queue_ `UserModified`.
-- Le référentiel de données et la _queue_ `UserModified`.
-- Le(s) stream(s) nécessaire(s) à la construction de la table matérialisée.
-- La table matérialisée et l'application `App`.
+### Erreurs & pannes
 
-Par composant, le nombre de **dépendances** est limité, ce qui permet de diminuer l'effort d'intégration. Des librairies peuvent être utilisées pour faciliter l'intégration :
+Dans le cas, d'erreur ou de pannes du référentiel `User`, celui-ci doit être capable de renvoyer un message d'erreur à l'application `App` pour l'informer que la commande de mise à jour de l'adresse mail n'a pas pu être traitée. Les raisons de l'erreur doivent être clairement identifiées et renvoyées à l'application `App` pour qu'elle puisse les afficher à l'utilisateur.
 
-- des _queues_ : sur cette partie, il est hautement recommandé d'encapsuler la logique de création de _queue_ à la volée dans une librairie mise à disposition des équipes de développement pour faciliter l'intégration.
-- de(s) table(s) matérialisée(s) : il est primordial d'établir le modèle de données de la table matérialisée en amont, de manière à garantir que les données nécessaires soient bien présentes dans l'_event stream_ et que la table matérialisée soit facilement intégrable.
+Les commandes qui arrivent en _dead letter queue_ doivent être reconnues comme des incidents de production à prendre en charge en urgence. En effet, les messages laissés en suspend peuvent nuire à l'ordre d'arrivée des événements qui en découlent.
 
-La **scalabilité** des composants applicatifs `App` et référentiel est garantie par l'architecture. Autrement dit, il est possible de supporter de grosse campagne de mise à jour des données sans impacter la performance des applications.
+En outre, il s'agit clairement d'une rupture de contrat de service du système tiers et par conséquent doit être traité le plus rapidement possible pour éviter que ce problème ne se répète.
 
-Le **package de déploiement** comprend l'application `App` et le composant de construction de la table matérialisée. La _queue_ `UserModified` fait partie du service de catalogue du référentiel de données et par conséquent n'est pas déployé avec l'application `App`. Les composants doivent être configurés avec les informations de connexion à la _queue_ `UserModified` et à la base de données.
+L'équipe qui enquête sur les causes du problème doit être en mesure d'accéder à tous les systèmes et toutes les données liées à l'incident, de manière à enquêter sur les causes du problème et le cas échéant lancer une procédure de réparation. Une fois la procédure de _retry_ manuel lancée, les événements de modification seront poussés sur l'_event broker_.
 
-### Contrôle qualité
+Des politiques de gestion de _late arrival event_ doivent être mis en place au sein de l'_event broker_ de manière à rejeter les événements périmé. Un événement est considéré périmé, quand un autre du même type est arrivé après lui. Dans ce cas, l'événement périmé doit être rejeté et un log doit être émis pour informer les équipes en charge de l'application. La conception du modèle des événements est primordiale pour cette étape de manière à bien identifier et comparer les mêmes opérations métier (cf. Modèle de données).
 
-#### Tests
+> :memo: **Note** : Dans certains cas, un événement même périmé peut avoir de la valeur et être traité. Par conséquent, la gestion des _late arrival event_ doit être étudiée en fonction du contexte métier.
 
-Seul l'application `App` nécessite d'être **testé** de même qu'être contrôlé en termes de qualité. La testabilité du scénario exige la mise en place d'un environnement distribué comprenant :
+L'application `App` a la "simple" responsabilité d'afficher les détails de l'incident, en spécifiant bien à l'utilisateur que son changement a été pris en compte, mais sera traité ultérieurement.
 
-- **L'application `App`** : l'image du container doit être construite à la volée avec le package de l'application construite (_build_ local ou dans la pipeline de CI) et lancée en local de la machine d'exécution des tests pour tester la fonctionnalité de mise à jour.
-- **La base de données `App`** : soit en local de la machine, soit à une base de données de développement pour valider les opérations d'écriture et lecture.
-- **La _queue_** : soit en local de la machine, soit à une _queue_ de développement pour valider la technologie utilisée ainsi que les données sur base du schéma de données (de la queue).
-- **La table matérialisée** : une instance de la table matérialisée doit être mise à disposition pour valider la lecture des données.
+Des politiques de gestion d'erreurs peuvent être implémenté dans des librairies tant du côté frontend, que backend, pour gérer les erreurs de manière uniforme sur base de leur type : erreur technique, erreur fonctionnelle, erreur métier, etc. et faciliter l'intégration de la gestion des erreurs dans les applications (type d'erreur, message et affichage uniformisé).
 
-Les tests **end-to-end** demandent une intégration avec le référentiel `User` disponible en environnement de développement et de tests. Ceci implique que la _queue_ utilisé pour les tests soit connue du référentiel et que les données soient bien envoyées sur la _queue_ de test.
+### Performance
 
-#### Sécurité
+L'objectif de l'architecture est de garantir un temps de réponse raisonnable pour l'utilisateur. L'implémentation de communication asynchrone n'implique pas un allongement des temps de réponse. Par conséquent, et étant donnée que l'architecture reste relativement conventionnelle, les performances et les temps de réponses sont garanties.
 
-- **L'application `App`** doit être accessible uniquement par les utilisateurs authentifiés. Les utilisateurs doivent être autorisés à modifier les données, de même que l'utilisateur doit avoir accès à la données pour la modifier.
-- **La _queue_ `UserModified`** est uniquement accessible par toutes les instances de l'application `App` ainsi que celles du référentiel `User`.
-- **les instances des _queues_ temporaire** doivent être sécurisées pour garantir que seule l'instance de l'application `App` qui a envoyé la commande puisse lire le message de confirmation. L'architecture ne peut pas garantir que seul l'instance du référentiel `User` qui a traité la commande puisse envoyer le message de confirmation sur la bonne _queue_ temporaire.
-- **Le référentiel `User`** doit garantir que les données envoyées sur la _queue_ `UserModified` peuvent être modifiées. Un audit des accès à la donnée pour modification doit être mis en place pour garantir la traçabilité des modifications.
-- **La table matérialisée** doit être accessible uniquement en lecture par l'application `App`.
+Les composants sont simples et font de petites choses simples, dès lors les problématiques de performances ne sont pas inclues dans les développements (hormis les bonnes pratiques), mais relayé à la plateforme qui va augmenté ou diminué le nombre d'instance en fonction de la charge (cf. scalabilité).
+
+La _queue_ peut facilement supporter une très grande quantité de messages et ne présente pas de risque dans ce cadre.
+
+L'_event broker_ doit être dimensionné pour supporter une grande quantité d'opération, néanmoins cette configuration se fait pour tout l'event broker et non composants par composants, ce qui facilite le travail des opérateurs. Cependant, l'_event broker_ doit être le centre de toutes les attentions, car il est le point de passage d'un grand nombre de données et d'opérations.
+
+Le mécanisme de _request-reply_ demande également une attention particulière, car il crée et supprime des _queues_ de manière dynamique. Cette opération est forcément consommatrice de ressource et doit être géré de manière à ne pas impacter les performances de l'application. Dans ce cadre, il est nécessaire d'avoir une solution ou un outil étudié spécifiquement pour ce cas de figure.
+
+Les données sont injectées dans une table au sein de la même base de données que l'application `App`. Cette table est mise à jour en temps réel sur base des événements émis par l'_event broker_. Les données peuvent donc être lues et jointes à d'autres tables pour être affichées sur le portail, ce qui représente un gain de performance considérable en comparaison à la récupération des données depuis l'API d'une application. Néanmoins, il est nécessaire de s'assurer que la table matérialisée est correctement indexée pour garantir des temps de réponse optimaux. En outre, dans le cas où de nombreux événements sont émis, il est possible que la table matérialisée soit littéralement inondée de données, ce qui peut impacter les performances de l'application et éventuellement le serveur de base de données.
 
 ### Déploiement
 
-Si les déploiements et les rollback n'impliquent pas une modification des modèles de données impactante (_breaking_), ceux-ci peuvent être **planifiés** de manière **complètement indépendante**.
+#### Application `App`
 
-D'une point de vue de la **maintenance**, le mécanisme de création de la table matérialisée est directement lié à l'_event broker_ ainsi qu'à la base de données. Par conséquent, une mise à jour de la base de données ou des API de l'_event broker_ peut potentiellement impacter la table matérialisée. De même, une mise à jour des API de la _queue_ va impacter l'application `App` et le référentiel `User`.
+Les packages de l'application `App` et du référentiel `User` sont autonomes et la construction des packages et peut s'intégrer complètement dans un processus automatique (CI). Par conséquent la planification de déploiement et de rollback peut se faire également de manière autonome, hormis dans le cas de modification impactante du modèle de données échangé sur la _queue_ ou, depuis les _stream_ de l'_event broker_.
 
-Tout changement de modèle de donnée impactant (_breaking_) va avoir des conséquences sur les composants directement liés.
+![figure 10 - Package de déploiement](../../../static/img/deploy-package.png)
+
+> :memo: **Note** : Si le modèle de données de l'application `App` change et qu'il intègre de nouveaux attributs ou en supprime, il est nécessaire de mettre à jour le composant qui extrait les données de l'_event stream_ pour les injecter dans la base de données de l'application `App`. Néanmoins, ce composant faisant partie du package de déploiement de l'application `App`, il est possible de le mettre à jour en même temps que l'application. Le déploiement reste donc autonome et ne nécessite pas de coordination avec d'autres équipes.
+
+#### Référentiel `User`
+
+> :construction: **En cours de rédaction** : Appréhender l'idée de création d'une queue lors du déploiement et de la mise à jours de la configuration du référentiel lors de l'exécution de la pipeline de CD.
+
+### Scalabilité
+
+L'application `App` et le référentiel `User` sont scalable et pourront être mis à l'échelle automatiquement sur base de politique configuré sur la plateforme de containérisation.
+
+L'_event broker_ offre des fonctionnalités comme le partitionnement, la répartition qui permettent de distribuer les données sur plusieurs _partition_ de manière à garantir la scalabilité des applications. Ces techniques permettent de répartir la charge sur plusieurs instances de traitement de l'information.
+
+### Haute disponibilité
+
+Pour évaluer la haute disponibilité d'un système, il faut imaginer l'impacte si celui-ci tombe en panne :
+
+- L'impact d'une panne de l'application `App` est relative à l'importance métier des fonctionnalités qui y sont implémentés.
+- En ce qui concerne le _message broker_, s'il vient à tomber en panne, l'application `App` ne serait plus en mesure d'envoyer un message et ne pourrait plus communiquer avec le référentiel `User` ce qui limiterait fortement les fonctionnalités disponibles de l'application.
+- Dans le cadre du référentiel `User`, aucune application ne serait impactée d'un point de vu technique, c'est-à-dire qu'aucune application cesserait de fonctionner si le référentiel `User` tombe en panne. Néanmoins, dans notre cas, l'application `App` va fonctionner dans un mode dégradé où il lui sera impossible d'afficher les modifications "en temps réel" (dans un délai raisonnable), mais pourra encore néanmoins envoyer la commande de modification des données.
+
+> :memo: **Note** : Généralement, un _message broker_ ne se limite pas à gérer quelques _queue_ et ce qui viendrait brisé les moyens de communication inter-applicatif et qui de surcroît, forcerait les applications appelantes à recommencer leurs opérations étant donné que les fonctionnalités de _retry_ et _dead letter queue_ ne seraient plus disponible.
+
+### Modèles de données
+
+L'application `App` possède sa propre base de données pour stocker le résultat de ces propres calculs.
+
+Les données de l'utilisateur (`User`) et d'autres données sont injectées dans cette base de données grâce à un composant qui va extraire, sur base de _queries_, les données contenues dans les _event stream_. L'application `App` peut donc fonctionner de manière autonome sur base de son propre modèle de données, sans devoir accéder à des applications tiers pour lire des données.
+
+L'_event broker_ est un _data store_ qui va conserver tous les évènements et leurs historiques à vie. Dans certains cas, les applications auront besoin de pouvoir parcourir l'historique, par exemple, dans notre cas, l'affichage de l'historique des modifications des emails avec l'utilisateur authentifié associé à cette modification.
+
+Sur base des principes du _domaine-driven-design_ (DDD), les contrats de services sont découpés de manière à correspondre le plus possible aux opérations métiers. De cette manière, la traçabilité des opérations au travers des différents composants est facilité (audit, monitoring et diagnostique). En outre, ce type de découpe, permet une gestion plus fine des _late arrival event_ (cf. [Erreurs & pannes](#erreurs--pannes)).
+
+L'_event broker_ peut être implémenté de sorte à intégrer des flux de données sur base d'opération simple comme : `join`, `filter`, `map`, `reduce`, etc. Ces opérations permettent de construire des _streams_ de données complexes à partir de _streams_ de données simples.
+
+### Sécurité
+
+Les informations de l'utilisateur authentifié sont transporté de composants en composants de manière à pouvoir appliquer les règles d'autorisation (RBAC).
+
+Les données injectée en base de données depuis les _event streams_ doivent protégée contre l'écriture.
+
+### Maintenance et évolution
+
+C'est l'upgrade de version de l'_event broker_ qui aura le plus d'impacte, car c'est lui l'élément central de l'architecture. Ceci dit, tant que les modifications sont rétro-compatible, les applications n'auront pas besoin d'être modifiées.
+
+Toute modifications du modèle de données échangé sur la _queue_ ou depuis les _stream_ de l'_event broker_ aura des impactes sur les applications qui les consomment. Néanmoins, ces modifications peuvent être gérées de manière à minimiser l'impacte sur les applications, notamment en mettant en place des architectures hexagonales, des librairies de communication, etc.
+
+### Décommissionnement
+
+Le décommissionnement des applications est simplifié, car la production des données est découplée de la consommation. Par conséquent, même si l'application disparaît, les données partagées sont toujours disponibles pour les autres applications.
+
+Il est également envisageable de mettre en route des processus de libération de la données pour exporter les données d'une base de données (stand alone) vers le _data store_ de l'_event broker_
+
+### Organisation
+
+La charge de travail est redistribuée entre plusieurs équipe, ce qui permet à chacune d'entre-elle de se concentrer sur son propre domaine d'expertise se qui à tendance à augmenter la qualité du code et l'efficacité des développements.
+
+Néanmoins plusieurs nouvelles responsabilités apparaissent : la gestion des containers et la gestion de l'_event broker_ et par conséquent, elles doivent être prises en charge par des équipes dédiées.
+
+### Testabilité et qualité
+
+Les tests end-to-end demandent une intégration avec le référentiel `User` disponible en environnement de développement et de tests. Ceci implique que la _queue_ utilisé pour les tests soit connue du référentiel et que les données soient bien envoyées sur la _queue_ de test.
+
+| Type de tests | Application `App` | Référentiel `User` | _Queue_ `UserModified` | Base de données `App` | `VueContextualisé` | `EventBroker` |
+|---------------|-------------------|--------------------|------------------------|----------------------|---------------------|---------------|
+| Unitaire | Exécuté en local de la machine et lors du CI | N/A | L'intégration de la _queue_ doit être mocké | En local ou distante | N/A | N/A |
+| Intégration | Exécuté en local de la machine ou déployé un environnement dédié | Déployé sur un environnement de test | Intégration de la _queue_ afin de garantir la validité du schéma de donnée | De préférence distante car éprouvé par l'équipe | Instance de test qui va lire les données des _streams_ impacté par la commande, de manière à vérifier la cohérence. | _Event Broker_ de tests impacté par la commande envoyé par l'application.  |
+
+Les tests end-to-end sont exécuté dans un environnement le plus stable et le plus proche de la réalité possible.
 
 ### Ressources
 
-Un membre de l'**équipe Platform** est nécessaire pour la création de la table matérialisée sur base de l'analyse des besoins. Un membre de l'équipe **data engineering** peut être associé de manière à garantir la pertinence des attributs sélectionnés.
+Un membre de l'**équipe Platform** est nécessaire pour la création de la table matérialisée sur base de l'analyse des besoins, car les compétences sont spécifique. Un membre de l'équipe **data engineering** peut être associé de manière à garantir la pertinence des attributs sélectionnés.
 
-Les opérations de modifications des données d'un utilisateur sont relativement limitées en nombre et ne demandent pas une **performance** supérieure à la normale. Les rafraîchissements de la table matérialisée sont donc limités et ne demandent pas de ressources supplémentaires.
+### En résumé
 
-L'application `App` peut-être complètement décommissionnée sans impacter le référentiel `User`. Le cas échéant, lorsque l'application `App` devra être décommissionner tout en gardant un accès aux données, celles-ci peuvent être poussées sur l'_event broker_ pour garantir la continuité de service.
+L'architecture orienté événement avec event stream offre une grande flexibilité à bien des niveaux, mais demande une expertise plus poussée notamment concernant la gestion de l'event broker et est sensiblement plus complexe à mettre en place dû aux composants supplémentaires.
+
+Néanmoins des solutions permettent de garantir une scalabilité et une maintenance plus aisée des applications et par conséquent une meilleure qualité de service, pour un coût de développement moindre.
+
+#### Avantages
+
+Les développements sont plus rapide, car beaucoup plus orienté fonctionnel :
+
+- La queue et l'event broker présente l'avantage d'intégrer des fonctionnalités built-in tel que le _retry_ automatique, _dead letter queue_, _request-reply_, _late arrival event_, etc.
+- La scalabilité est une responsabilité plateforme : plus besoin de gérer le nombre de threads, de connexions, etc.
+- Les intégrations sont prises en charge par des librairies.
+- Les modèles de données sont simples, orienté métier et associé à périmètre fonctionnel.
+- L'architecture favorise le découplage des composants, mais également à l'intérieur des composants avec l'architecture hexagonale, les composants `Processing` qui construisent les tables matérialisées, etc.
+
+La gestion infra est simplifié :
+
+- Un event broker à dimensionné pour toute l'entreprise.
+- Des politiques de scalabilité, de quota par type d'application.
+
+#### Inconvénients
+
+Vendor lock-in avec l'event broker pour toute l'entreprise car _single source of truth_. 
+Nouvelles compétences spécifiques à acquérir pour la gestion de l'event broker, voir nouvelle équipe dédiée.

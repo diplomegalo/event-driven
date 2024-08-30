@@ -19,6 +19,8 @@ Dans le cadre d'une architecture distribuée et plus spécifiquement événement
 
 En outre le SSOT va permettre de garantir que les données sont disponibles de manière centralisée à un seul endroit. Les données peuvent être néanmoins copiées et dupliquées dans des vue matérialisées (_materialized state_) qui sont accessibles en lecture seules.
 
+> :construction: **Todo** : Expliquer le phénomène de vendor lock-in lié au SSOT.
+
 ## Event Stream
 
 L'une des pistes de mise en place d'une architecture microservices est de mettre en place un flux de données entre les différents services. Cela permet de déclencher des actions en fonction des événements qui se produisent dans le système.
