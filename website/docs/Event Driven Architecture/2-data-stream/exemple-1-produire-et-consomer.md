@@ -192,13 +192,13 @@ L'architecture tant à apporter des solutions aux problèmes de performances, de
 
 ### Dépendance
 
-Seul le modèle de donnée reste le véritable point de couplage technique et fonctionnel, inévitable, entre les composants. Par conséquent toute modification impactante (_breaking_) au niveau du modèle de données aura des répercutions sur les systèmes qui l'utilisent.
+Seul le modèle de donnée reste le véritable point de couplage technique et fonctionnel, inévitable, entre les composants. Ce qui présente un avantage face aux architecture qui favorise les couplages point à point via des REST Api. Par conséquent, seules les modifications du modèle de données impactantes (_breaking_) auront des répercutions, mais uniquement avec les systèmes qui l'utilisent.
 
-La _queue_, dans la phase d'envoie de commandes au référentiel, permet d'avoir un découplage technique entre les composants `App` et `User`, mais d'un point de vue fonctionnel les deux applications reste dépendante l'une de l'autre. Par conséquent, si le référentiel `User` ne traite pas la commande (_timeout_), ou renvoie une erreur non-fonctionnel, cela est considéré comme une rupture de contrat de service (SLA) et doit être notifier comme incident de production aux acteurs en charge de l'application (toutes équipes confondues). Dans ce cas, l'application `App` doit intégrer une gestion d'erreur spécifique à ce cas de figure (cf. [Erreurs & pannes](#erreurs--pannes)).
+La _queue_, dans la phase d'envoie de commandes au référentiel, permet d'avoir un découplage technique entre les composants `App` et `User`, mais d'un point de vue fonctionnel les deux applications reste dépendante l'une de l'autre. Dans ce cas, l'application appelante attend généralement une réponse asynchrone, avec une statut de l'opération. Cette aspect est un statut quo face aux autres architectures. La gestion des erreurs est également facilité par le mécanisme de _queue_ qui permet de stocker les messages en _dead letter queue_ et de les rejouer une fois le problème résolu. Néanmoins, elle demande une gestion particulière pour les frontend. Une solution envisagée serait de fournir un client intelligent (_smart client_) au travers de librairie qui gère la communication avec la _queue_ et qui permet de gérer les erreurs de manière uniforme à tout les niveaux de l'application. (cf. [Erreurs & pannes](#erreurs--pannes)).
 
-Chaque composant n'est lié qu'à un seul type de dépendance (_queue_, _event broker_, db), il est donc possible d'envisager des connecteurs ou client intelligent (orienté métier) mis à disposition sous forme de librairie et à intégrer dans les composants. Dans le même ordre d'idée, la gestion du scénario [_request-reply_](#request-reply) avec la _queue_ reste le plus compliqué à intégrer, mais cette complexité pourrait être encapsulé dans une librairie d'intégration offrant une fonctionnalité spécifique pour ce cas.
+Une autre opportunité d'un tel client serait que servant à faciliter la gestion du scénario [_request-reply_](#request-reply) avec la _queue_.
 
-L'architecture hexagonale permet d'isoler les logique métier de l'application `App`.
+L'architecture hexagonale permet d'isoler les logique métier de l'application `App`. Par conséquent les composants sont résilients aux changements de l'infrastructure et des dépendances externes.
 
 ### Erreurs & pannes
 
@@ -334,7 +334,32 @@ La gestion infra est simplifié :
 - Un event broker à dimensionné pour toute l'entreprise.
 - Des politiques de scalabilité, de quota par type d'application.
 
+La gestion des données est simplifié :
+
+- Politique de gestion des données centralisée.
+
 #### Inconvénients
 
-Vendor lock-in avec l'event broker pour toute l'entreprise car _single source of truth_. 
-Nouvelles compétences spécifiques à acquérir pour la gestion de l'event broker, voir nouvelle équipe dédiée.
+- Vendor lock-in avec l'event broker pour toute l'entreprise car _single source of truth_.
+- Nouvelles compétences et nouvelle équipe spécifique à acquérir pour la gestion de l'event broker.
+- _Data libération_ (migration des données) vers le _data store_ de l'event broker de toutes les données partagées très conséquentes et complexe.
+
+#### Tableau récapitulatif
+
+Voici un tableau récapitulatif structurant les informations par chapitre, en distinguant les avantages et les inconvénients :
+
+| **Chapitre**                    | **Résumé des idées développées**                                                                                                                                                                                | **Avantage/Inconvénient**                                |
+|---------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------|
+| **Dépendance**                  | - Diminution du couplage, seul le modèle de données reste un point de couplage <br> - Découplage technique via _queue_, mais dépendance fonctionnelle persiste (inévitable). <br> - Standardisation de la gestion d'erreurs spécifiques en cas de panne ou d'erreur. (librairie partagée) </br> - Librairie pour faciliter les intégration avec les dépendances </br> - Architecture Hexagonale qui permet de limiter les modifications en cas de changement dans les dépendances externes             | Avantage                                             |
+| **Erreurs & pannes**            | - Diminution des                                     | Avantage et Inconvénient                                             |
+| **Performance**                 | - Avantage : Communication asynchrone sans allongement des temps de réponse (d'un point de vue utilisateur). <br> - Avantage : _Queue_ et _event broker_ dimensionnés pour haute performance. <br> - Inconvénient : Gestion complexe du _request-reply_.                             | Avantage et Inconvénient                                 |
+| **Déploiement**                 | - Déploiement autonome pour `App` et `User`. <br> - Synchronisation requise en cas de changement du modèle de données.                                                                                          | Avantage                                |
+| **Scalabilité**                 | - Scalabilité automatique basée sur la plateforme de conteneurisation. <br> - Partitionnement et répartition via l'_event broker_.                                                                              | Avantage                                                 |
+| **Haute disponibilité**         | - Impact de pannes varie selon le composant <br/> - Le référentiel `User` devient non-critique.                                                                                                   | Avantage                                 |
+| **Modèles de données**          | - Application `App` autonome avec sa propre base de données. <br> - Distribution du modèle spécifique au besoin. <br> - Historique des événements conservé dans l'_event broker_. <br/> - Granularité des des opérations fine.                                                                                  | Avantage                                                 |
+| **Sécurité**                    | - Protection des données en base et gestion des autorisations (RBAC).                                                                                                                                           | Avantage                                                 |
+| **Maintenance et évolution**    | - Inconvénient : Impact majeur de l'upgrade de l'_event broker_. <br> - Avantage : Rétrocompatibilité des modifications du modèle de données pour minimiser l'impact (nouvelle stream).                                                                     | Avantage et Inconvénient                                             |
+| **Décommissionnement**          | - Simplification du décommissionnement grâce au découplage de la production et de la consommation des données.                                                                                                  | Avantage                                                 |
+| **Organisation**                | - Redistribution de la charge de travail et nécessité de nouvelles compétences pour la gestion de l'_event broker_.                                                                                             | Avantage et Inconvénient                                 |
+| **Testabilité et qualité**      | - Tests end-to-end nécessitent un environnement réaliste. <br> - Besoin de coordination pour les tests d'intégration avec la _queue_ `UserModified`.                                                            | Statut Quo avec possibilité d'amélioration                                |
+| **Ressources**                  | - Expertise nécessaire pour la création de la table matérialisée. <br> - Avantages : développement rapide, gestion infra simplifiée, données centralisées. <br> - Inconvénients : _vendor lock-in_, nouvelles compétences requises, complexité de migration des données partagées.      | Avantage et Inconvénient                                 |
