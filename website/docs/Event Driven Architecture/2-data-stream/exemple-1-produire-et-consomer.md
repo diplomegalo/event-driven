@@ -46,13 +46,15 @@ Dans l'exemple de la figure 3, l'envoi de la commande de mise à jour de l'adres
 
 Par conséquent, il serait préférable de découper le service de mise à jour de l'utilisateur en plusieurs services plus fins, qui permettent de mettre à jour un attribut spécifique de l'utilisateur. De cette manière, il sera également plus facile de comprendre les actions métiers qui sont réalisés, a fortiori dans un environnement distribué. Le cas échéant, les différentes applications distribuées pourront logger des informations plus précises et par conséquent, l'audit et le débogage seront facilités.
 
-> :construction: **Todo** : Expliquer comment une _queue_ orienté métier va favoriser le traitement des _events late arrival_.
+> :construction: **En cours de rédaction** : Expliquer comment une _queue_ orienté métier va favoriser le traitement des _events late arrival_.
 
 Néanmoins cette approche peut être plus complexe à mettre en place, car dans le pire des cas, une _queue_ est nécessaire pour chaque attribut de l'utilisateur, et l'application cliente devra envoyer autant de messages qu'elle modifie d'attribut. Il est donc important de trouver un juste milieu entre la granularité des services et la complexité de l'architecture.
 
 ### Gestion des erreurs
 
-> :construction: **Todo** : Intégrer la gestion des incidents de production lorsqu'un message tombe en DLQ et reprendre les erreurs sur base de ce qui peut arrivé : le traitement de la commande n'est pas possible parce que la data est mauvaise, il y a une erreur métier prévue, il y a une erreur dans le traitement non prévue, la _queue_ n'est plus disponible, le référentiel n'est plus disponible, l'application `App` tombe en timeout.
+> :construction: **En cours de rédaction** : Intégrer la gestion des incidents de production lorsqu'un message tombe en DLQ et reprendre les erreurs sur base de ce qui peut arrivé : le traitement de la commande n'est pas possible parce que la data est mauvaise, il y a une erreur métier prévue, il y a une erreur dans le traitement non prévue, la _queue_ n'est plus disponible, le référentiel n'est plus disponible, l'application `App` tombe en timeout.
+>
+> :construction: **En cours de rédaction** : Des politiques de gestion de _late arrival event_ doivent être mis en place au sein de l'_event broker_ de manière à rejeter les événements périmé. Un événement est considéré périmé, quand un autre du même type est arrivé après lui. Dans ce cas, l'événement périmé doit être rejeté et un log doit être émis pour informer les équipes en charge de l'application. La conception du modèle des événements est primordiale pour cette étape de manière à bien identifier et comparer les mêmes opérations métier (cf. Modèle de données).
 
 #### Erreur de communication
 
@@ -190,49 +192,88 @@ On peut observer que la différence entre les deux approches se situe surtout au
 
 L'architecture tant à apporter des solutions aux problèmes de performances, de couplage fort, de scalabilité, de gestion des erreurs et de complexité. Des stratégies sont dès lors mises en place pour garantir le bon fonctionnement de l'ensemble des systèmes.
 
+> :construction: **En cours de rédaction** : Expliquer les notions derrières les différentes notions expliquées ci-dessous.
+
 ### Dépendance
 
 Seul le modèle de donnée reste le véritable point de couplage technique et fonctionnel, inévitable, entre les composants. Ce qui présente un avantage face aux architecture qui favorise les couplages point à point via des REST Api. Par conséquent, seules les modifications du modèle de données impactantes (_breaking_) auront des répercutions, mais uniquement avec les systèmes qui l'utilisent.
 
-La _queue_, dans la phase d'envoie de commandes au référentiel, permet d'avoir un découplage technique entre les composants `App` et `User`, mais d'un point de vue fonctionnel les deux applications reste dépendante l'une de l'autre. Dans ce cas, l'application appelante attend généralement une réponse asynchrone, avec une statut de l'opération. Cette aspect est un statut quo face aux autres architectures. La gestion des erreurs est également facilité par le mécanisme de _queue_ qui permet de stocker les messages en _dead letter queue_ et de les rejouer une fois le problème résolu. Néanmoins, elle demande une gestion particulière pour les frontend. Une solution envisagée serait de fournir un client intelligent (_smart client_) au travers de librairie qui gère la communication avec la _queue_ et qui permet de gérer les erreurs de manière uniforme à tout les niveaux de l'application. (cf. [Erreurs & pannes](#erreurs--pannes)).
+La _queue_, dans la phase d'envoie de commandes au référentiel, permet d'avoir un découplage entre les composants `App` et `User`, même si d'un point de vue fonctionnel les deux applications reste dépendante l'une de l'autre. Dans ce cas de figure, l'application appelante attend généralement une réponse de l'application appelée avec une statut de l'opération.
 
-Une autre opportunité d'un tel client serait que servant à faciliter la gestion du scénario [_request-reply_](#request-reply) avec la _queue_.
+L'intégration des dépendances peuvent être gérées au travers de librairie pour garantir une communication avec le _message broker_ et l'_event broker_ de manière uniforme, ceci offrant des fonctionnalités de gestion des erreurs (cf. [Erreurs & pannes](#erreurs--pannes) homogène ou de gestion du scénario [_request-reply_](#request-reply) masquant les difficultés de gestion de queue dynamique.
 
 L'architecture hexagonale permet d'isoler les logique métier de l'application `App`. Par conséquent les composants sont résilients aux changements de l'infrastructure et des dépendances externes.
 
+Les données sont injectées dans une table au sein de la même base de données que l'application `App`. Cette table est mise à jour en temps réel sur base des événements émis par l'_event broker_. Les données peuvent donc être lues et jointes à d'autres tables pour être affichées sur le portail, ce qui représente un très grand avantage en terme de simplicité d'intégration. En outre l'application est complètement autonome et ne dépend pas d'un tiers pour afficher les données.
+
+En conclusion l'architecture permet de garantir un découplage plus fort entre les composants, notamment par la mise ne place de _message broker_, _event broker_ et l'utilisation de pattern de développement tel que l'architecture hexagonale. Par ailleurs, la copy des données directement dans le _data store_ de l'application offre permet une intégration très simple des données sources.
+
+| Critères | |
+| --- | --- |
+| Découplage fort entre les composants | :heavy_check_mark: |
+| Données copiées dans la base de données de l'application | :heavy_check_mark: |
+
 ### Erreurs & pannes
 
-Dans le cas, d'erreur ou de pannes du référentiel `User`, celui-ci doit être capable de renvoyer un message d'erreur à l'application `App` pour l'informer que la commande de mise à jour de l'adresse mail n'a pas pu être traitée. Les raisons de l'erreur doivent être clairement identifiées et renvoyées à l'application `App` pour qu'elle puisse les afficher à l'utilisateur.
+Le plus grand avantage de l'architecture est que tous les composants peuvent tomber en panne sans impacter l'ensemble du système :
 
-Les commandes qui arrivent en _dead letter queue_ doivent être reconnues comme des incidents de production à prendre en charge en urgence. En effet, les messages laissés en suspend peuvent nuire à l'ordre d'arrivée des événements qui en découlent.
+- Une panne du _message broker_, n'empêche pas l'application `App` de recevoir des données de puis l'_event broker_, mais empêchera l'envoie de commandes au référentiel.
+- Une panne de l'_event broker_, n'empêche pas l'application `App` d'envoyer des commandes au référentiel, mais empêchera la mise à jour des données dans la table matérialisée.
+- Une panne du référentiel, n'empêche pas l'application `App` de recevoir des données de puis l'_event broker_, mais empêchera le traitement des commandes de mise à jour de l'adresse mail. Ces commandes seront stockées dans la _dead letter queue_.
+- Une panne de l'application `App`, n'empêche pas le traitement des commandes de mise à jour de l'adresse mail, mais empêchera l'affichage des données mises à jour sur le portail.
 
-En outre, il s'agit clairement d'une rupture de contrat de service du système tiers et par conséquent doit être traité le plus rapidement possible pour éviter que ce problème ne se répète.
+La gestion des messages en erreurs en _dead letter queue_ offre une plus grande résilience face aux erreurs et pannes. Les systèmes sont ainsi plus fiable. Si le référentiel tombe en panne, l'application `App` peut continuer à envoyer des commandes de mise à jour de l'adresse mail, sans que celles-ci soient perdues. Une fois le référentiel de nouveau disponible, il pourra traiter les commandes en attente, soit via une technique de _retry_ automatique du _message broker_, soit après enquête par une équipe en charge des incidents de production. Attention toutefois à bien garantir l'ordre et s'assurer que les messages n'ont pas expiré, par exemple si l'adresse mail n'a pas été re-modifié entre-temps.
 
-L'équipe qui enquête sur les causes du problème doit être en mesure d'accéder à tous les systèmes et toutes les données liées à l'incident, de manière à enquêter sur les causes du problème et le cas échéant lancer une procédure de réparation. Une fois la procédure de _retry_ manuel lancée, les événements de modification seront poussés sur l'_event broker_.
+Selon l'outil, l'event broker offre des fonctionnalités pour gérer la mise en place des politiques des _late arrival event_. Ces politiques permettent de rejeter les événements périmé et de les loguer pour informer les équipes en charge de l'application. La conception du modèle des événements est primordiale pour cette étape de manière à bien identifier et comparer les mêmes opérations métier (cf. [Modèle de données](#modèle-de-données)).
 
-Des politiques de gestion de _late arrival event_ doivent être mis en place au sein de l'_event broker_ de manière à rejeter les événements périmé. Un événement est considéré périmé, quand un autre du même type est arrivé après lui. Dans ce cas, l'événement périmé doit être rejeté et un log doit être émis pour informer les équipes en charge de l'application. La conception du modèle des événements est primordiale pour cette étape de manière à bien identifier et comparer les mêmes opérations métier (cf. Modèle de données).
+La combinaison des _dead letter queue_ et des politiques de gestion des _late arrival event_ permet de garantir que les messages ne sont pas perdus et que les événements sont traités dans l'ordre d'arrivée. L'application `App` a la "simple" responsabilité d'afficher les détails de l'incident, en spécifiant à l'utilisateur si son changement a été pris en compte, et le cas échéant sera traité ultérieurement. Une équipe plateforme, ou opérationnelle, doit être en charge de la gestion des incidents de production et doit être en mesure d'accéder à tous les systèmes et toutes les données liées à l'incident, de manière à enquêter sur les causes du problème et le cas échéant lancer une procédure de réparation. Cette procédure de _retry_ manuel permet de pousser les événements de modification sur l'_event broker_.
+
+En conclusion, la gestion des erreurs et des pannes est inhérentes à toute architecture et demande dans tous les cas un investissement en temps et en ressource. L'architecture permet néanmoins de garder le système dans un mode dégradé lorsque une panne survient. Ce mode dégradé garantie qu'une partie du système reste performant, autrement dit, tous les composants peuvent tomber en panne sans impacter l'ensemble du système. L'utilisation d'un _event broker_ permet de gérer le phénomène de _late arrival event_ de manière centrale. Les scénarios d'erreurs peuvent être implémenté dans des librairies qui gèrent la communication avec la _queue_ et qui permettent d'intégrer de manière homogène le traitement à prévoir.
 
 > :memo: **Note** : Dans certains cas, un événement même périmé peut avoir de la valeur et être traité. Par conséquent, la gestion des _late arrival event_ doit être étudiée en fonction du contexte métier.
 
-L'application `App` a la "simple" responsabilité d'afficher les détails de l'incident, en spécifiant bien à l'utilisateur que son changement a été pris en compte, mais sera traité ultérieurement.
-
-Des politiques de gestion d'erreurs peuvent être implémenté dans des librairies tant du côté frontend, que backend, pour gérer les erreurs de manière uniforme sur base de leur type : erreur technique, erreur fonctionnelle, erreur métier, etc. et faciliter l'intégration de la gestion des erreurs dans les applications (type d'erreur, message et affichage uniformisé).
+| Critères | |
+| --- | --- |
+| Tous les composants peuvent tomber en panne sans impacter l'ensemble du système (mode dégradé) | :heavy_check_mark: |
+| Traitement des _late arrival event_ | :heavy_check_mark: |
+| Intégration des scénarios d'erreur via des librairies | :white_circle: |
 
 ### Performance
 
-L'objectif de l'architecture est de garantir un temps de réponse raisonnable pour l'utilisateur. L'implémentation de communication asynchrone n'implique pas un allongement des temps de réponse. Par conséquent, et étant donnée que l'architecture reste relativement conventionnelle, les performances et les temps de réponses sont garanties.
+L'objectif de l'architecture est de garantir un temps de réponse raisonnable pour l'utilisateur. L'implémentation de communication asynchrone n'implique pas un allongement des temps de réponse d'un point de vue utilisateur. Par conséquent, de manière générale cette architecture reste un statu quo face à une architecture microservices classique.
 
-Les composants sont simples et font de petites choses simples, dès lors les problématiques de performances ne sont pas inclues dans les développements (hormis les bonnes pratiques), mais relayé à la plateforme qui va augmenté ou diminué le nombre d'instance en fonction de la charge (cf. scalabilité).
+Les composants sont simples et font de petites choses simples, dès lors les problématiques de performances ne sont pas inclues dans les développements (hormis les bonnes pratiques), mais relayé à la plateforme qui va augmenté ou diminué le nombre d'instance en fonction de la charge (cf. scalabilité). Cette aspect favorise l'industrialisation des développements et permet de se concentrer sur les fonctionnalités métier.
 
-La _queue_ peut facilement supporter une très grande quantité de messages et ne présente pas de risque dans ce cadre.
-
-L'_event broker_ doit être dimensionné pour supporter une grande quantité d'opération, néanmoins cette configuration se fait pour tout l'event broker et non composants par composants, ce qui facilite le travail des opérateurs. Cependant, l'_event broker_ doit être le centre de toutes les attentions, car il est le point de passage d'un grand nombre de données et d'opérations.
+La _queue_ et l'_event broker_ doit être dimensionné pour supporter une grande quantité d'opération, néanmoins cette configuration se fait pour l’entièreté et non composants par composants, ce qui améliore l'industrialisation du suivi des applications. Cependant, ces composants doit être le centre de toutes les attentions, car il est le point de passage d'un grand nombre de données et d'opérations et doit pouvoir répondre dans un temps raisonnable.
 
 Le mécanisme de _request-reply_ demande également une attention particulière, car il crée et supprime des _queues_ de manière dynamique. Cette opération est forcément consommatrice de ressource et doit être géré de manière à ne pas impacter les performances de l'application. Dans ce cadre, il est nécessaire d'avoir une solution ou un outil étudié spécifiquement pour ce cas de figure.
 
-Les données sont injectées dans une table au sein de la même base de données que l'application `App`. Cette table est mise à jour en temps réel sur base des événements émis par l'_event broker_. Les données peuvent donc être lues et jointes à d'autres tables pour être affichées sur le portail, ce qui représente un gain de performance considérable en comparaison à la récupération des données depuis l'API d'une application. Néanmoins, il est nécessaire de s'assurer que la table matérialisée est correctement indexée pour garantir des temps de réponse optimaux. En outre, dans le cas où de nombreux événements sont émis, il est possible que la table matérialisée soit littéralement inondée de données, ce qui peut impacter les performances de l'application et éventuellement le serveur de base de données.
+Les données sont injectées dans une table au sein de la même base de données que l'application `App`. Cette table est mise à jour en temps réel sur base des événements émis par l'_event broker_. Les données peuvent donc être lues et jointes à d'autres tables pour être affichées sur le portail, ce qui représente un gain de performance considérable en comparaison à la récupération des données depuis l'API d'une application. Néanmoins, dans le cas où de nombreux événements sont émis, il est possible que la table matérialisée soit littéralement inondée de données, ce qui peut impacter les performances de l'application et éventuellement le serveur de base de données.
+
+Conclusion, l'architecture garantie une réponse à l'utilisateur dans des temps raisonnable, mais demande une attention particulière sur la configuration de la _queue_ et de l'_event broker_ pour garantir des temps de réponse optimaux. Cette architecture présente également des facilités de configuration et de dimensionnement qui permettent de garantir des performances optimales. Par ailleurs, l'utilisation de tables matérialisées permet de garantir des temps de réponses optimaux pour les requêtes SQL, mais demande une attention particulière sur l'insertion des données depuis l'_event broker_.
+
+| Critères | |
+| --- | --- |
+| Temps de réponse raisonnable | :heavy_check_mark: |
+| Une seul base de données permet d'accélérer la lecture des données (jointure entre table, pas d'appel REST API) | :heavy_check_mark: |
+| Dimensionnement _event_ et _message broker_ configurable (container, cluster, quota, etc.) prévue pour de très haut débit | :white_circle: |
 
 ### Déploiement
+
+En ce qui concerne le déploiement, l'architecture permet de garantir une mise en production continue et autonome des applications. En effet, les applications `App` et `User` sont autonomes et peuvent être déployées indépendamment l'une de l'autre. De plus, l'utilisation de l'_event broker_ permet de garantir que les données sont bien transmises entre les applications, même si elles ne sont pas déployées en même temps.
+
+Seul le modèle de données reste le véritable point de couplage technique et fonctionnel, inévitable, entre les composants et peut donc avoir une influence sur le déploiement. Néanmoins, cette dépendance est inhérente à tout système et ne peut être évitée.
+
+Le déploiement d'environnement à la volée est facilité grâce à l'utilisation de _container_ pour les applications _serverless_ et de _cluster_ pour les _broker_. De même certaines sources peuvent être reconstruites sur base de la lecture des événements contenu dans un _stream_. Ces outils permettent de mettre en place des environnements de test rapidement et de les détruire une fois les tests terminés.
+
+En conclusion, l'architecture permet une planification des déploiement et des rollback de manière autonome et peut également être intégré dans des flux d'intégration continue de même que de déploiement continue, hormis dans le cas de modification impactante du modèle de données échangé sur la _queue_ ou, depuis les _stream_ de l'_event broker_.
+
+| Critères | |
+| --- | --- |
+| Planification des déploiements et rollback autonome des applications | :heavy_check_mark: |
+| Intégration dans un processus automatique (CI/CD) | :heavy_check_mark: |
+| Déploiement de composants à la volée (application serverless) | :heavy_check_mark: |
+| Reconstruction de données à la volée sur base d'un _stream_ | :heavy_check_mark: |
 
 #### Application `App`
 
@@ -248,55 +289,101 @@ Les packages de l'application `App` et du référentiel `User` sont autonomes et
 
 ### Scalabilité
 
-L'application `App` et le référentiel `User` sont scalable et pourront être mis à l'échelle automatiquement sur base de politique configuré sur la plateforme de containérisation.
+L'application `App` et le référentiel `User` sont des application _serverless_ et peuvent donc être mise à l'échelle à souhait ou de manière automatique sur base de politique configuré sur la plateforme de containérisation. Ceci permet notamment de reléguer les préoccupations de performances à la plateforme et de garantir une scalabilité des applications sans impacter les développements (hormis les bonnes pratiques de bases).
 
-L'_event broker_ offre des fonctionnalités comme le partitionnement, la répartition qui permettent de distribuer les données sur plusieurs _partition_ de manière à garantir la scalabilité des applications. Ces techniques permettent de répartir la charge sur plusieurs instances de traitement de l'information.
+Dans le cas, où il est nécessaire de traiter un grand nombre de données, l'_event broker_ est en mesure d'organiser les données dans plusieurs partition de manière à ce que chacune d'entre elles soient traitées par une instance du référentiel `User`.
+
+En conclusion, la scalabilité offre l'avantage d'offrir des solutions aux problèmes de performances sans pour autant impacter les développements et permet donc d'augmenter la productivité des équipes.
+
+| Critères | |
+| --- | --- |
+| Application _serverless_ hautement scalable  | :heavy_check_mark: |
+| Préoccupation des problèmes de performances délégué à la plateforme, plutôt qu'au développement | :heavy_check_mark: |
+| Partitionnement des données sur l'_event broker_ | :heavy_check_mark: |
 
 ### Haute disponibilité
 
-Pour évaluer la haute disponibilité d'un système, il faut imaginer l'impacte si celui-ci tombe en panne :
+Le plus gros impacte en terme de haute disponibilité est sur l'_event broker_ et le _message broker_ qui doit être disponible en permanence pour garantir la communication entre les applications. Néanmoins, la mise en place de _cluster_ et de _replica_ permet de garantir une haute disponibilité de l'_event broker_. De même que le _message broker_ qui doit être disponible en permanence pour garantir la communication entre les applications. Les autres applications peuvent tomber en panne sans impacter le fonctionnement de l'ensemble du système permettant à celui-ci de fonctionner dans un mode dégradé.
 
-- L'impact d'une panne de l'application `App` est relative à l'importance métier des fonctionnalités qui y sont implémentés.
-- En ce qui concerne le _message broker_, s'il vient à tomber en panne, l'application `App` ne serait plus en mesure d'envoyer un message et ne pourrait plus communiquer avec le référentiel `User` ce qui limiterait fortement les fonctionnalités disponibles de l'application.
-- Dans le cadre du référentiel `User`, aucune application ne serait impactée d'un point de vu technique, c'est-à-dire qu'aucune application cesserait de fonctionner si le référentiel `User` tombe en panne. Néanmoins, dans notre cas, l'application `App` va fonctionner dans un mode dégradé où il lui sera impossible d'afficher les modifications "en temps réel" (dans un délai raisonnable), mais pourra encore néanmoins envoyer la commande de modification des données.
+En conclusion, seul l'_event broker_ et le _message broker_ doivent être disponibles en permanence pour garantir le bon fonctionnement de l'ensemble du système. Cette architecture diminue donc la complexité de la mise en place de la haute disponibilité face à une architecture microservices classique qui impose une haute disponibilité de l'ensemble des applications.
 
-> :memo: **Note** : Généralement, un _message broker_ ne se limite pas à gérer quelques _queue_ et ce qui viendrait brisé les moyens de communication inter-applicatif et qui de surcroît, forcerait les applications appelantes à recommencer leurs opérations étant donné que les fonctionnalités de _retry_ et _dead letter queue_ ne seraient plus disponible.
+| Critères | |
+| --- | --- |
+| _Event broker_ et _message broker_ doivent avoir le plus haut degré de disponibilité | :x: |
+| Le nombre de composants demandant une haute disponibilité est réduit | :heavy_check_mark: |
 
 ### Modèles de données
 
-L'application `App` possède sa propre base de données pour stocker le résultat de ces propres calculs.
-
-Les données de l'utilisateur (`User`) et d'autres données sont injectées dans cette base de données grâce à un composant qui va extraire, sur base de _queries_, les données contenues dans les _event stream_. L'application `App` peut donc fonctionner de manière autonome sur base de son propre modèle de données, sans devoir accéder à des applications tiers pour lire des données.
+L'application `App` possède sa propre base de données pour stocker le résultat de ces propres calculs. Cette base de données est mise à jour en temps réel sur base des événements émis par l'_event broker_. Les données de l'utilisateur (`User`) et d'autres données sont injectées dans cette base de données grâce à un composant qui va extraire, sur base de _queries_, les données contenues dans les _event stream_. L'application `App` peut donc fonctionner de manière autonome sur base de son propre modèle de données, sans devoir accéder à des applications tiers pour lire des données. De cette manière, l'application définie de manière complètement autonome les données dont elle a besoin pour fonctionner. Ce principe permet notamment de limiter le nombre d'information sur base de l'usage de l'application et permet également une prise en main plus rapide de l'application par un développeur.
 
 L'_event broker_ est un _data store_ qui va conserver tous les évènements et leurs historiques à vie. Dans certains cas, les applications auront besoin de pouvoir parcourir l'historique, par exemple, dans notre cas, l'affichage de l'historique des modifications des emails avec l'utilisateur authentifié associé à cette modification.
 
-Sur base des principes du _domaine-driven-design_ (DDD), les contrats de services sont découpés de manière à correspondre le plus possible aux opérations métiers. De cette manière, la traçabilité des opérations au travers des différents composants est facilité (audit, monitoring et diagnostique). En outre, ce type de découpe, permet une gestion plus fine des _late arrival event_ (cf. [Erreurs & pannes](#erreurs--pannes)).
+Sur base des principes du _domaine-driven-design_ (DDD), les contrats de services sont découpés de manière à correspondre le plus possible aux opérations métiers. De cette manière, la traçabilité des opérations au travers des différents composants est facilité (audit, monitoring et diagnostique). En outre, ce type de découpe, permet une gestion plus fine des _late arrival event_ (cf. [Erreurs & pannes](#erreurs--pannes)). Par conséquent, cette architecture permet une bonne intégration des principes de DDD et permet de garantir une cohérence des données entre les différents composants.
 
-L'_event broker_ peut être implémenté de sorte à intégrer des flux de données sur base d'opération simple comme : `join`, `filter`, `map`, `reduce`, etc. Ces opérations permettent de construire des _streams_ de données complexes à partir de _streams_ de données simples.
+En conclusion, cette architecture offre des avantages de gestion de modèle de données où chaque application possède son propre modèle de données et peut fonctionner de manière autonome. Le scope réduit des données permet de garantir une meilleure prise en main
+
+| Critères | |
+| --- | --- |
+| Chaque application possède son propre modèle de données (scope réduit) | :heavy_check_mark: |
+| Les contrats de services sont découpés de manière à correspondre le plus possible aux opérations métiers (respect des principes DDD) | :heavy_check_mark: |
+| Les modèles de données peuvent être reconstruits à la volée sur base des événements | :heavy_check_mark: |
 
 ### Sécurité
 
-Les informations de l'utilisateur authentifié sont transporté de composants en composants de manière à pouvoir appliquer les règles d'autorisation (RBAC).
+Dans cette architectures :
 
-Les données injectée en base de données depuis les _event streams_ doivent protégée contre l'écriture.
+- Les informations de l'utilisateur authentifié sont transportées de composants en composants de manière à pouvoir appliquer les règles d'autorisations (RBAC).
+- Les données injectées en base de données depuis les _event streams_ doivent être protégée contre l'écriture. Néanmoins, il s'agit d'un protection lié à l'implémentation. Par conséquent, une erreur d'implémentation peut mettre en péril ce principe.
+- Les données injectées en base de données depuis les _event streams_ doivent être limitée à un périmètre fonctionnel et ne pas contenir d'information sensible hors du périmètre fonctionnel.
+
+En conclusion, l'architecture permet de garantir une sécurité des données en limitant l'accès aux données à un périmètre fonctionnel et en garantissant que les données sont protégées contre l'écriture. Les données sont transportées de manière sécurisée entre les composants et les règles d'autorisations sont appliquées à chaque étape de la chaîne.
+
+| Critères | |
+| --- | --- |
+| Les données sont transportées de manière sécurisée entre les composants | :heavy_check_mark: |
+| Les données injectées en base de données depuis les _event streams_ sont protégées contre l'écriture | :heavy_check_mark: et :x: |
+| Les données injectées en base de données depuis les _event streams_ sont limitées à un périmètre fonctionnel | :heavy_check_mark: |
 
 ### Maintenance et évolution
 
-C'est l'upgrade de version de l'_event broker_ qui aura le plus d'impacte, car c'est lui l'élément central de l'architecture. Ceci dit, tant que les modifications sont rétro-compatible, les applications n'auront pas besoin d'être modifiées.
+L'upgrade de l'_event broker_ aura le plus d'impacte, car il est l'élément central de l'architecture. Ceci dit, tant que les modifications sont rétro-compatible, les applications n'auront pas besoin d'être modifiées.
 
 Toute modifications du modèle de données échangé sur la _queue_ ou depuis les _stream_ de l'_event broker_ aura des impactes sur les applications qui les consomment. Néanmoins, ces modifications peuvent être gérées de manière à minimiser l'impacte sur les applications, notamment en mettant en place des architectures hexagonales, des librairies de communication, etc.
 
+Le scope limité des données dans l'application `App` permet de réduire la surface de dépendance et de garantir une maintenance plus aisée des applications.
+
+Conclusion, l'impacte de la maintenance des outils de _message broker_ et d'_event broker_ ont un impacte important, mais ce type d'impact est présent dans toute architecture. L'évolution des applications est facilitée grâce à la diminution au maximum des surfaces de dépendances grâce au découplage et au modèle de données limité.
+
+| Critères | |
+| --- | --- |
+| Les modifications du modèle de données échangé depuis les _stream_ de l'_event broker_ ont des impactes limités étant données qu'il s'agit d'un sous-ensemble | :heavy_check_mark: |
+| Possibilité d'avoir des étapes intermédiaires pour gérer les modifications du modèle de données échangé depuis les _stream_ de l'_event broker_ | :heavy_check_mark: |
+| L'upgrade de l'_event broker_ et du _message broker_ a le plus d'impacte | :x: |
+| Vendor lock-in | :x: |
+
 ### Décommissionnement
 
-Le décommissionnement des applications est simplifié, car la production des données est découplée de la consommation. Par conséquent, même si l'application disparaît, les données partagées sont toujours disponibles pour les autres applications.
+Le décommissionnement des applications est simplifié, car la production des données est découplée de la consommation. Par conséquent, même si l'application disparaît, les données partagées sont toujours disponibles pour les autres applications et ne casse pas le flux.
 
-Il est également envisageable de mettre en route des processus de libération de la données pour exporter les données d'une base de données (stand alone) vers le _data store_ de l'_event broker_
+Il est également envisageable de mettre en route des processus de libération de la données pour exporter les données d'une base de données (stand alone) vers le _data store_ de l'_event broker_.
 
-### Organisation
+Conclusion, cette architecture offre un réel avantage quant au processus de décommissionnement des applications, car les données restent disponibles pour les autres applications et ne casse pas le flux.
 
-La charge de travail est redistribuée entre plusieurs équipe, ce qui permet à chacune d'entre-elle de se concentrer sur son propre domaine d'expertise se qui à tendance à augmenter la qualité du code et l'efficacité des développements.
+| Critères | |
+| --- | --- |
+| Les données restent disponibles pour les autres applications même si l'application disparaît | :heavy_check_mark: |
 
-Néanmoins plusieurs nouvelles responsabilités apparaissent : la gestion des containers et la gestion de l'_event broker_ et par conséquent, elles doivent être prises en charge par des équipes dédiées.
+### Capacity Planning
+
+Le modèle de conception, mais également le modèle de données permet de limiter les responsabilités et les fonctionnalités par composants de manière à gagner en flexibilité. La charge de travail et par conséquent redistribuée entre plusieurs équipes, ce qui permet à chacune d'entre-elle de se concentrer sur son propre domaine d'expertise, qu'il soit technique ou fonctionnel, et augmente la vitesse de prise en main. Néanmoins, un effet de bord de cette pratique peut mener à un effet de silo, ou d'équipes sous-optimisées en terme de taille. Par ailleurs, la gestion d'un _event broker_ demande une expertise particulière et une équipe dédiée.
+
+Conclusion, les équipes peuvent être plus vite formées et plus rapidement opérationnelles, mais il est nécessaire d'avoir une excellente collaboration entre les équipes, de même que des équipes correctement dimensionnées. Par ailleurs, les équipes opérationnelles auront plus de maîtrises sur les composants et seront plus à même de gérer la charges, les déploiements et les incidents de production. Néanmoins, la découpe implique une nouvelle organisation des équipes (change management) et de nouvelles compétences spécifiques doivent être acquises pour gérer l'_event broker_.
+
+| Critères | |
+| --- | --- |
+| Scope des composants limités, donc les équipes peuvent être plus vite formées et plus rapidement opérationnelles | :heavy_check_mark: |
+| Les équipes opérationnelles ont plus de maîtrises sur les composants et sont plus à même de gérer la charges, les déploiements et les incidents de production | :heavy_check_mark: |
+| Gestion de l'_event broker_ demande une expertise particulière et une équipe dédiée | :x: |
 
 ### Testabilité et qualité
 
@@ -309,9 +396,33 @@ Les tests end-to-end demandent une intégration avec le référentiel `User` dis
 
 Les tests end-to-end sont exécuté dans un environnement le plus stable et le plus proche de la réalité possible.
 
-### Ressources
+### Traçabilité
 
-Un membre de l'**équipe Platform** est nécessaire pour la création de la table matérialisée sur base de l'analyse des besoins, car les compétences sont spécifique. Un membre de l'équipe **data engineering** peut être associé de manière à garantir la pertinence des attributs sélectionnés.
+En partant du postulat que les événements sont bien identifiés et que les opérations métier sont bien définies, la traçabilité des opérations est garantie. En effet, chaque événement est associé à une opération métier et à un utilisateur, ce qui permet de retracer l'ensemble des opérations effectuées par un utilisateur. De plus, les événements sont stockés dans l'_event broker_ et peuvent être consultés à tout moment pour retracer l'historique des opérations.
+
+L'outil de monitoring dans ce cadre à une grande importance et doit pouvoir être intégré à tous les niveaux de l'architecture. Il doit permettre de suivre l'ensemble des événements, de manière à pouvoir identifier les problèmes et les corriger rapidement.
+
+En conclusion, la traçabilité des opérations est garantie par la définition des événements et des opérations métier. Les événements sont stockés dans l'_event broker_ et peuvent être consultés à tout moment pour retracer l'historique des opérations. L'outil de monitoring doit permettre de suivre l'ensemble des événements, de manière à pouvoir identifier les problèmes et les corriger rapidement.
+
+| Critères | |
+| --- | --- |
+| Les événements sont associés à une opération métier et à un utilisateur | :heavy_check_mark: |
+| Les événements sont stockés dans l'_event broker_ et peuvent être consultés à tout moment pour retracer l'historique des opérations | :heavy_check_mark: |
+| L'outil de monitoring permet de suivre l'ensemble des événements, de manière à pouvoir identifier les problèmes et les corriger rapidement | :heavy_check_mark: |
+
+### Coût
+
+La complexité des fonctionnalités inhérentes à la mise en place d'une architecture amène de nouveaux problèmes plus complexes, notamment dû à la notion de message asynchrones, de processus de production et consommation de la données découplé, de gestion d'événements, d'erreur et de panne. Ces problèmes demandent une expertise plus poussée et une monté en compétence des équipes quelque soit l'architecture (avec ou sans _event stream_). Sur ce point donc, tout changement d'architecture demande un investissement en temps et en ressource qui aura un impacte sur le coût de développement.
+
+Plus spécifiquement, une architecture orienté événement avec _event broker_ demande un investissement spécifique pour la mise en place et la maintenance de l'_event broker_. Ce coût est un balance entre l'acquisition d'un outil et les compétences à acquérir liées à celui-ci, et le bénéfice apporté par les fonctionnalités de l'outil en comparaison de devoir les développer soi-même.
+
+En conclusion, tout migration vers une architecture orienté événement implique un coût d'investissement, notamment en terme de monté en compétence des équipes et d'acquisition d'outils spécifiques. Néanmoins, cette architecture offre des avantages en terme de scalabilité, de maintenance et de qualité qui peuvent justifier cet investissement. En outre, le choix de certains outils peut permettre de réduire le coût de développement et de maintenance.
+
+| Critères | |
+| --- | --- |
+| Coût de développement et de maintenance réduit grâce à l'utilisation d'outils spécifiques | :heavy_check_mark: |
+| Investissement en temps et en ressource pour la monté en compétence des équipes et l'acquisition d'outils spécifiques | :white_circle: |
+| Coût d'acquisition d'un outil spécifique et de formation pour la mise en place et la maintenance de l'_event broker_ | :x: |
 
 ### En résumé
 
@@ -329,37 +440,24 @@ Les développements sont plus rapide, car beaucoup plus orienté fonctionnel :
 - Les modèles de données sont simples, orienté métier et associé à périmètre fonctionnel.
 - L'architecture favorise le découplage des composants, mais également à l'intérieur des composants avec l'architecture hexagonale, les composants `Processing` qui construisent les tables matérialisées, etc.
 
-La gestion infra est simplifié :
+La gestion des composant est simplifié :
 
 - Un event broker à dimensionné pour toute l'entreprise.
 - Des politiques de scalabilité, de quota par type d'application.
+- Architecture serverless pour les applications `App` et `User`.
+- Scalabilité automatique basée sur la plateforme de conteneurisation.
 
 La gestion des données est simplifié :
 
 - Politique de gestion des données centralisée.
+- Gestion des étapes de flux dans un outil unique (change data capture, transformation et création de table matérialisée).
+- Intégration des données dans les outils de storage : base de données relationnelle, index, no-sql, built-in.
 
 #### Inconvénients
 
-- Vendor lock-in avec l'event broker pour toute l'entreprise car _single source of truth_.
+- Vendor lock-in avec l'event broker pour toute l'entreprise car _single source of truth_ et _single version of truth_.
 - Nouvelles compétences et nouvelle équipe spécifique à acquérir pour la gestion de l'event broker.
-- _Data libération_ (migration des données) vers le _data store_ de l'event broker de toutes les données partagées très conséquentes et complexe.
-
-#### Tableau récapitulatif
-
-Voici un tableau récapitulatif structurant les informations par chapitre, en distinguant les avantages et les inconvénients :
-
-| **Chapitre**                    | **Résumé des idées développées**                                                                                                                                                                                | **Avantage/Inconvénient**                                |
-|---------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------|
-| **Dépendance**                  | - Diminution du couplage, seul le modèle de données reste un point de couplage <br> - Découplage technique via _queue_, mais dépendance fonctionnelle persiste (inévitable). <br> - Standardisation de la gestion d'erreurs spécifiques en cas de panne ou d'erreur. (librairie partagée) </br> - Librairie pour faciliter les intégration avec les dépendances </br> - Architecture Hexagonale qui permet de limiter les modifications en cas de changement dans les dépendances externes             | Avantage                                             |
-| **Erreurs & pannes**            | - Diminution des                                     | Avantage et Inconvénient                                             |
-| **Performance**                 | - Avantage : Communication asynchrone sans allongement des temps de réponse (d'un point de vue utilisateur). <br> - Avantage : _Queue_ et _event broker_ dimensionnés pour haute performance. <br> - Inconvénient : Gestion complexe du _request-reply_.                             | Avantage et Inconvénient                                 |
-| **Déploiement**                 | - Déploiement autonome pour `App` et `User`. <br> - Synchronisation requise en cas de changement du modèle de données.                                                                                          | Avantage                                |
-| **Scalabilité**                 | - Scalabilité automatique basée sur la plateforme de conteneurisation. <br> - Partitionnement et répartition via l'_event broker_.                                                                              | Avantage                                                 |
-| **Haute disponibilité**         | - Impact de pannes varie selon le composant <br/> - Le référentiel `User` devient non-critique.                                                                                                   | Avantage                                 |
-| **Modèles de données**          | - Application `App` autonome avec sa propre base de données. <br> - Distribution du modèle spécifique au besoin. <br> - Historique des événements conservé dans l'_event broker_. <br/> - Granularité des des opérations fine.                                                                                  | Avantage                                                 |
-| **Sécurité**                    | - Protection des données en base et gestion des autorisations (RBAC).                                                                                                                                           | Avantage                                                 |
-| **Maintenance et évolution**    | - Inconvénient : Impact majeur de l'upgrade de l'_event broker_. <br> - Avantage : Rétrocompatibilité des modifications du modèle de données pour minimiser l'impact (nouvelle stream).                                                                     | Avantage et Inconvénient                                             |
-| **Décommissionnement**          | - Simplification du décommissionnement grâce au découplage de la production et de la consommation des données.                                                                                                  | Avantage                                                 |
-| **Organisation**                | - Redistribution de la charge de travail et nécessité de nouvelles compétences pour la gestion de l'_event broker_.                                                                                             | Avantage et Inconvénient                                 |
-| **Testabilité et qualité**      | - Tests end-to-end nécessitent un environnement réaliste. <br> - Besoin de coordination pour les tests d'intégration avec la _queue_ `UserModified`.                                                            | Statut Quo avec possibilité d'amélioration                                |
-| **Ressources**                  | - Expertise nécessaire pour la création de la table matérialisée. <br> - Avantages : développement rapide, gestion infra simplifiée, données centralisées. <br> - Inconvénients : _vendor lock-in_, nouvelles compétences requises, complexité de migration des données partagées.      | Avantage et Inconvénient                                 |
+- _Data libération_ (migration des données) vers le _data store_ de l'event broker des données partagées.
+- Single point of failure avec l'_event broker_ et du _message broker_, bien que les applications peuvent fonctionner de manière dégradée :
+  - Si l'_event broker_ tombe en panne, les applications ne peuvent plus recevoir les données mises à jour.
+  - Si le _message broker_ tombe en panne, les applications ne peuvent plus envoyer de commandes de modification (création, mise à jour ou suppression).
