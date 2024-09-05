@@ -192,7 +192,67 @@ On peut observer que la différence entre les deux approches se situe surtout au
 
 L'architecture tant à apporter des solutions aux problèmes de performances, de couplage fort, de scalabilité, de gestion des erreurs et de complexité. Des stratégies sont dès lors mises en place pour garantir le bon fonctionnement de l'ensemble des systèmes.
 
+### Performance
+
+>L'objectif est d'estimer le temps de réponse globale en prenant en compte les requêtes vers des REST Web API, vers les serveurs SQL ou tout autre _data store_, les lectures .
+>Appréhender la difficulté d'implémentation dû au problématique de performances : est-ce qu'un ou plusieurs composant doit être plus performant que les autres.
+>
+
+L'objectif de l'architecture est de garantir un temps de réponse raisonnable pour l'utilisateur. L'implémentation de communication asynchrone n'implique pas un allongement des temps de réponse d'un point de vue utilisateur. Par conséquent, de manière générale cette architecture reste un statu quo face à une architecture microservices classique.
+
+Les composants sont simples et font de petites choses simples, dès lors les problématiques de performances ne sont pas inclues dans les développements (hormis les bonnes pratiques), mais relayé à la plateforme qui va augmenté ou diminué le nombre d'instance en fonction de la charge (cf. scalabilité). Cette aspect favorise l'industrialisation des développements et permet de se concentrer sur les fonctionnalités métier.
+
+La _queue_ et l'_event broker_ doit être dimensionné pour supporter une grande quantité d'opération, néanmoins cette configuration se fait pour l’entièreté et non composants par composants, ce qui améliore l'industrialisation du suivi des applications. Cependant, ces composants doit être le centre de toutes les attentions, car il est le point de passage d'un grand nombre de données et d'opérations et doit pouvoir répondre dans un temps raisonnable.
+
+Le mécanisme de _request-reply_ demande également une attention particulière, car il crée et supprime des _queues_ de manière dynamique. Cette opération est forcément consommatrice de ressource et doit être géré de manière à ne pas impacter les performances de l'application. Dans ce cadre, il est nécessaire d'avoir une solution ou un outil étudié spécifiquement pour ce cas de figure.
+
+Les données sont injectées dans une table au sein de la même base de données que l'application `App`. Cette table est mise à jour en temps réel sur base des événements émis par l'_event broker_. Les données peuvent donc être lues et jointes à d'autres tables pour être affichées sur le portail, ce qui représente un gain de performance considérable en comparaison à la récupération des données depuis l'API d'une application. Néanmoins, dans le cas où de nombreux événements sont émis, il est possible que la table matérialisée soit littéralement inondée de données, ce qui peut impacter les performances de l'application et éventuellement le serveur de base de données.
+
+Conclusion, l'architecture garantie une réponse à l'utilisateur dans des temps raisonnable, mais demande une attention particulière sur la configuration de la _queue_ et de l'_event broker_ pour garantir des temps de réponse optimaux. Cette architecture présente également des facilités de configuration et de dimensionnement qui permettent de garantir des performances optimales. Par ailleurs, l'utilisation de tables matérialisées permet de garantir des temps de réponses optimaux pour les requêtes SQL, mais demande une attention particulière sur l'insertion des données depuis l'_event broker_.
+
+| Critères | |
+| --- | --- |
+| Temps de réponse raisonnable | :heavy_check_mark: |
+| Une seul base de données permet d'accélérer la lecture des données (jointure entre table, pas d'appel REST API) | :heavy_check_mark: |
+| Dimensionnement _event_ et _message broker_ configurable (container, cluster, quota, etc.) prévue pour de très haut débit | :white_circle: |
+
+
 > :construction: **En cours de rédaction** : Expliquer les notions derrières les différentes notions expliquées ci-dessous.
+>
+>Dépendance	Appréhender le couplage entre les différents composant.
+>Identifier les différents types d'intégrations (message broker, event broker, REST API, SQL, fichier, FTP, etc.) et appréhender le niveau de complexité des différentes intégrations.
+>Identifier le potentiel de rendre les intégrations homogénes avec l'aide de librairies (déjà présente ou à développer).
+>Data modèle	Identifier la découpe des modèles de données et appréhender l'intégration des modèles entre les composants.
+>Identifier les technologies 
+>Identifier la decoupe des opérations métier et appréhender l'intégration des services de contrats entre les composants.
+>Scalabilité	Identifier les applications serverless, les clusters, les replicas, etc. et appréhender la scalabilité des composants.
+>Déploiement et rollback	Identifier le degré d'autonomie d'un package de déploiement par rapport aux autres et appréhender les difficultés de déploiements et de rollback de ceux-ci.
+>Erreurs et panne	Appréhender les conséquences des différentes pannes possible et le degré de complexité de les réparer en estimant également l'implication des équipes opérationnelles, d'infrastructures, de développements.
+>Identifier les scénarios d'erreurs et appréhender la difficulté de les gérer.
+>Identifier le potentiel de gérer les scénarios à l'aide de librairies à intégrer de manière à rendre la gestion homogène.
+>Disponibilité	Identifier les composants ayant les besoins les plus importants en termes de haute disponibilité et appréhender le degré de haute disponitbilité nécessaire de manière globale
+>Technologie	Identifier les technologies et appréhender la difficulté sur base du nombre de technologie différente, de leur stabilité et résilience face aux changement du marché, et leur utilisation au sein du FOREM.
+>Qualité	Appréhender la difficulté d'évaluer et de maintenir les composants et les données dans un état de qualité satisfaisant.
+>Testabilité	Appréhender la manière dont un environnement peut être mis en place en phase de développement et en phase de tests de manière à effectuer des tests unitaires, d'intégrations et end-to-end.
+>Sécurité	Appréhender les besoins de sécurité en terme d'identification et d'autorisation (RBAC) pour chaque ressource qu'il s'agisse de composants ou de données.
+>Identifier les zones de restrictions et appréhender la mise en place d'outils permettant leurs mises en oeuvre.
+>Traçabilité	La solution doit permettre la mise en place de logs d'audit afin de pouvoir tracer les opérations de consommation de données
+> 	La solution doit permettre un monitoring technique
+> 	La solution doit permettre un logs technique des opérations réalisées ainsi que des logs permettant de déterminer les erreurs éventuelles de l'application
+>Déploiement et rollback	Appréhender la mise en place de processus automatique d'intégration et de déploiement (CI/CD)
+>Planification	Appréhender l'autonomie de plannification des déploiements et l'autonomie dans les processus de rollback manuel ou automatique
+>Maintenance	Appréhender les effets de bord lors de maintenance de système tel que la mise à jour d'une version à une autre, quelle soit mineur ou majeur.
+>Appréhender les effets de bord dans l'évolution des systèmes comme la migration d'une technologie, les changements de contrat de données ou de services avec une application tier.
+>Dette technologique	Identifier les systèmes pour lesquels la dette technologique sera la plus rapide ou compliqué, par exemple sur base du cycle de release et appréhender la charge du suivi de la dette.
+>Identifier les systèmes présentant un risque de vendor lock-in.
+>Capacity planning	Appréhender les difficultés de prise en main des composants et des technologies par les équipes qui en seront en charge.
+>Compétences	Appréhender le niveau de monter en compétence nécessaire pour que les équipes puissent gérer les technologies
+>Performance	Appréhender la performance des ressources nécessaire en identifiant les plus consomatrices.
+>Coût	Appréhender les coûts en termes d'efforts pour amener les équipes à leur meilleur niveau de compétence, en termes d'acquisition et de maintenance d'outils ou de technologie, mais également en termes de support
+>Volumétrie	Appréhender la volumétrie globale.
+>Identifier les zones froide et chaude et appréhender les efforts pour gérer le passage de l'un à l'autre.
+>Décommissionnement	Sur base d'un hypothétique décommissionnement dans un futur proche, appréhender les blocages et la difficulté de passer outre.
+>
 
 ### Dépendance
 
@@ -237,26 +297,6 @@ En conclusion, la gestion des erreurs et des pannes est inhérentes à toute arc
 | Tous les composants peuvent tomber en panne sans impacter l'ensemble du système (mode dégradé) | :heavy_check_mark: |
 | Traitement des _late arrival event_ | :heavy_check_mark: |
 | Intégration des scénarios d'erreur via des librairies | :white_circle: |
-
-### Performance
-
-L'objectif de l'architecture est de garantir un temps de réponse raisonnable pour l'utilisateur. L'implémentation de communication asynchrone n'implique pas un allongement des temps de réponse d'un point de vue utilisateur. Par conséquent, de manière générale cette architecture reste un statu quo face à une architecture microservices classique.
-
-Les composants sont simples et font de petites choses simples, dès lors les problématiques de performances ne sont pas inclues dans les développements (hormis les bonnes pratiques), mais relayé à la plateforme qui va augmenté ou diminué le nombre d'instance en fonction de la charge (cf. scalabilité). Cette aspect favorise l'industrialisation des développements et permet de se concentrer sur les fonctionnalités métier.
-
-La _queue_ et l'_event broker_ doit être dimensionné pour supporter une grande quantité d'opération, néanmoins cette configuration se fait pour l’entièreté et non composants par composants, ce qui améliore l'industrialisation du suivi des applications. Cependant, ces composants doit être le centre de toutes les attentions, car il est le point de passage d'un grand nombre de données et d'opérations et doit pouvoir répondre dans un temps raisonnable.
-
-Le mécanisme de _request-reply_ demande également une attention particulière, car il crée et supprime des _queues_ de manière dynamique. Cette opération est forcément consommatrice de ressource et doit être géré de manière à ne pas impacter les performances de l'application. Dans ce cadre, il est nécessaire d'avoir une solution ou un outil étudié spécifiquement pour ce cas de figure.
-
-Les données sont injectées dans une table au sein de la même base de données que l'application `App`. Cette table est mise à jour en temps réel sur base des événements émis par l'_event broker_. Les données peuvent donc être lues et jointes à d'autres tables pour être affichées sur le portail, ce qui représente un gain de performance considérable en comparaison à la récupération des données depuis l'API d'une application. Néanmoins, dans le cas où de nombreux événements sont émis, il est possible que la table matérialisée soit littéralement inondée de données, ce qui peut impacter les performances de l'application et éventuellement le serveur de base de données.
-
-Conclusion, l'architecture garantie une réponse à l'utilisateur dans des temps raisonnable, mais demande une attention particulière sur la configuration de la _queue_ et de l'_event broker_ pour garantir des temps de réponse optimaux. Cette architecture présente également des facilités de configuration et de dimensionnement qui permettent de garantir des performances optimales. Par ailleurs, l'utilisation de tables matérialisées permet de garantir des temps de réponses optimaux pour les requêtes SQL, mais demande une attention particulière sur l'insertion des données depuis l'_event broker_.
-
-| Critères | |
-| --- | --- |
-| Temps de réponse raisonnable | :heavy_check_mark: |
-| Une seul base de données permet d'accélérer la lecture des données (jointure entre table, pas d'appel REST API) | :heavy_check_mark: |
-| Dimensionnement _event_ et _message broker_ configurable (container, cluster, quota, etc.) prévue pour de très haut débit | :white_circle: |
 
 ### Déploiement
 
