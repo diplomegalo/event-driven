@@ -29,3 +29,36 @@
   background-color: #40BBED; /* Couleur de la ligne */
   margin: 0 auto 20px auto; /* Centrer la ligne et ajouter un espacement en bas */
 }
+
+.profileSection {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.profilePhoto {
+  width: 276px;           /* Augmente encore la taille de 20% */
+  height: 346px;          /* Rectangle vertical augmenté de 20% supplémentaires */
+  border-radius: 12px;    /* Coins légèrement arrondis */
+  object-fit: cover;
+  margin-right: 1.5rem;
+  border: 2px solid #ccc;
+  background: #f5f5f5;
+}
+
+.profileDetails ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.profileDetails {
+  color: #153060; /* Bleu foncé */
+}
+
+.profileDetails li {
+  color: #153060; /* Force la couleur sur chaque ligne */
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
