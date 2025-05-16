@@ -3,7 +3,7 @@ import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'Pierre-Arnaud Delsaut | Blog Personnel',
+  title: 'Pierre-Arnaud Delsaut | Blog',
   tagline: 'Blog personnel de Pierre-Arnaud Delsaut',
   favicon: 'img/favicon.ico',
   
@@ -61,7 +61,7 @@ const config: Config = {
       title: 'Pierre-Arnaud Delsaut',
       logo: {
         alt: 'Blog Personnel de Pierre-Arnaud Delsaut',
-        src: 'img/logo.svg',
+        src: 'img/logo.jpg',
       },
       items: [
         {
