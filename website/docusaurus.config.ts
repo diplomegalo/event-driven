@@ -3,8 +3,8 @@ import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'Event-Driven Architecture',
-  tagline: 'Recueil de notes sur l\'architecture orientée événements',
+  title: 'Pierre-Arnaud Delsaut | Blog Personnel',
+  tagline: 'Blog personnel de Pierre-Arnaud Delsaut',
   favicon: 'img/favicon.ico',
   
   markdown:{
@@ -35,32 +35,32 @@ const config: Config = {
   },
 
   presets: [
-    [
-      'classic',
-      {
-        docs: {
-          routeBasePath: '/',
-          sidebarPath: './sidebars.ts',
-          // editUrl: 'https://github.com/diplomegalo/event-driven/tree/master/website/docs',
-          
-        },
-        blog: false,
-        pages: false,
-        theme: {
-          customCss: './src/css/custom.css',
-        },
-      } satisfies Preset.Options,
+      [
+        '@docusaurus/preset-classic',
+        {
+          docs: {
+            routeBasePath: '/docs',
+            sidebarPath: './sidebars.ts',
+            // editUrl: 'https://github.com/diplomegalo/event-driven/tree/master/website/docs',
+            
+          },
+          blog: false,
+          theme: {
+            customCss: './src/css/custom.css',
+          },
+        } satisfies Preset.Options,
+      ],
     ],
-  ],
 
   themeConfig: {
     colorMode: {
-      defaultMode: 'dark'
+      defaultMode: 'light', // Définit le mode par défaut sur "light"
+      disableSwitch: false, // Permet à l'utilisateur de changer de mode (optionnel)
     },
     navbar: {
-      title: 'Event-Driven Architecture',
+      title: 'Pierre-Arnaud Delsaut',
       logo: {
-        alt: 'Event-Driven Architecture Logo',
+        alt: 'Blog Personnel de Pierre-Arnaud Delsaut',
         src: 'img/logo.svg',
       },
       items: [
@@ -73,7 +73,7 @@ const config: Config = {
     },
     footer: {
       style: 'dark',
-      copyright: `Copyright © ${new Date().getFullYear()} Event-Driven Architecture, Inc. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Pierre-Arnaud Delsaut, Inc. Built with Docusaurus.`,
     },
     prism: {
       theme: prismThemes.github,
