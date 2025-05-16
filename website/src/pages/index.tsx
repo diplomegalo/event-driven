@@ -1,6 +1,6 @@
 import React from "react";
 import Layout from "@theme/Layout";
-import styles from "..css/style.module.css";
+import styles from "../css/style.module.css";
 import { ProfileSection } from "../components/ProfileSection";
 import { PersonnalitySection } from "../components/PersonnalitySection";
 import { SummarySkillsSection } from "../components/SummarySkillsSection";
