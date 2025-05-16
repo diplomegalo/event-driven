@@ -414,7 +414,28 @@ details[open] > summary::after {
 
   .skillsTable,
   .skillsLegendTable {
-    font-size: 0.95rem;
-    min-width: 500px;
+    font-size: 0.85rem;    /* Réduit la taille de la police */
+    min-width: 320px;      /* Réduit la largeur minimale */
+  }
+
+  .skillsTable th,
+  .skillsTable td,
+  .skillsLegendTable th,
+  .skillsLegendTable td {
+    min-width: 60px;       /* Réduit la largeur minimale des cellules */
+    padding: 0.3em 0.4em;  /* Réduit le padding */
+    font-size: 0.85em;     /* Réduit la taille de police dans les cellules */
+  }
+
+  /* Ajoutez ceci pour la section profil */
+  .profileContent {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .profilePhoto {
+    margin: 0 auto;
+    display: block;
   }
 }
