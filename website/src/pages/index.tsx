@@ -1,12 +1,12 @@
 import React from "react";
 import Layout from "@theme/Layout";
-import styles from "./style.module.css";
-import { ProfileSection } from "./ProfileSection";
-import { PersonnalitySection } from "./PersonnalitySection";
-import { SummarySkillsSection } from "./SummarySkillsSection";
-import { ExperienceSection } from "./ExperienceSection";
-import { TechnicalSkillsSection } from "./TechnicalSkillsSection";
-import HeaderSection from "./HeaderSection";
+import styles from "..css/style.module.css";
+import { ProfileSection } from "../components/ProfileSection";
+import { PersonnalitySection } from "../components/PersonnalitySection";
+import { SummarySkillsSection } from "../components/SummarySkillsSection";
+import { ExperienceSection } from "../components/ExperienceSection";
+import { TechnicalSkillsSection } from "../components/TechnicalSkillsSection";
+import HeaderSection from "../components/HeaderSection";
 
 export default function PierreArnaudCV() {
   return (
