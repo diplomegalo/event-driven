@@ -1,7 +1,7 @@
 ---
 title: "Retour d'expérience : Migration vers GitHub"
 description: "Découvrez les coulisses de notre migration vers GitHub à travers le témoignage de Thomas et Simon."
-slug: "migration-vers-github-retour-experience"
+slug: "retour-experience-migration-vers-github"
 date: 2024-04-01
 tags: ["podcast", "devops", "git", "github", "migration", "ci/cd"]
 ---
@@ -24,5 +24,13 @@ Un épisode à écouter si vous préparez une bascule similaire, ou si vous souh
 
 Bonne écoute, et comme toujours, vos retours sont les bienvenus.
 
-<iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/1O26cxQstpqYfoCGXDViVl?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-
+<iframe
+  style={{borderRadius: "12px"}}
+  src="https://open.spotify.com/embed/episode/1O26cxQstpqYfoCGXDViVl?utm_source=generator"
+  width="100%"
+  height="352"
+  frameBorder="0"
+  allowFullScreen
+  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+  loading="lazy">
+</iframe>
