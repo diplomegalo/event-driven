@@ -3,7 +3,7 @@ slug: /
 title: En route vers les microservices événementiels
 ---
 
-Cette documentation est un carnet de route dans lequel sont inscris les étapes et les notions qui ont été nécessaires à la compréhension et la mise en place de microservices dans une architecture événementiels.
+Cette documentation est un carnet de route dans lequel sont inscrites les étapes et les notions qui ont été nécessaires à la compréhension et la mise en place de microservices dans une architecture événementielle.
 
 ## Remerciements
 
