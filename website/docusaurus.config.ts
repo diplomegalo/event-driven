@@ -1,13 +1,13 @@
-import {themes as prismThemes} from 'prism-react-renderer';
-import type {Config} from '@docusaurus/types';
+import { themes as prismThemes } from 'prism-react-renderer';
+import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
   title: 'Pierre-Arnaud Delsaut | Blog',
   tagline: 'Blog personnel de Pierre-Arnaud Delsaut',
   favicon: 'img/favicon.ico',
-  
-  markdown:{
+
+  markdown: {
     mermaid: true
   },
   themes: ['@docusaurus/theme-mermaid'],
@@ -35,29 +35,30 @@ const config: Config = {
   },
 
   presets: [
-      [
-        '@docusaurus/preset-classic',
-        {
-          docs: {
-            routeBasePath: '/docs',
-            sidebarPath: './sidebars.ts',
-            // editUrl: 'https://github.com/diplomegalo/event-driven/tree/master/website/docs',
-            
-          },
-          blog: {
-            showReadingTime: true,
-            feedOptions: {
-              type: 'all',
-              title: 'Blog personnel de Pierre-Arnaud Delsaut',
-              description: 'Blog personnel de Pierre-Arnaud Delsaut',
-            }
-          },
-          theme: {
-            customCss: './src/css/custom.css',
-          },
-        } satisfies Preset.Options,
-      ],
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          routeBasePath: '/docs',
+          sidebarPath: './sidebars.ts',
+          // editUrl: 'https://github.com/diplomegalo/event-driven/tree/master/website/docs',
+
+        },
+        blog: {
+          showReadingTime: true,
+          feedOptions: {
+            type: 'all',
+            title: 'Blog personnel de Pierre-Arnaud Delsaut',
+            description: 'Blog personnel de Pierre-Arnaud Delsaut',
+          }
+        },
+        theme: {
+          customCss: './src/css/custom.css',
+        },
+      } satisfies Preset.Options,
     ],
+  ],
+
 
   themeConfig: {
     colorMode: {
@@ -71,6 +72,11 @@ const config: Config = {
         src: 'img/logo.jpg',
       },
       items: [
+        {
+          to: '/blog',
+          label: 'Blog',
+          position: 'left',
+        },
         {
           to: '/docs/eda',
           label: 'Event-Driven Architecture',
