@@ -55,7 +55,7 @@ La gestion des _event streams_ peut être confiée à une équipe dédiée qui v
 
 La gestion des données dans un _event stream_ est un point clé de l'architecture événementielle, car il est le seul point de couplage entre les différentes applications. Par conséquent, chaque changement dans le format des données aura un impact sur l'ensemble des applications consommatrices.
 
-> :pencil: **Note** : Il existe trois [types d'événements](../1-definition-des-concepts.md#types-dévénements) : les événements sans clé (_keyless event_), les événements avec clé (_keyed event_) et les événements d'entité (_entity event_).
+> :pencil: **Note** : Il existe trois [types d'événements](./../1-definition-des-concepts.md#types-dévénements) : les événements sans clé (_keyless event_), les événements avec clé (_keyed event_) et les événements d'entité (_entity event_).
 
 :construction: **En construction** : Cette section est en cours de rédaction.
 
