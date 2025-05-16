@@ -44,7 +44,14 @@ const config: Config = {
             // editUrl: 'https://github.com/diplomegalo/event-driven/tree/master/website/docs',
             
           },
-          blog: false,
+          blog: {
+            showReadingTime: true,
+            feedOptions: {
+              type: 'all',
+              title: 'Blog personnel de Pierre-Arnaud Delsaut',
+              description: 'Blog personnel de Pierre-Arnaud Delsaut',
+            }
+          },
           theme: {
             customCss: './src/css/custom.css',
           },
@@ -65,9 +72,22 @@ const config: Config = {
       },
       items: [
         {
-          href: 'https://github.com/diplomegalo/event-driven',
-          label: 'GitHub',
+          to: '/docs/eda',
+          label: 'Event-Driven Architecture',
+          position: 'left',
+          activeBaseRegex: '/docs/eda',
+        },
+        {
+          href: 'https://github.com/diplomegalo',
           position: 'right',
+          className: 'navbar-github',
+          'aria-label': 'GitHub',
+        },
+        {
+          href: 'https://www.linkedin.com/in/pierre-arnaud-delsaut-b6a9a742/',
+          position: 'right',
+          className: 'navbar-linkedin',
+          'aria-label': 'LinkedIn',
         },
       ],
     },
