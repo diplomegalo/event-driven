@@ -380,7 +380,7 @@ details[open] > summary::after {
 @media (max-width: 800px) {
   .container {
     flex-direction: column;
-    width: 100vw;
+    width: 100%;
     min-width: 0;
     padding: 0 0.5rem;
     gap: 0;
