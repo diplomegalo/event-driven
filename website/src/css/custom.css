@@ -5,8 +5,33 @@
  */
 
 /* You can override the default Infima variables here. */
+<<<<<<< HEAD
 
 .navbar__logo img {
   border-radius: 50%;
   object-fit: cover;
+=======
+
+.navbar__logo img {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.navbar-github::before {
+  content: '';
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  background: url('/img/github.svg') no-repeat center/contain;
+  vertical-align: middle;
+}
+
+.navbar-linkedin::before {
+  content: '';
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  background: url('/img/linkedin.svg') no-repeat center/contain;
+  vertical-align: middle;
+>>>>>>> master
 }

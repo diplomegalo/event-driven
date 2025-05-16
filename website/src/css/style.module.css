@@ -375,4 +375,70 @@ details[open] > summary::after {
   color: #8ed6f7;
   text-decoration: underline;
   font-size: 1rem;
+<<<<<<< HEAD
+=======
+}
+
+@media (max-width: 800px) {
+  .container {
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+    padding: 0 0.5rem;
+    gap: 0;
+  }
+
+  .columnLarge,
+  .columnSmall {
+    width: 100%;
+    flex: unset;
+    max-width: 100vw;
+  }
+
+  .headerContent {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem 0.5rem;
+  }
+
+  .headerLeft,
+  .headerMiddle,
+  .headerRight {
+    align-items: center;
+    padding: 0;
+    border: none;
+  }
+
+  .skillsTableWrapper,
+  .skillsLegendWrapper {
+    overflow-x: auto;
+  }
+
+  .skillsTable,
+  .skillsLegendTable {
+    font-size: 0.85rem;    /* Réduit la taille de la police */
+    min-width: 320px;      /* Réduit la largeur minimale */
+  }
+
+  .skillsTable th,
+  .skillsTable td,
+  .skillsLegendTable th,
+  .skillsLegendTable td {
+    min-width: 60px;       /* Réduit la largeur minimale des cellules */
+    padding: 0.3em 0.4em;  /* Réduit le padding */
+    font-size: 0.85em;     /* Réduit la taille de police dans les cellules */
+  }
+
+  /* Ajoutez ceci pour la section profil */
+  .profileContent {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .profilePhoto {
+    margin: 0 auto;
+    display: block;
+  }
+>>>>>>> master
 }
