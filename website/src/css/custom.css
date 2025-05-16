@@ -5,12 +5,6 @@
  */
 
 /* You can override the default Infima variables here. */
-<<<<<<< HEAD
-
-.navbar__logo img {
-  border-radius: 50%;
-  object-fit: cover;
-=======
 
 .navbar__logo img {
   border-radius: 50%;
@@ -33,5 +27,4 @@
   height: 22px;
   background: url('/img/linkedin.svg') no-repeat center/contain;
   vertical-align: middle;
->>>>>>> master
 }
