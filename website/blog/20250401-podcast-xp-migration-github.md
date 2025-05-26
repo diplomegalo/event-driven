@@ -1,5 +1,5 @@
 ---
-title: "Retour d'expérience : Migration vers GitHub"
+title: "Podcast - Retour d'expérience : Migration vers GitHub"
 description: "Découvrez les coulisses de notre migration vers GitHub à travers le témoignage de Thomas et Simon."
 slug: "retour-experience-migration-vers-github"
 date: 2024-04-01
