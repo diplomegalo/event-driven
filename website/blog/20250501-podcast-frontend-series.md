@@ -1,5 +1,5 @@
 ---
-title: "Nouveau Podcast : Frontend Series"
+title: "Podcast - Technique - Frontend Series : les clients légers sont-ils devenus trop lourds ?"
 description: "Les clients légers sont-ils devenus trop lourds ?"
 slug: "frontend-series-les-clients-legers-sont-ils-devenus-trop-lourds"
 date: 2024-05-01

@@ -5,11 +5,13 @@ description: Un carnet de route vers l'architecture événementielle
 
 ## Introduction à l’architecture orientée événements (EDA)
 
-Les architectures applicatives actuelles, même les plus modernes, atteignent aujourd’hui leurs limites. Dans de nombreux contextes, des concepts centraux comme la commande dans un site e-commerce, ou la demande dans un guichet numérique, deviennent des points de tension : plusieurs équipes métiers, techniques ou partenaires y accèdent, la modifient, ou s’en servent comme déclencheur d’action. Cette centralité renforce la dépendance et entraîne un ralentissement global de l’organisation. On multiplie les précautions, les tests, les réunions, et inévitablement, les frustrations.
+Les **architectures applicatives** actuelles, même les plus modernes, **atteignent aujourd’hui leurs limites**. Dans de nombreux contextes, des concepts centraux comme la commande dans un site e-commerce, ou la demande dans un guichet numérique, deviennent des points de tension : plusieurs équipes métiers, techniques ou partenaires y accèdent, la modifient, ou s’en servent comme déclencheur d’action. Cette centralité renforce la dépendance et entraîne un ralentissement global de l’organisation. On multiplie les précautions, les tests, les réunions, et inévitablement, les frustrations.
 
 Dans les architectures microservices, cette complexité est encore accentuée par l’illusion de découplage. En réalité, les services sont souvent fortement liés à un référentiel central ou à un orchestrateur, et toute évolution impacte en chaîne l’ensemble du système. Les ESB, malgré la centralisation de la configuration, restent eux aussi basés sur un couplage fort, dans lequel la coordination des flux repose sur des intégrations serrées et rigides.
 
 Dans ce contexte, l’architecture orientée événements (EDA) s’impose comme une réponse moderne, pragmatique et résiliente. Elle repose sur un principe simple : produire un flux d’événements représentant les changements d’état d’un système, et laisser les consommateurs réagir à ces événements selon leurs besoins. Cette approche introduit un découplage fondamental entre la production et la consommation de données.
+
+Un point fondamental de l’EDA est qu’elle s’accompagne d’un changement de paradigme architectural : on passe d’une organisation centrée sur les applications — où chaque projet correspond à une application autonome, souvent pensée comme un silo — à une approche « data-driven », où les **données deviennent le cœur du système**. Dans ce modèle, ce ne sont plus les applications qui dictent les flux et les interactions, mais bien les événements et les données qui circulent entre des composants découplés. Cette évolution permet de mieux répondre aux enjeux de partage, de cohérence et de réactivité, tout en favorisant l’agilité et la scalabilité de l’ensemble du système d’information.
 
 Adopter l’EDA, c’est :
 
@@ -19,7 +21,7 @@ Adopter l’EDA, c’est :
 
 - Réduire les coûts en optimisant les infrastructures, en particulier dans les cas où le batch génère une charge inutile sur les systèmes sources.
 
-- Renforcer la flexibilité de l’architecture, en permettant l’évolution indépendante des producteurs et des consommateurs.
+- Renforcer la flexibilité de l’architecture, en permettant l’évolution indépendante des producteurs et des consommateurs et ainsi avoir des systèmes plus résilients et adaptables.
 
 - Améliorer la gouvernance des données, via une meilleure traçabilité, la gestion de la duplication, le filtrage intelligent des messages et la séparation des responsabilités. Les flux de données deviennent la pierre angulaire de l’architecture, permettant de gérer la complexité croissante des systèmes tout en garantissant la cohérence et la fiabilité des données.
 
@@ -32,3 +34,4 @@ Ce sont ces principes qui vont me guider au fil de mes réflexions et de mes imp
 ## Remerciements
 
 Merci à [Mathieu Scolas](https://github.com/worming004) pour ses précieux conseils, son aide et sa relecture pour la rédaction de cette documentation.
+
