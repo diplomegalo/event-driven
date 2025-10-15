@@ -58,6 +58,97 @@ sequenceDiagram
     Serveur_API-->>Navigateur: Données (JSON)
     Navigateur-->>Utilisateur: Mise à jour du DOM
 ```
+**✅ Avantages**
+
+- 🚀 Navigation fluide, sans rechargement complet
+- ⚡ Réactivité élevée
+- 🛠️ Architecture simplifiée côté serveur
+
+**❌ Inconvénients**
+
+- ⏳ Temps de chargement initial plus long (bundle JavaScript)
+- 🔍 Référencement naturel limité sans pré-rendu
+- 🔒 Gestion complexe de l’état et de la sécurité
+
+### Server-Side Rendering (SSR)
+
+Le Server-Side Rendering effectue le rendu de la page côté serveur.
+À chaque requête, le serveur génère dynamiquement une page HTML complète avant de l’envoyer au navigateur.
+Le contenu s’affiche immédiatement ; le JavaScript ne sert qu’à réactiver les interactions locales.
+
+« Le SSR, Server-Side Rendering, c’est quand le serveur renvoie directement la page déjà prête. (…) C’est un modèle plus classique, mais qui reste efficace quand on a besoin d’un affichage immédiat. »
+
+Le call vers le serveur est plus léger que dans une SPA : le navigateur reçoit une page construite, sans télécharger tout le code applicatif.
+Chaque navigation entraîne un rafraîchissement complet, garantissant un état cohérent et un rendu uniforme à chaque cycle.
+
+```mermaid
+sequenceDiagram
+    participant Utilisateur
+    participant Serveur
+    participant Base_de_données
+
+    Utilisateur->>Serveur: Requête HTTP
+    Serveur->>Base_de_données: Lecture des données
+    Base_de_données-->>Serveur: Résultats
+    Serveur-->>Utilisateur: Page HTML complète
+    note right of Utilisateur: Contenu visible immédiatement
+```
+
+
+**✅ Avantages**
+
+- 🌐 Excellent référencement (HTML complet)
+- 🔄 Rafraîchissement complet à chaque requête, rendu toujours cohérent
+
+**❌ Inconvénients**
+
+- 🖥️ Charge accrue sur le serveur
+- ⚙️ Scalabilité et infrastructure plus complexes
+- 🖱️ Interactivité légèrement moindre qu’en SPA
+
+### Static Site Generation (SSG)
+
+Le Static Site Generation consiste à pré-générer les pages HTML au moment du build.
+Ces fichiers sont ensuite diffusés via un serveur ou un CDN sans aucun calcul dynamique.
+Cette approche privilégie la rapidité et la sécurité, au prix d’une moindre flexibilité pour les contenus fréquemment mis à jour.
+
+« Le SSG, Static Site Generation, c’est une approche où tout est préparé avant le déploiement. (…) Les pages sont générées au moment du build, et on ne fait que les servir ensuite. »
+
+Le modèle SSG est idéal pour les contenus stables : documentations, blogs, sites institutionnels, vitrines ou catalogues e-commerce dont les données évoluent peu.
+
+```mermaid
+sequenceDiagram
+    participant Développeur
+    participant Build
+    participant CDN
+    participant Utilisateur
+
+    Développeur->>Build: Lancement du build
+    Build->>CDN: Déploiement des pages statiques
+    Utilisateur->>CDN: Requête HTTP
+    CDN-->>Utilisateur: Livraison immédiate du HTML
+```
+
+**✅ Avantages**
+
+- ⚡ Temps de réponse quasi nul
+- 🔒 Sécurité élevée : aucun code serveur exécuté
+- 💸 Coûts d’hébergement faibles, scalabilité maximale
+
+**❌ Inconvénients**
+
+- 📄 Contenu figé entre deux builds
+- ⏱️ Peu adapté aux données temps réel
+- 🛠️ Builds longs pour les sites volumineux
+
+## Synthèse comparative
+
+| Architecture | Lieu du rendu      | Type de contenu        | Interactivité | SEO       | Charge serveur |
+|--------------|-------------------|-----------------------|---------------|-----------|---------------|
+| SPA          | Navigateur        | Applications riches   | Élevée        | Faible    | Faible        |
+| SSR          | Serveur           | Contenus dynamiques   | Moyenne       | Excellente| Élevée        |
+| SSG          | Build statique    | Contenus stables      | Faible        | Excellente| Nulle         |
+
 
 ## Chapitre 2 – Comparatif des architectures
 
