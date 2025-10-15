@@ -1,27 +1,44 @@
-# Frontend Series – Comment choisir votre architecture frontend
+# Comment choisir votre architecture frontend
+
+<iframe 
+    data-testid="embed-iframe" 
+    style={{borderRadius: "12px"}}
+    src="https://open.spotify.com/embed/episode/3FJoCBHvPubppapPNFPQgs?utm_source=generator" 
+    width="100%" 
+    height="152" 
+    frameBorder="0" 
+    allowfullscreen="" 
+    allow="autoplay;
+    clipboard-write; 
+    encrypted-media; 
+    fullscreen; 
+    picture-in-picture" 
+    loading="lazy">
+</iframe>
 
 ## Introduction
 
 L’évolution des architectures web a conduit à une multiplication des modèles de rendu côté client et côté serveur.  
+
 Au fil du temps, le **frontend** n’a plus seulement été une couche de présentation : il est devenu un espace d’exécution autonome, directement impliqué dans la performance, l’expérience utilisateur et la cohérence des systèmes applicatifs.
 
 C’est dans cette perspective qu’a été enregistré l’épisode *Comment choisir votre architecture frontend* du podcast **Wavenet – Frontend Series**, disponible sur [Spotify](https://open.spotify.com/episode/3FJoCBHvPubppapPNFPQgs?si=10c5781b066f4617).  
+
 L’objectif de cet échange était de clarifier les différences entre les trois principales approches de rendu utilisées aujourd’hui dans le développement web :  
 la **Single Page Application (SPA)**, le **Server-Side Rendering (SSR)** et le **Static Site Generation (SSG)**.
 
 L’épisode réunit trois intervenants issus du développement et de l’architecture logicielle chez **Wavenet** :  
 - **[Antoine Richez](https://www.linkedin.com/in/antoine-richez/)** — Développeur full stack, spécialisé dans la conception d’interfaces et les architectures SPA.  
 - **[Olivier Bossaert](https://www.linkedin.com/in/olivierbossaer/)** — Architecte solution, expérimenté dans la conception d’applications web complexes et les stratégies de rendu côté serveur.  
-- **[Simon Baudart](https://www.linkedin.com/in/simon-baudart/)** — Architecte cloud et data, impliqué dans la définition d’environnements distribués et la scalabilité des applications web.
+- **[Simon Baudart](https://www.linkedin.com/in/simon-baudart/)** — Architecte cloud impliqué dans la définition d’environnements des applications web.
 
-La discussion aborde trois volets principaux :  
+La discussion aborde deux volets principaux :  
 1. **Les fondements techniques** de chaque architecture — où se situe le rendu, comment s’effectue l’échange entre client et serveur, et quel est l’impact sur la performance perçue.  
 2. **Les critères de comparaison** — SEO, complexité, réactivité, scalabilité, sécurité et coût d’infrastructure.  
-3. **Les cas d’usage concrets** — dans quels contextes chaque approche est la plus pertinente et comment les modèles hybrides récents viennent nuancer cette classification.
 
 ---
 
-## Chapitre 1 – Définir les architectures frontend
+## Définir les architectures frontend
 
 Les trois architectures étudiées — **SPA**, **SSR** et **SSG** — se distinguent principalement par **le lieu où s’effectue le rendu de la page HTML** :  
 - côté **navigateur** pour la SPA ;  
@@ -74,7 +91,7 @@ sequenceDiagram
 
 Le Server-Side Rendering effectue le rendu de la page côté serveur.
 À chaque requête, le serveur génère dynamiquement une page HTML complète avant de l’envoyer au navigateur.
-Le contenu s’affiche immédiatement ; le JavaScript ne sert qu’à réactiver les interactions locales.
+Le contenu s’affiche immédiatement et le JavaScript ne sert qu’à réactiver les interactions locales.
 
 « Le SSR, Server-Side Rendering, c’est quand le serveur renvoie directement la page déjà prête. (…) C’est un modèle plus classique, mais qui reste efficace quand on a besoin d’un affichage immédiat. »
 
@@ -134,6 +151,7 @@ sequenceDiagram
 - ⚡ Temps de réponse quasi nul
 - 🔒 Sécurité élevée : aucun code serveur exécuté
 - 💸 Coûts d’hébergement faibles, scalabilité maximale
+- 💪 Efficace lors d'une forte charge de trafic
 
 **❌ Inconvénients**
 
@@ -150,23 +168,24 @@ sequenceDiagram
 | SSG          | Build statique    | Contenus stables      | Faible        | Excellente| Nulle         |
 
 
-## Chapitre 2 – Comparatif des architectures
+## Comparatif des architectures
 
 ### Complexité / Flexibilité de mise en œuvre
 
-Sur le plan de la mise en œuvre, la SPA s’impose comme la solution la plus simple et la plus flexible. Elle repose sur un build unique côté client et un hébergement statique, ce qui permet de démarrer rapidement et de s’adapter facilement aux besoins du projet.  
+Sur le plan de la mise en œuvre, la **SPA** s’impose comme la solution la plus simple et la plus flexible. Elle repose sur un build unique côté client et un hébergement statique, ce qui permet de démarrer rapidement et de s’adapter facilement aux besoins du projet.  
 
 > "C’est une commande, c’est clairement le plus simple de tous."  
 > — *Antoine Richez*
 
-Le SSR, en revanche, introduit une couche supplémentaire de complexité. Il nécessite un rendu côté serveur, un hébergement dynamique et des compétences plus variées pour mettre en place la chaîne complète. C’est une architecture plus lourde à déployer et à maintenir, mais qui offre en contrepartie plus de contrôle sur le rendu.  
+Historiquement, la chaîne de build pouvait être **lourde** (ex. configurations Webpack complexes).  
+Les **outils et workflows récents** — comme les générateurs automatiques, les presets ou les bundlers modernes (Vite, esbuild, etc.) — **réduisent fortement cette complexité** et rendent l’expérience beaucoup plus accessible : une simple ligne de commande suffit souvent à construire et déployer une application.
+
+Le **SSR**, en revanche, introduit une couche supplémentaire de complexité. Il nécessite un rendu côté serveur, un hébergement dynamique et des compétences plus variées pour mettre en place la chaîne complète. C’est une architecture plus lourde à déployer et à maintenir, mais qui offre en contrepartie plus de contrôle sur le rendu.  
 
 > "Ah ben d’office là c’est un peu plus compliqué, on est obligé d’implémenter un hébergement côté serveur… Ça, c’est le plus difficile à mettre en place."  
 > — *Simon Baudart*
 
-Enfin, le SSG se positionne entre les deux : il conserve la simplicité du statique tout en ajoutant une étape de génération au moment du build. Cette étape nécessite une organisation adaptée du contenu, mais elle reste accessible et prévisible à l’échelle d’un projet.  
-
-En résumé, la SPA offre une grande facilité de mise en œuvre, le SSR demande une architecture plus complexe à orchestrer, et le SSG représente un compromis efficace entre simplicité et rigueur dans la préparation du contenu.  
+Enfin, le **SSG** se positionne entre les deux : il conserve la simplicité du statique tout en ajoutant une étape de génération au moment du build. Cette étape nécessite une organisation adaptée du contenu, mais elle reste accessible et prévisible à l’échelle d’un projet.  
 
 ---
 
@@ -174,17 +193,18 @@ En résumé, la SPA offre une grande facilité de mise en œuvre, le SSR demande
 
 Sur le plan de la performance ressentie par l’utilisateur, les trois architectures se distinguent avant tout par leur manière de gérer le rendu des pages et la dynamique du contenu.  
 
-Le SSG se montre imbattable en matière de vitesse d’affichage : les pages sont déjà prêtes et servies telles quelles, sans traitement serveur au moment de la consultation. Cette approche garantit une expérience ultra fluide sur des sites dont le contenu change peu. Mais elle atteint ses limites dès qu’il s’agit de données actualisées en temps réel ou de contenus fréquemment modifiés.  
+Le **SSG** se montre imbattable en matière de vitesse d’affichage : les pages sont déjà prêtes et servies telles quelles, sans traitement serveur au moment de la consultation.  
 
 > "Le SSG, c’est imbattable pour le temps de chargement, parce que la page est déjà calculée. Mais dès qu’on veut de la donnée qui bouge, il faut régénérer ou bricoler des mécanismes de rafraîchissement."  
 > — *Olivier Bossaert*
 
-Le SSR, lui, restitue le contenu côté serveur à chaque requête. L’affichage initial est rapide et complet, ce qui renforce la perception de performance, mais la navigation successive peut se révéler plus lente, car chaque changement de page nécessite un nouvel aller-retour avec le serveur.  
+Le **SSR** restitue le contenu côté serveur à chaque requête : l’affichage initial est rapide et complet.  
+La **compression des réponses (gzip ou brotli)** côté serveur améliore encore la latence perçue et le transfert des fichiers HTML, CSS et JavaScript.  
 
 > "C’est surtout visible quand on a des pages de contenu. Après, dès qu’on navigue, ça peut être plus lent, parce qu’il faut tout recharger côté serveur."  
 > — *Antoine Richez*
 
-Enfin, la SPA inverse cette logique : le premier chargement est plus long, car tout le code de l’application est téléchargé au départ, mais une fois en mémoire, la navigation devient instantanée. C’est un modèle qui excelle dans les applications riches en interactions ou en transitions fluides.  
+La **SPA** inverse cette logique : le premier chargement est plus long (bundle JavaScript plus volumineux), mais une fois en mémoire, la navigation devient instantanée et l’interface très fluide.  
 
 > "La SPA, c’est long à charger, mais après, tout se passe côté client, donc c’est fluide."  
 > — *Simon Baudart*
@@ -195,22 +215,35 @@ Enfin, la SPA inverse cette logique : le premier chargement est plus long, car t
 
 La différence entre les trois architectures se ressent fortement sur la charge serveur et le coût d’exploitation.  
 
-Le SSR est la solution la plus exigeante : chaque requête implique un rendu complet côté serveur, ce qui augmente mécaniquement la consommation de ressources et complique la montée en charge. Ce modèle reste pertinent pour les sites dont le contenu doit être personnalisé ou actualisé en temps réel, mais il se révèle coûteux à grande échelle.  
+Le **SSR** est la solution la plus exigeante : chaque requête implique un rendu complet côté serveur, ce qui augmente la consommation de ressources et complique la montée en charge (à compenser par du cache et du scaling).  
 
 > "Le SSR, c’est celui qui fait le plus bosser le serveur, parce qu’il doit tout recalculer à chaque requête. Donc si t’as beaucoup de monde, il faut scaler ou mettre du cache."  
 > — *Simon Baudart*
 
-Le SSG, à l’inverse, repose sur une génération statique des pages au moment du build, puis sur une diffusion via CDN. Aucun calcul n’est effectué à la volée, ce qui en fait le modèle le plus sobre et le plus scalable.  
+Le **SSG**, à l’inverse, repose sur une génération statique des pages au moment du build, puis sur une diffusion via CDN.  
+Aucun calcul n’est effectué à la volée, ce qui en fait le modèle **le plus scalable et le plus résistant aux pics de trafic** — capable de supporter le plus grand nombre d’utilisateurs simultanés.  
 
 > "En SSG, le serveur ne fait rien du tout, tout est prêt à l’avance. T’envoies juste du statique, donc c’est rapide et ça coûte quasi rien."  
 > — *Olivier Bossaert*
 
-Entre ces deux extrêmes, la SPA offre un équilibre intéressant : elle délègue la logique applicative au client et ne sollicite le serveur que pour les appels API. La charge est donc reportée sur le front, et la scalabilité dépend essentiellement de la conception et du dimensionnement des services backend.  
+Entre ces deux extrêmes, la **SPA** délègue la logique applicative au client et ne sollicite le serveur que pour les appels API.  
+Côté déploiement, un **framework .NET** peut héberger à la fois l’API et la SPA dans le même environnement, simplifiant ainsi le packaging et la maintenance d’ensemble.  
 
 > "La SPA, elle tape dans les API. Si ton backend est bien dimensionné, ça encaisse. C’est juste un autre type de charge."  
 > — *Antoine Richez*
 
-En résumé, le SSG l’emporte en efficacité et en coût d’exploitation, le SSR se justifie pour des besoins de personnalisation avancée, et la SPA s’impose comme une solution intermédiaire, souple mais dépendante de la robustesse de son backend.  
+---
+
+### Sécurité et gestion des sessions
+
+Plus il y a de **composants actifs au runtime**, plus la **surface d’attaque** à sécuriser augmente.  
+
+- **SSR** → Sessions et logique actives côté serveur : plus d’éléments à durcir (authentification, sessions, exécution, cache, réseau). C’est l’architecture qui **demande le plus d’efforts de sécurisation** en production.  
+- **SPA** → Authentification via **tokens** (OAuth2 / OpenID Connect) côté client, avec contrôle d’accès via API : surface d’exposition principalement concentrée sur le backend.  
+- **SSG** → Aucun environnement d’exécution pour le rendu : **le plus robuste par conception**, car aucun code n’est exécuté. La sécurité se concentre sur les endpoints d’API et la gestion des secrets.  
+
+> "En SSG, y a pas de serveur applicatif, donc moins de surface d’attaque. Le vrai sujet, c’est les API, pas le rendu."  
+> — *Antoine Richez*
 
 ---
 
@@ -239,7 +272,7 @@ La SPA, en revanche, reste la moins adaptée au référencement naturel. Le cont
 
 La sécurité et la gestion des sessions varient fortement selon l’architecture choisie, car elles dépendent du mode d’exécution du code et de la manière dont les données sensibles transitent entre client et serveur.  
 
-Dans le cas du SSR, la gestion des sessions repose souvent sur le serveur, via des cookies ou des tokens stockés côté backend. Ce modèle centralisé offre un certain contrôle, mais augmente aussi la surface d’exposition et la complexité de gestion, notamment en cas de montée en charge.  
+Dans le cas du SSR, la gestion des sessions repose souvent sur le serveur, via des cookies ou des tokens stockés côté backend. Ce modèle centralisé offre un certain contrôle, mais augmente aussi la surface d’exposition et la complexité de gestion, notamment du au nombre de composants.  
 
 > "Avec le SSR, tu peux tout gérer côté serveur, donc t’as plus la main sur les sessions, mais c’est aussi plus lourd à maintenir et à sécuriser."  
 > — *Simon Baudart*
