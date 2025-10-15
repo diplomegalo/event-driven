@@ -57,7 +57,7 @@ sequenceDiagram
     Navigateur->>Serveur_API: Requêtes API
     Serveur_API-->>Navigateur: Données (JSON)
     Navigateur-->>Utilisateur: Mise à jour du DOM
-
+```
 
 ## Chapitre 2 – Comparatif des architectures
 
