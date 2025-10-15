@@ -2,47 +2,64 @@
 
 ## Introduction
 
-Bonjour et bienvenue dans ce nouvel épisode du podcast Wavenet !  
-On poursuit aujourd’hui notre série Frontend Series, suite directe de l’épisode précédent où l’on se posait une question simple : les clients légers sont-ils devenus trop lourds ? Après avoir posé les bases et exploré ensemble ce qu’étaient la SPA (Single Page Application), la SSR (Server-Side Rendering) et la SSG (Static Site Generation), pourquoi elles avaient émergé, et les défis qu’elles posent aujourd’hui, il est temps d’aller plus loin et de mettre un peu d’ordre dans tout ça.  
+L’évolution des architectures web a conduit à une multiplication des modèles de rendu côté client et côté serveur.  
+Au fil du temps, le **frontend** n’a plus seulement été une couche de présentation : il est devenu un espace d’exécution autonome, directement impliqué dans la performance, l’expérience utilisateur et la cohérence des systèmes applicatifs.
 
-Dans cet épisode, on va s’atteler à définir ces trois grandes architectures frontend que sont la SPA, la SSR et la SSG en expliquant leurs scénarios de construction et la manière dont s’effectuent les échanges entre client et serveur. Mais on va aussi et surtout les comparer sur base de critères concrets, pour vous donner les clés, chers auditeurs, afin d’y voir plus clair lors de vos choix d’architecture.  
+C’est dans cette perspective qu’a été enregistré l’épisode *Comment choisir votre architecture frontend* du podcast **Wavenet – Frontend Series**, disponible sur [Spotify](https://open.spotify.com/episode/3FJoCBHvPubppapPNFPQgs?si=10c5781b066f4617).  
+L’objectif de cet échange était de clarifier les différences entre les trois principales approches de rendu utilisées aujourd’hui dans le développement web :  
+la **Single Page Application (SPA)**, le **Server-Side Rendering (SSR)** et le **Static Site Generation (SSG)**.
 
-Et pour rendre l’exercice plus vivant, nos invités – Antoine Richez, Olivier Bossaert et Simon Baudart – ont accepté de noter chaque architecture sur une série de critères essentiels : performance, SEO, complexité, scalabilité… De quoi donner un aperçu nuancé des forces et des limites de chaque approche.
+L’épisode réunit trois intervenants issus du développement et de l’architecture logicielle chez **Wavenet** :  
+- **[Antoine Richez](https://www.linkedin.com/in/antoine-richez/)** — Développeur full stack, spécialisé dans la conception d’interfaces et les architectures SPA.  
+- **[Olivier Bossaert](https://www.linkedin.com/in/olivierbossaer/)** — Architecte solution, expérimenté dans la conception d’applications web complexes et les stratégies de rendu côté serveur.  
+- **[Simon Baudart](https://www.linkedin.com/in/simon-baudart/)** — Architecte cloud et data, impliqué dans la définition d’environnements distribués et la scalabilité des applications web.
 
-## Présentation des invités
+La discussion aborde trois volets principaux :  
+1. **Les fondements techniques** de chaque architecture — où se situe le rendu, comment s’effectue l’échange entre client et serveur, et quel est l’impact sur la performance perçue.  
+2. **Les critères de comparaison** — SEO, complexité, réactivité, scalabilité, sécurité et coût d’infrastructure.  
+3. **Les cas d’usage concrets** — dans quels contextes chaque approche est la plus pertinente et comment les modèles hybrides récents viennent nuancer cette classification.
 
-Aujourd’hui, j’ai le plaisir d’accueillir :  
-- **Antoine Richez**, développeur full stack, à l’aise en .NET, curieux de Go et de Rust. Côté frontend, il pratique surtout des architectures SPA avec Angular et React.  
-- **Olivier Bossaert**, architecte solution, passionné de frontend (SPA, SSR, SSG), toujours partant pour explorer de nouvelles technologies.  
-- **Simon Baudart**, architecte solution, expert IA, .NET et Azure, impliqué chez Wavenet dans les choix technologiques frontend.  
+---
 
-Tous trois travaillent chez **Wavenet**.
+## Chapitre 1 – Définir les architectures frontend
 
-## Chapitre 1 – Les scénarios de build et d’échange client/serveur
+Les trois architectures étudiées — **SPA**, **SSR** et **SSG** — se distinguent principalement par **le lieu où s’effectue le rendu de la page HTML** :  
+- côté **navigateur** pour la SPA ;  
+- côté **serveur** pour la SSR ;  
+- ou **en amont du déploiement** pour la SSG.  
 
-### La SPA (Single Page Application)
+Ce choix détermine la répartition des charges entre client et serveur, la perception de performance et la capacité d’indexation par les moteurs de recherche.
 
-La SPA repose sur un rendu entièrement côté client. L’application est construite en un ou plusieurs bundles JavaScript et CSS, puis chargée dans le navigateur. Une fois initialisée, elle gère la navigation et les mises à jour de contenu via des appels API (REST ou GraphQL). Ce modèle favorise la fluidité et la réactivité, mais peut allonger le temps de chargement initial.
+---
 
-### La SSR (Server-Side Rendering)
+### Single Page Application (SPA)
 
-La SSR génère le HTML côté serveur à chaque requête. L’utilisateur reçoit une page déjà rendue, rapidement visible et indexable par les moteurs de recherche. Cette approche renforce la perception de performance mais augmente la charge côté serveur, notamment pour les sites à fort trafic.
+La **Single Page Application** repose sur un **rendu entièrement côté client**.  
+Lors de la première visite, une page HTML unique est chargée avec les fichiers JavaScript et CSS nécessaires.  
+Le navigateur exécute ensuite la logique applicative et met à jour dynamiquement le contenu sans rechargement complet.  
+Les échanges avec le serveur se font via des API REST ou GraphQL.
 
-### La SSG (Static Site Generation)
+> « Une SPA, c’est un type d’application *Single Page Application*, une application en une page. (…) On accède à un site web, mais en réalité il n’y a qu’une seule page. Derrière, on a du code qui va s’exécuter côté navigateur pour tout le reste. »
 
-La SSG consiste à pré-générer les pages lors du build. Le contenu est servi statiquement depuis un CDN, ce qui garantit une vitesse d’affichage optimale et une empreinte serveur minimale. Cette approche est idéale pour les contenus stables, mais demande des mécanismes de régénération pour les données dynamiques.
+Les SPA sont particulièrement adaptées aux **applications interactives** : portails utilisateurs, tableaux de bord, outils métiers ou plateformes collaboratives.
 
-## Chapitre 2 – Les critères de comparaison
+```mermaid
+sequenceDiagram
+    participant Utilisateur
+    participant Navigateur
+    participant Serveur_API
 
-Les critères retenus pour ce comparatif sont :  
-1. Complexité / Flexibilité de mise en œuvre  
-2. Performance frontend & réactivité (UX/UI)  
-3. Performance backend, scalabilité & coût d’infrastructure  
-4. SEO (référencement naturel)  
-5. Sécurité & gestion des sessions  
-6. Éco-conception  
+    Utilisateur->>Navigateur: Accès initial
+    Navigateur->>Serveur_API: Téléchargement HTML, JS, CSS
+    Serveur_API-->>Navigateur: Fichiers statiques
+    Navigateur-->>Utilisateur: Affichage initial
+    Utilisateur->>Navigateur: Interactions
+    Navigateur->>Serveur_API: Requêtes API
+    Serveur_API-->>Navigateur: Données (JSON)
+    Navigateur-->>Utilisateur: Mise à jour du DOM
 
-## Chapitre 3 – Comparatif des architectures
+
+## Chapitre 2 – Comparatif des architectures
 
 ### Complexité / Flexibilité de mise en œuvre
 
