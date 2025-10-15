@@ -38,12 +38,7 @@ const config: Config = {
     [
       '@docusaurus/preset-classic',
       {
-        docs: {
-          routeBasePath: '/docs',
-          sidebarPath: './sidebars.ts',
-          // editUrl: 'https://github.com/diplomegalo/event-driven/tree/master/website/docs',
-
-        },
+        docs: false, 
         blog: {
           showReadingTime: true,
           feedOptions: {
@@ -76,12 +71,6 @@ const config: Config = {
           to: '/blog',
           label: 'Blog',
           position: 'left',
-        },
-        {
-          to: '/docs/eda',
-          label: 'Event-Driven Architecture',
-          position: 'left',
-          activeBaseRegex: '/docs/eda',
         },
         {
           href: 'https://github.com/diplomegalo',

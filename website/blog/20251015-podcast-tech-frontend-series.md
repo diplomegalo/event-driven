@@ -1,3 +1,11 @@
+---
+title: "SPA vs SSR vs SSG : choisir l'architecture frontend qui vous convient"
+description: "Épisode du podcast Frontend Series : choix entre SPA, SSR et SSG, avantages et compromis."
+slug: "comment-choisir-votre-architecture-frontend"
+date: 2025-10-15
+tags: ["podcast", "frontend", "architecture", "spa", "ssr", "ssg"]
+---
+
 # Comment choisir votre architecture frontend
 
 <iframe 
