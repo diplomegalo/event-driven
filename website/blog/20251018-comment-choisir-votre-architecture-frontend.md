@@ -2,11 +2,7 @@
 title: "Comment choisir votre architecture frontend ? SPA, SSR, SSG"
 slug: "frontend-choisir-architecture-spa-ssr-ssg"
 description: "Définitions, construction, échanges client/serveur et comparaison selon des critères concrets (complexité, performance, SEO, sécurité, éco-conception) pour SPA, SSR et SSG."
-authors:
-  - name: "Pierre‑Arnaud Delsaut"
-    title: "Wavenet Podcast – Focus Tech"
-    url: ""
-    image_url: ""
+author: "Pierre‑Arnaud Delsaut"
 tags: ["Frontend", "Architecture", "SPA", "SSR", "SSG", "WavenetPodcast", "FocusTech"]
 date: "2025-10-18"
 draft: false
@@ -134,6 +130,3 @@ L’épisode se termine sur une ouverture vers le prochain sujet : le **Headless
 Ce nouveau modèle, qui sépare le contenu (géré dans un CMS) de la présentation (rendu par une SPA, un SSR ou un SSG), sera au cœur du prochain épisode de la *Frontend Series – Focus Tech*.
 
 ---
-
-**Tags :** #Frontend #Architecture #SPA #SSR #SSG #WavenetPodcast #FocusTech  
-**Auteur :** Pierre‑Arnaud Delsaut  
