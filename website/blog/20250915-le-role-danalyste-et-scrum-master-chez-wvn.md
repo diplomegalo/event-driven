@@ -1,7 +1,7 @@
 ---
 title: "The Wavenet’s Got Talent – Le rôle de l’analyste et du Scrum Master"
 slug: wgt-role-analyste-et-scrum-master
-description: "Chez Wavenet, les analystes ne se limitent pas à traduire des besoins : ils conçoivent, challengent, orchestrent et testent. Clotilde, Margaux et Andy racontent leur quotidien d’“analystes plus plus”."
+description: "Chez Wavenet, les analystes ne se limitent pas à traduire des besoins : ils conçoivent, challengent, orchestrent et testent. Clotilde, Margaud et Andy racontent leur quotidien d’“analystes plus plus”."
 date: 2025-09-15
 category: "The Wavenet’s Got Talent"
 tags:
@@ -52,11 +52,11 @@ Dans cet épisode de *The Wavenet’s Got Talent*, [Clotilde Delhaye](https://ww
 À rebours du cliché de “l’analyste rédacteur de specs”, Wavenet revendique un profil **hybride**. Les analystes portent fréquemment une **double casquette** : **Analyste fonctionnel·le** et **Scrum Master**. Cela change tout : ils/elles restent **au contact du terrain** tout au long du projet, veillent à la **fluidité des échanges**, à l’**absence de blocages** et à la **cohérence du produit**.
 
 - **Clotilde** (analyste, passée par un stage chez Wavenet) a élargi son rôle au **recrutement**, signe que l’analyste est aussi un **connecteur** d’équipes.  
-- **Margaux** (parcours initial en marketing et gestion de projets digitaux) incarne la capacité du métier à **valoriser des compétences transverses** : écoute, synthèse, sens du concret.  
+- **Margaud** (parcours initial en marketing et gestion de projets digitaux) incarne la capacité du métier à **valoriser des compétences transverses** : écoute, synthèse, sens du concret.  
 - **Andy** (chef de projet) confirme l’ADN “plus plus” : au quotidien, l’analyste est **l’intermédiaire** entre le besoin exprimé et la solution implémentée, et **orchestre** les interactions avec devs, designers, architectes et client.
 
 > Clotilde : « Notre objectif, c’est que l’utilisateur final vive **l’expérience la plus agréable** possible. »  
-> Margaux : « On est souvent **en première ligne** avec le métier pour **comprendre** et **définir** ce qui doit entrer dans l’application. »
+> Margaud : « On est souvent **en première ligne** avec le métier pour **comprendre** et **définir** ce qui doit entrer dans l’application. »
 
 **En pratique**, cet élargissement de périmètre rend l’analyste **acteur de bout en bout** : cadrage, ateliers, wireframes/use cases, spécifications, refinements, réponses aux questions techniques, **tests** et **validation** des livrables. Loin d’un rôle ponctuel, c’est un **fil rouge** qui sécurise **sens** (le “pourquoi”), **forme** (le “quoi”) et **réalisation** (le “comment”).
 
@@ -95,7 +95,7 @@ L’analyste devient alors le **gardien du sens et du périmètre**, celui qui a
 Chez Wavenet, la collaboration entre les analystes, les développeurs et les chefs de projet repose sur un **cadre agile solide**, où la méthode **Scrum** structure la dynamique d’équipe.  
 Chaque journée commence par le **daily meeting**, puis se poursuit avec les **refinements** et les **tests fonctionnels**.
 
-> Margaux : « On suit la méthodologie Scrum sur la plupart de nos projets. Les rituels nous permettent de garder le cap, d’échanger en continu et d’éviter les zones d’ombre. »
+> Margaud : « On suit la méthodologie Scrum sur la plupart de nos projets. Les rituels nous permettent de garder le cap, d’échanger en continu et d’éviter les zones d’ombre. »
 
 L’analyste agit comme un **chef d’orchestre du sens** : il veille à ce que l’équipe garde la bonne compréhension du “pourquoi” derrière chaque fonctionnalité.  
 Cette continuité jusqu’à la fin du cycle renforce la **qualité** et la **cohérence** du produit.
@@ -156,7 +156,7 @@ Entre le client et le développeur, les analystes construisent des **ponts** et 
 
 > Andy : « On ne fait pas ce que le client demande, on fait ce dont il a besoin. »
 
-Clotilde et Margaux incarnent cette vision d’un métier exigeant mais profondément humain, où la communication vaut autant que la technique.  
+Clotilde et Margaud incarnent cette vision d’un métier exigeant mais profondément humain, où la communication vaut autant que la technique.  
 La qualité d’un projet repose avant tout sur **la qualité du dialogue** — et c’est ce que les analystes cultivent, jour après jour.
 
 🎧 Pour découvrir leurs échanges complets, écoutez l’épisode  
