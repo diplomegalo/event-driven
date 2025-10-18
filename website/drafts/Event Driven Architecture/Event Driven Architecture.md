@@ -1,5 +1,4 @@
 ---
-slug: /
 title: En route vers les microservices événementiels
 ---
 

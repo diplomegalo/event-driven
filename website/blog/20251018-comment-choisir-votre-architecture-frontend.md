@@ -3,10 +3,7 @@ title: "Comment choisir votre architecture frontend ? SPA, SSR, SSG"
 slug: "frontend-choisir-architecture-spa-ssr-ssg"
 description: "Définitions, construction, échanges client/serveur et comparaison selon des critères concrets (complexité, performance, SEO, sécurité, éco-conception) pour SPA, SSR et SSG."
 authors:
-  name: "Pierre‑Arnaud Delsaut"
-  title: "Architecte Solution & Auteur de Podcast"
-  url: "https://www.linkedin.com/in/pierre-arnaud-delsaut/"
-  image_url: "/img/authors/delsaut-pierre-arnaud.jpg"
+  - pierre-arnaud-delsaut
 tags: ["frontend","architecture","SPA","SSR","SSG","podcast","tech","performance","seo","web-performance","rendering","static-site","scalability","ux","best-practices", "wavenet"] 
 date: "2025-10-18"
 draft: false

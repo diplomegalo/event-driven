@@ -16,10 +16,7 @@ tags:
   - Podcast RH
   - Carrières IT
 authors:
-  - name: "Pierre-Arnaud Delsaut"
-    title: "Architecte Solution & Auteur de Podcast"
-    url: "https://www.linkedin.com/in/pierre-arnaud-delsaut/"
-    image_url: "/img/authors/delsaut-pierre-arnaud.jpg"
+  - pierre-arnaud-delsaut
 draft: false
 # image: (laisse vide pour l’instant)
 spotify_url: "https://open.spotify.com/episode/6ZxogW7wOAS996HPQm58EQ"

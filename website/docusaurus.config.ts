@@ -40,11 +40,12 @@ const config: Config = {
       {
         docs: false, 
         blog: {
+          routeBasePath: '/',
           showReadingTime: true,
           feedOptions: {
             type: 'all',
-            title: 'Blog personnel de Pierre-Arnaud Delsaut',
-            description: 'Blog personnel de Pierre-Arnaud Delsaut',
+            title: 'Blog de Pierre-Arnaud Delsaut',
+            description: 'Articles et dossiers techniques sur le développement logiciel, l\'architecture et l\'ingénierie logicielle.',
           }
         },
         theme: {
