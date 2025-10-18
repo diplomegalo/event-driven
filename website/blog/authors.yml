@@ -1,8 +1,12 @@
 pierre-arnaud-delsaut:
   name: "Pierre-Arnaud Delsaut"
-  title: "Architecte IT" 
+  title: "Développeur & Architecte IT | Créateur de contenu"
+  bio: "Architecte IT chez WaveNet, spécialisé dans l'architecture des systèmes distribués et le cloud computing. Passionné par les technologies émergentes et l'optimisation des environnements IT."
+  location: "Belgique"
   socials:
     linkedin: "https://www.linkedin.com/in/pierre-arnaud-delsaut/"
     github: "https://github.com/diplomegalo"
   image_url: "/img/authors/delsaut-pierre-arnaud.jpg"
-  page: true
+  email: "pa.delsaut@wavenet.be"
+  page:
+    permalink: "authors/delsaut-pierre-arnaud"

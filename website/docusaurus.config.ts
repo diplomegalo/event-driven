@@ -69,11 +69,6 @@ const config: Config = {
       },
       items: [
         {
-          to: '/blog',
-          label: 'Blog',
-          position: 'left',
-        },
-        {
           href: 'https://github.com/diplomegalo',
           position: 'right',
           className: 'navbar-github',
@@ -83,8 +78,7 @@ const config: Config = {
           href: 'https://www.linkedin.com/in/pierre-arnaud-delsaut-b6a9a742/',
           position: 'right',
           className: 'navbar-linkedin',
-          'aria-label': 'LinkedIn',
-        },
+        }
       ],
     },
     footer: {
