@@ -2,8 +2,12 @@
 title: "Comment choisir votre architecture frontend ? SPA, SSR, SSG"
 slug: "frontend-choisir-architecture-spa-ssr-ssg"
 description: "Définitions, construction, échanges client/serveur et comparaison selon des critères concrets (complexité, performance, SEO, sécurité, éco-conception) pour SPA, SSR et SSG."
-author: "Pierre‑Arnaud Delsaut"
-tags: ["Frontend", "Architecture", "SPA", "SSR", "SSG", "WavenetPodcast", "FocusTech"]
+authors:
+  name: "Pierre‑Arnaud Delsaut"
+  title: "Architecte logiciel"
+  url: "https://www.linkedin.com/in/pierre-arnaud-delsaut/"
+  image_url: "/img/delsaut-pierre-arnaud.jpg"
+tags: ["frontend","architecture","SPA","SSR","SSG","podcast","tech","performance","seo","web-performance","rendering","static-site","scalability","ux","best-practices", "wavenet"] 
 date: "2025-10-18"
 draft: false
 ---
@@ -14,10 +18,26 @@ draft: false
 Après avoir exploré dans un précédent épisode la question *« Les clients légers sont-ils devenus trop lourds ? »*, l’équipe du **Wavenet Podcast – Focus Tech** poursuit sa série consacrée au frontend.  
 Cette fois, il s’agit de mettre de l’ordre entre trois architectures souvent citées mais rarement comparées en détail : la **SPA**, le **SSR** et le **SSG**.  
 
-Antoine Richez, Olivier Bossaert et Simon Baudart prennent le temps de **définir chacune d’elles**, d’expliquer **comment elles se construisent**, **comment s’effectuent les échanges entre client et serveur**, et surtout de les **évaluer selon des critères concrets** : complexité, performance, référencement, sécurité ou encore éco-conception —  
+[Antoine Richez](https://www.linkedin.com/in/antoine-richez/), [Olivier Bossaert](https://www.linkedin.com/in/olivierbossaer/) et [Simon Baudart](https://www.linkedin.com/in/simon-baudart/) prennent le temps de **définir chacune d’elles**, d’expliquer **comment elles se construisent**, **comment s’effectuent les échanges entre client et serveur**, et surtout de les **évaluer selon des critères concrets** : complexité, performance, référencement, sécurité ou encore éco-conception —  
 autant d’éléments **qui permettront de se faire une meilleure idée de comment procéder à un choix**.  
 
 Un épisode complet, pédagogique, et fidèle à l’esprit Wavenet : clair, technique, et sans détour. 🦆  
+
+<iframe
+    data-testid="embed-iframe" 
+    style={{borderRadius: "12px"}}
+    src="https://open.spotify.com/embed/episode/3FJoCBHvPubppapPNFPQgs?utm_source=generator" 
+    width="100%" 
+    height="152" 
+    frameBorder="0" 
+    allowfullscreen="" 
+    allow="autoplay;
+    clipboard-write; 
+    encrypted-media; 
+    fullscreen; 
+    picture-in-picture" 
+    loading="lazy">
+</iframe>
 
 ---
 
@@ -119,14 +139,5 @@ Le **SSR** équilibre les contraintes de SEO et d’interactivité.
 Et la **SPA** reste incontournable pour les applications riches ou connectées.  
 
 Tout est donc une question de priorité : performance, dynamisme ou simplicité.
-
----
-
-### 🔮 Et la suite ?  
-
-L’épisode se termine sur une ouverture vers le prochain sujet : le **Headless**.  
-> “C’est un peu le teasing de l’épisode prochain, sur lequel on essaiera de parler du headless.”  
-
-Ce nouveau modèle, qui sépare le contenu (géré dans un CMS) de la présentation (rendu par une SPA, un SSR ou un SSG), sera au cœur du prochain épisode de la *Frontend Series – Focus Tech*.
 
 ---
