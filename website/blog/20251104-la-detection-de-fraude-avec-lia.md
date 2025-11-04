@@ -1,9 +1,9 @@
 ---
 title: "La détection de fraude intelligente avec l'IA et le Machine Learning"
-description: "Retour d’expérience : comment une banque régionale a réduit par 5 les faux positifs grâce au machine learning, en respectant des contraintes fortes (on-premise, sécurité, conformité) et en impliquant le métier dès les premières itérations."
 slug: "detection-fraude-intelligente-ia-machine-learning"
+description: "Retour d’expérience : comment une banque régionale a réduit par 5 les faux positifs grâce au machine learning, en respectant des contraintes fortes (on-premise, sécurité, conformité) et en impliquant le métier dès les premières itérations."
 date: "2025-11-04"
-draft: false
+category: "Retour d’expérience"
 tags:
   - IA
   - Machine Learning
@@ -15,7 +15,10 @@ tags:
   - Data Science
   - Sécurité
   - Solution
-image: "/img/podcasts/fraude-ia-ml.jpg"
+authors:
+  - pierre-arnaud-delsaut
+draft: false
+spotify_url: "https://open.spotify.com/episode/0wLu78ZnbwOvGimJcNfpVB?si=b6060d9dca6a488a"
 ---
 
 ## 🎧 Chapeau
