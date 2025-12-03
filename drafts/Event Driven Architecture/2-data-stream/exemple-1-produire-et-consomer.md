@@ -12,7 +12,7 @@ Le diagramme ci-dessous montre le processus de mise à jour de l'adresse mail d'
 
 > :memo: **Note** : Il pourrait être tentant de ne pas passer par le référentiel de données pour mettre à jour l'adresse mail de l'utilisateur et de communiquer directement avec l'_event stream_. Néanmoins, il est important de garder à l'esprit que l'_event stream_ n'est pas un _database_ et ne doit pas être utilisé comme tel. En effet, l'_event stream_ est un flux de données qui permet de distribuer des événements entre différentes applications, mais il n'est pas conçu pour implémenter des logiques métiers complexes. Par conséquent, il est préférable de passer par le référentiel, qui contiendra toutes les règles métier pour mettre à jour l'adresse mail de l'utilisateur.
 
-![figure 3 - exemple de mise à jour d'une adresse mail](../../../static/img/produce-and-consume-data.png)
+![figure 3 - exemple de mise à jour d'une adresse mail](../../produce-and-consume-data.png)
 
 > :memo: **Note** : Le type d'événement stocké dans la stream `User` est un _entity event_ qui permet de stocker l'ensemble des attributs de l'entité `User` et de garantir que les applications consommatrices disposent de l'ensemble des informations nécessaires pour effectuer les traitements. Néanmoins, il est possible de stocker un _keyed event_ qui ne contient que l'identifiant de l'utilisateur et l'adresse mail dans un autre stream, mais dans ce cas, il est nécessaire d'extraire les informations de plusieurs _event stream_.
 
@@ -36,7 +36,7 @@ Le passage d'un périmètre à l'autre s'appelle le **Context Mapping** et défi
 
 Le diagramme ci-dessous montre l'adaptateur de sortie qui permet de communiquer avec le référentiel de données pour envoyer la commande de mise à jour de l'adresse mail et qui se charge de faire la conversion entre les deux périmètres fonctionnels et les deux modèles de données.
 
-![figure 4 - context mapping](../../../static/img/context-mapping.png)
+![figure 4 - context mapping](../../context-mapping.png)
 
 De cette manière, à aucun moment le domaine de l'application `App` ne devra être adapté à un changement d'architecture d'une dépendance, en l’occurrence ici : le référentiel. Seul l'adaptateur est en charge de l'intégration et va donc être modifié. Néanmoins, il est important de noter que le service de mise à jour de l'utilisateur offert par le référentiel, ne peut en aucun obligé l'application `App` à passer l'ensemble des attributs de l'utilisateur pour une simple mise à jour de l'adresse mail. En effet, dans le cas contraire, l'adaptateur devrait d'abord récupérer l’entièreté des attributs de l'utilisateur, pour ensuite les renvoyer au référentiel avec la nouvelle adresse mail. Ce qui est une perte de performance et de ressource inutile. Une solution serait de découper le service de mise à jour de l'utilisateur en plusieurs services plus fins, qui permettent de mettre à jour un attribut spécifique de l'utilisateur (cf. [Queue](#queue)).
 
@@ -92,7 +92,7 @@ Néanmoins, il est important de noter que le mécanisme de _request-reply_ peut 
 
 Le diagramme ci-dessous montre le mécanisme de _request-reply_ qui permet de renvoyer un message de confirmation à l'application `App` une fois la commande de mise à jour de l'adresse mail traitée.
 
-![figure 5 - request-reply](../../../static/img/request-reply.png)
+![figure 5 - request-reply](../../request-reply.png)
 
 Ce qui est important de comprendre c'est que le message de confirmation est envoyé par le référentiel, sur une _queue_ **temporaire**, créé par l'instance qui a envoyé la commande, et uniquement dédié à cette instance. Autrement dit l'instance qui a envoyé la commande est la seule à pouvoir lire le message de confirmation. En outre, la _queue_ temporaire est supprimée une fois le message de confirmation lu.
 
@@ -109,7 +109,7 @@ Le mécanisme de _queue_ permet la scalabilité tant pour l'application `App` qu
 - L'application `App` va multiplier ces instances et envoyer ces messages vers la _queue_.
 - Le référentiel va multiplier ces instances pour traiter les commandes en parallèle et garantir que les commandes sont traitées dans l'ordre d'arrivée dans un temps raisonnable.
 
-![figure 6 - scalabilité](../../../static/img/scalabilit%C3%A9.png)
+![figure 6 - scalabilité](../../scalabilité.png)
 
 > :memo: **Note** : Dans ce cas, le mécanisme de request-reply expliqué précédemment est toujours valable, car chaque instance de l'application `App` va créer sa propre queue temporaire pour recevoir le message de confirmation (_reply_) et envoyer l'identifiant de la queue.
 
@@ -150,7 +150,7 @@ Il existe deux moyens pour l'_event broker_ de mettre à disposition des donnée
 
 Les tables internes offrent l'énorme avantage de pouvoir être construire en même temps que l'instance de l'application, car elles y sont directement associées, ce qui d'un point de vue de la scalabilité est un avantage. En effet, chaque instance de l'application `App` peut avoir sa propre table interne mise à jour en temps réel. Cependant, la mise en route de la table interne peut prendre un certain temps provoquant un délai (_downtime_) avant que l'application ne soit pleinement opérationnelle.
 
-![figure 7 - table interne](../../../static/img/internal-materialized-table.png)
+![figure 7 - table interne](../../internal-materialized-table.png)
 
 Dans un certain cas de figure, lorsque la totalité des données est divisée en plusieurs tables internes (_partition_) et par conséquent sur plusieurs instances, chaque requête doit être routée sur la bonne instance. Ce mécanisme est transparent pour l'application, et permet d'alléger le flux de récupération grâce à la répartition de la charge sur plusieurs instances. Néanmoins, ce mécanisme de routage ajoute une certaine complexité en termes de topologie infra, de même qu'un certain coût en termes de performance dû à la nécessité de router (quasi) toutes les requêtes.
 
@@ -160,7 +160,7 @@ En outre, toujours dans le cas où les données sont partitionnées, cette techn
 
 > :warning: **Attention** : Dans le pire des cas, il peut avoir des problèmes de _race condition_ si ce mécanisme n'est pas parfaitement géré.
 
-![figure 8 - table interne partitionnée](../../../static/img/internal-partition-materialized-table.png)
+![figure 8 - table interne partitionnée](../../internal-partition-materialized-table.png)
 
 > :memo: **Note** : Une partition est associée à une (ou plusieurs) clé. Cette information est connue du _consumer group_. Celui-ci permet d'associer une instance à une (ou plusieurs) partition, donc par extension, une instance est associée à une (ou plusieurs) clé. Par conséquent, chaque instance, à l'aide de sa connaissance de l'algorithme de redistribution, connaît sa (ou ses) propre clé, mais également celle(s) de ses voisins. Dès lors chaque instance est en mesure de router une requête sur la bonne instance.
 >
@@ -172,7 +172,7 @@ Les tables externes offrent l'avantage de pouvoir être construite en dehors de 
 
 Néanmoins, étant une ressource partagée, elle représente un goulot d'étranglement potentiel et ne peut pas être mise à l'échelle de la même manière que les tables internes.
 
-![figure 9 - table externe](../../../static/img/external-materialized-table.png)
+![figure 9 - table externe](../../external-materialized-table.png)
 
 #### Quel type de table choisir ?
 
@@ -238,7 +238,7 @@ Les données sont injectées dans une table au sein de la même base de données
 
 Les packages de l'application `App` et du référentiel `User` sont autonomes et la construction des packages et peut s'intégrer complètement dans un processus automatique (CI). Par conséquent la planification de déploiement et de rollback peut se faire également de manière autonome, hormis dans le cas de modification impactante du modèle de données échangé sur la _queue_ ou, depuis les _stream_ de l'_event broker_.
 
-![figure 10 - Package de déploiement](../../../static/img/deploy-package.png)
+![figure 10 - Package de déploiement](../../deploy-package.png)
 
 > :memo: **Note** : Si le modèle de données de l'application `App` change et qu'il intègre de nouveaux attributs ou en supprime, il est nécessaire de mettre à jour le composant qui extrait les données de l'_event stream_ pour les injecter dans la base de données de l'application `App`. Néanmoins, ce composant faisant partie du package de déploiement de l'application `App`, il est possible de le mettre à jour en même temps que l'application. Le déploiement reste donc autonome et ne nécessite pas de coordination avec d'autres équipes.
 

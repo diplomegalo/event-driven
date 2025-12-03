@@ -35,7 +35,7 @@ La mise en place d'un _event stream_ va permettre de séparer la production des 
 
 Dans une architecture classique, la production et la consommation des événements sont couplées au sein d'une même application. L'application va utiliser une couche de persistance pour stocker des données et une couche de consommation pour lire ces données. Au mieux ces deux couches sont séparées (par exemple en utilisant des vues matérialisées) mais elles restent au sein d'une même application.
 
-![figure 1 - la production et la consommation de la donnée sont implémentées dans la même API.](../../../static/img/data-stream-production-vs-consomation-coupled.png)
+![figure 1 - la production et la consommation de la donnée sont implémentées dans la même API.](../../data-stream-production-vs-consomation-coupled.png)
 
 #### Découplage de la production et de la consommation
 
@@ -45,7 +45,7 @@ Les applications productrices n'ont plus à se soucier de la consommation des é
 
 Les applications consommatrices n'ont plus à se soucier de la production des événements et vont chercher les données dans une zone centralisée. Les applications productrices et consommatrices sont donc indépendantes les unes des autres.
 
-![figure 2 - la production de données est découplée de la consommation.](../../../static/img/data-stream-production-vs-consomation-not-coupled.png)
+![figure 2 - la production de données est découplée de la consommation.](../../data-stream-production-vs-consomation-not-coupled.png)
 
 #### Organisation des équipes
 

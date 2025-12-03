@@ -22,7 +22,7 @@ Le _bounded context_ est une notion fondamentale et importante dans le _Domain D
 
 Généralement le modèle de conception d'un _bounded context_ est limité a celui-ci et par conséquent invisible pour les autres _bounded context_ et domaines. Néanmoins, il se peut que plusieurs _bounded context_ soient interconnectés et partagent des éléments de modélisation (_context mapping_). Dans ce cas, il est important de définir les limites de ce partage pour éviter les incohérences et les erreurs d'interprétation de même que les effets de bord dûs à des changements d'architecture.
 
-![Bound Context](../../static/img/bounded-context.png)
+![Bound Context](../../website/static/img/bounded-context.png)
 
 ## Message vs. Event
 

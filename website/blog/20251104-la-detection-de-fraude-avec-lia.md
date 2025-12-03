@@ -27,9 +27,10 @@ Un épisode **retour d’expérience** passionnant : comment une **banque régio
 Un projet mené **100 % on-premise**, dans un environnement hautement sécurisé, où chaque contrainte technique est devenue une opportunité d’innovation.  
 Porté par l’équipe Wavenet, ce cas concret démontre qu’il est possible d’intégrer l’IA dans des systèmes critiques, **sans compromis sur la confidentialité** ni sur la performance.
 
-👥 Avec la participation de :  
+👥 Avec la participation de :
+
 - [**Simon Baudart**](https://www.linkedin.com/in/simon-baudart/) – Architecte technique, spécialiste des environnements sécurisés et de l’intégration de solutions IA.  
-- [**Grégory Delgust**](https://www.linkedin.com/in/gregory-delguste/) – Chef de projet, accompagnant les clients dans la mise en œuvre d’initiatives innovantes autour de l’intelligence artificielle.  
+- [**Grégory Delguste**](https://www.linkedin.com/in/gregory-delguste/) – Chef de projet, accompagnant les clients dans la mise en œuvre d’initiatives innovantes autour de l’intelligence artificielle.  
 - [**Paul Rivière**](https://www.linkedin.com/in/paulrivierewvn/) – Data scientist et consultant BI, passionné par la valorisation des données et l’apprentissage automatique.
 
 <iframe
@@ -145,7 +146,8 @@ Lors des workshops de validation, un phénomène marquant survient : certaines t
 Autrement dit, le modèle corrige parfois les erreurs humaines.  
 Cette découverte suscite l’enthousiasme et renforce la confiance des équipes : l’IA devient un **allié crédible**, non un outil opaque.
 
-Les bénéfices se mesurent sur plusieurs plans :  
+Les bénéfices se mesurent sur plusieurs plans :
+  
 - **Gain de temps** pour les équipes compliance, qui se concentrent désormais sur les cas les plus pertinents.  
 - **Amélioration de la qualité des détections**, grâce à la cohérence du modèle.  
 - **Renforcement du dialogue** entre data scientists et métier.  
