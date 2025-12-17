@@ -32,13 +32,13 @@ La cohésion n’est pas un objectif en soi, c’est une conséquence. Ce qui do
 
 ## Isolation n’est pas autonomie
 
-Isoler une fonctionnalité respecte-t-il réellement le principe de découplage ? Pas vraiment. Lorsqu’on isole une fonctionnalité, on a tendance à la considérer comme découplée parce qu’elle possède son propre cycle de développement et de livraison. En pratique, elle reste dépendante de données et de fonctionnalités tierces qu’elle ne maîtrise plus. La dépendance existe toujours, mais elle est déplacée hors de son périmètre de contrôle.
+Isoler une application respecte-t-il réellement le principe de découplage ? Pas vraiment. Lorsqu’on isole une application, on a tendance à la considérer comme découplée parce qu’elle possède son propre cycle de développement et de livraison. Mais en pratique, elle reste dépendante de données et de fonctionnalités tierces qu’elle ne maîtrise plus. La dépendance existe toujours, mais elle est déplacée hors de son périmètre de contrôle.
 
-Dans une solution cohérente, où plusieurs fonctionnalités vivent au sein d’un même code source, une dépendance cassée se voit immédiatement. Une interface change : le code ne compile plus. Une fonctionnalité est modifiée : les tests tombent. Le problème est clair, localisé et corrigé rapidement.
+Dans une solution cohérente, où plusieurs projets ou fonctionnalités vivent au sein d’un même code source, une dépendance cassée se voit immédiatement. Une interface change : le code ne compile plus. Une fonctionnalité est modifiée : les tests tombent. Le problème est clair, localisé et corrigé rapidement.
 
-Dans des architectures beaucoup plus distribuées, une fonctionnalité peut être isolée tout en restant fortement dépendante. Le même changement passe alors souvent inaperçu : le build est vert, le déploiement se fait, et l’erreur n’apparaît qu’à l’exécution d’un cas d’usage précis. Parfois en production. Parfois sans alerte explicite.
+Dans des architectures beaucoup plus distribuées, une application peut être isolée tout en restant fortement dépendante. Le même changement passe alors souvent inaperçu : le build est vert, le déploiement se fait, et l’erreur n’apparaît qu’à l’exécution d’un cas d’usage précis. Parfois en production. Parfois sans alerte explicite.
 
-En isolant la fonctionnalité de cette manière, on ne l’a pas rendue autonome. On l’a rendue plus dépendante de contrats de données et de règles qu’elle ne contrôle pas. Casser un lien fort inhérent au processus métier fragilise alors l’architecture au lieu de la rendre robuste. Les erreurs deviennent plus difficiles à détecter, plus coûteuses à diagnostiquer, la maintenance se complique et la lisibilité du système diminue.
+En isolant l'application de cette manière, on ne l’a pas rendue autonome. On l’a rendue plus dépendante de contrats de données et de règles qu’elle ne contrôle pas. Casser un lien fort inhérent au processus métier fragilise alors l’architecture au lieu de la rendre robuste. Les erreurs deviennent plus difficiles à détecter, plus coûteuses à diagnostiquer, la maintenance se complique et la lisibilité du système diminue.
 
 Cette distinction entre séparation technique et autonomie réelle est au cœur de l’approche **Domain-Driven Design** telle que formulée par Vaughn Vernon. Celui-ci insiste sur le fait qu’un *bounded context* se construit autour d’un modèle métier cohérent, avec des règles claires et des frontières explicites, et qu’il définit précisément la manière dont il interagit avec les autres contextes, plutôt que de chercher une isolation purement technique.
 
@@ -56,15 +56,19 @@ La première erreur consiste à raisonner en termes d’enchaînement d’étape
 
 Les données sont un indicateur simple et brutal. Si une étape doit systématiquement connaître l’état exact d’une autre pour fonctionner, si elle doit relire ou vérifier ailleurs avant de pouvoir décider, alors la dépendance est réelle. Elle n’est pas technique, elle est métier. La déplacer dans un autre système ne la supprime pas ; elle devient simplement plus diffuse et plus difficile à maîtriser.
 
-La tension, elle, se ressent immédiatement lorsqu’on va trop loin dans le découpage. Elle apparaît quand « ça force » : quand une étape ne peut pas avancer sans bloquer, quand on doit appeler un autre système juste pour vérifier, quand on ajoute du transactionnel ou des retries pour masquer un problème logique. Cette tension est un signal. Elle indique que la cohérence du processus dépasse le découpage appliqué.
+La tension, elle, se ressent immédiatement lorsqu’on va trop loin dans le découpage. Elle apparaît quand « ça force » : quand on doit appeler un autre système juste pour vérifier, quand on ajoute du transactionnel ou des retries pour masquer un problème logique. Cette tension est un signal. Elle indique que la cohérence du processus dépasse le découpage appliqué. 
 
-Prenons un exemple très concret et proche du quotidien : une carte cadeau Amazon. On peut acheter une carte cadeau, la créditer, et disposer d’un moyen de paiement valide sans avoir passé la moindre commande. Le paiement existe donc avant la commande, sans ambiguïté. Autre situation tout aussi banale : commander une pizza par téléphone et la payer après livraison. Là encore, la livraison a lieu avant le paiement.
+Prenons un exemple très concret et proche du quotidien : le processus de commande, paiement et livraison d'un site ecommerce. Ces trois étapes semblent dépendantes l'une de l'autre, notamment parce que le paiement a comme pré-requis la commande. De même pour la livraison qui a pour pré-requis le paiement. Mais est-ce vraiment une dépendance ou est ce que ces étapes sont liés à des domaines différents. Pour y répondre il faut se poser la question est ce que l'un peut exister sans l'autre, est-ce que je peut payer sans avoir commander un article, ou encore est-ce que je peux être livré sans avoir payé ? Instinctivement on pourrait dire que non. Mais en êtes-vous seulement sûr ? 
 
-Ces exemples montrent que le paiement n’est pas une dépendance structurelle de la commande ou de la livraison, mais un prérequis fonctionnel qui peut être satisfait avant ou après, indépendamment de la chronologie du flux nominal.
+Allez, au hasard un portefeuille électronique à charger. On peut effectuer un paiement valide sans avoir passé la moindre commande. Le paiement existe donc avant la commande, sans ambiguïté.
+
+Autre situation tout aussi banale : commander une pizza par téléphone et la payer après livraison. Là encore, la livraison a lieu avant le paiement.
+
+Ces exemples montrent que le paiement n’est pas une dépendance structurelle de la commande ou de la livraison, mais un prérequis fonctionnel qui peut être satisfait avant ou après, indépendamment de la chronologie du flux nominal. Ces trois étapes sont donc très indépendantes l'une de l'autre et sont issues de métier très différents et autonomes. 
 
 Une dépendance réelle est plus stricte : c’est quelque chose qui **ne peut pas exister sans l’autre**. Pas « ne devrait pas ». Pas « ce serait mieux si ». **Ne peut pas**.
 
-Lorsque cette distinction n’est pas faite, on découpe trop tôt, on distribue trop fort, et on crée artificiellement de la tension. Le scope de la cohérence ne se décrète pas ; il se découvre, en observant les données nécessaires, ce qui résiste quand on tente de couper, **et en le construisant conjointement avec le métier**.
+Lorsque cette distinction n’est pas faite, on découpe trop tôt, on distribue trop fort, et on crée artificiellement de la tension. Le scope de la cohérence ne se décrète pas ; il se découvre, en observant les données et les fonctionnalités nécessaires, en identifiant ce qui résiste quand on tente de couper, **et en le construisant conjointement avec le métier**.
 
 ## Système distribué vs intégration
 
@@ -83,8 +87,6 @@ La confusion apparaît lorsque l’on utilise des mécanismes d’intégration p
 Cela ressemble à une cour de récréation sans structure, où un éducateur débordé ne gère plus que les accidents graves. Ce n’est qu’au moment où la sonnerie retentit, que les élèves se rangent par classe et que chaque instituteur reprend la gestion de son groupe, que l’ordre revient. De la même manière, un système d’information retrouve lisibilité et robustesse lorsque chaque cohérence est clairement identifiée et confiée au bon niveau de responsabilité.
 
 ## Conclusion
-
-<!-- SEO keywords: architecture logicielle, architecture d’entreprise, microservices, système distribué, intégration applicative, DDD, bounded context, event-driven architecture, ESB, EAI -->
 
 Cet article ne cherche ni à réhabiliter le monolithe, ni à condamner les microservices, ni à ériger l’intégration en solution universelle. Il rappelle l’essentiel : **la qualité d’une architecture ne se mesure pas à son niveau de découplage, mais à la cohérence qu’elle préserve**.
 
