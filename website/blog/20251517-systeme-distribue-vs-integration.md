@@ -32,7 +32,7 @@ La cohésion n’est pas un objectif en soi, c’est une conséquence. Ce qui do
 
 ## Isolation n’est pas autonomie
 
-Isoler une application respecte-t-il réellement le principe de découplage ? Pas vraiment. Lorsqu’on isole une application, on a tendance à la considérer comme découplée parce qu’elle possède son propre cycle de développement et de livraison. Mais en pratique, elle reste dépendante de données et de fonctionnalités tierces qu’elle ne maîtrise plus. La dépendance existe toujours, mais elle est déplacée hors de son périmètre de contrôle.
+Est-ce que l'extraction d'un ensemble de fonctionnalités d'une application (A) pour aller simplement les isoler dans une autre application (B) respecte-t-il réellement le principe de découplage ? Pas vraiment, car même si on a tendance à les considérer comme découplées parce qu’elles sont regroupées dans une application (B) qui possède son propre cycle de développement et de livraison, en pratique, la nouvelle application (B) isolée reste toujours dépendante de données et de fonctionnalités de l'application (A) initiale. En outre cette nouvelle application (B) isolées ne maîtrise plus ces dépendances parce qu'elles sont déplacées hors de son périmètre de contrôle.
 
 Dans une solution cohérente, où plusieurs projets ou fonctionnalités vivent au sein d’un même code source, une dépendance cassée se voit immédiatement. Une interface change : le code ne compile plus. Une fonctionnalité est modifiée : les tests tombent. Le problème est clair, localisé et corrigé rapidement.
 
@@ -58,13 +58,13 @@ Les données sont un indicateur simple et brutal. Si une étape doit systématiq
 
 La tension, elle, se ressent immédiatement lorsqu’on va trop loin dans le découpage. Elle apparaît quand « ça force » : quand on doit appeler un autre système juste pour vérifier, quand on ajoute du transactionnel ou des retries pour masquer un problème logique. Cette tension est un signal. Elle indique que la cohérence du processus dépasse le découpage appliqué. 
 
-Prenons un exemple très concret et proche du quotidien : le processus de commande, paiement et livraison d'un site ecommerce. Ces trois étapes semblent dépendantes l'une de l'autre, notamment parce que le paiement a comme pré-requis la commande. De même pour la livraison qui a pour pré-requis le paiement. Mais est-ce vraiment une dépendance ou est ce que ces étapes sont liés à des domaines différents. Pour y répondre il faut se poser la question est ce que l'un peut exister sans l'autre, est-ce que je peut payer sans avoir commander un article, ou encore est-ce que je peux être livré sans avoir payé ? Instinctivement on pourrait dire que non. Mais en êtes-vous seulement sûr ? 
+Prenons un exemple très concret et proche du quotidien : le processus de commande, paiement et livraison d'un site ecommerce. Ces trois étapes semblent dépendantes l'une de l'autre, notamment parce que le paiement a comme pré-requis la commande. De même pour la livraison qui a pour pré-requis le paiement. Mais est-ce vraiment une dépendance ou est ce que ces étapes sont liés à des domaines différents ? Pour y répondre il faut se poser la question : est ce que l'un peut exister sans l'autre ? Est-ce que je peut payer sans avoir commander un article, ou encore est-ce que je peux être livré sans avoir payé ? Instinctivement on pourrait dire que non, mais en êtes-vous seulement sûr ? 
 
 Allez, au hasard un portefeuille électronique à charger. On peut effectuer un paiement valide sans avoir passé la moindre commande. Le paiement existe donc avant la commande, sans ambiguïté.
 
 Autre situation tout aussi banale : commander une pizza par téléphone et la payer après livraison. Là encore, la livraison a lieu avant le paiement.
 
-Ces exemples montrent que le paiement n’est pas une dépendance structurelle de la commande ou de la livraison, mais un prérequis fonctionnel qui peut être satisfait avant ou après, indépendamment de la chronologie du flux nominal. Ces trois étapes sont donc très indépendantes l'une de l'autre et sont issues de métier très différents et autonomes. 
+Ces exemples montrent que le paiement n’est pas une dépendance structurelle de la commande ou de la livraison, mais un prérequis fonctionnel qui peut être satisfait avant ou après, indépendamment de la chronologie du flux nominal. Ces trois étapes sont donc très indépendantes l'une de l'autre et sont issues de domaines très différents et autonomes. 
 
 Une dépendance réelle est plus stricte : c’est quelque chose qui **ne peut pas exister sans l’autre**. Pas « ne devrait pas ». Pas « ce serait mieux si ». **Ne peut pas**.
 
