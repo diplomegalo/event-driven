@@ -1,6 +1,5 @@
 import { themes as prismThemes } from 'prism-react-renderer';
 import type { Config } from '@docusaurus/types';
-import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
   title: 'Pierre-Arnaud Delsaut | Blog',
@@ -8,23 +7,16 @@ const config: Config = {
   favicon: 'img/favicon.ico',
 
   markdown: {
-    mermaid: true
+    mermaid: true,
+    hooks: {
+      onBrokenMarkdownLinks: 'warn',
+    },
   },
-  themes: ['@docusaurus/theme-mermaid'],
 
-  // Set the production url of your site here
-  url: 'https://agreeable-stone-05e821510.5.azurestaticapps.net',
-  // Set the /<baseUrl>/ pathname under which your site is served
-  // For GitHub pages deployment, it is often '/<projectName>/'
+  url: 'https://padelsaut.dev',
   baseUrl: '/',
 
-  // GitHub pages deployment config.
-  // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'diplomegalo', // Usually your GitHub org/user name.
-  projectName: 'event-driven', // Usually your repo name.
-
   onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
 
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
@@ -48,11 +40,9 @@ const config: Config = {
     ],
   ],
 
-
   themeConfig: {
     colorMode: {
-      defaultMode: 'light', // Définit le mode par défaut sur "light"
-      disableSwitch: false, // Permet à l'utilisateur de changer de mode (optionnel)
+      defaultMode: 'light',
     },
     navbar: {
       logo: {
@@ -68,7 +58,7 @@ const config: Config = {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
     },
-  } satisfies Preset.ThemeConfig,
+  },
 };
 
 export default config;

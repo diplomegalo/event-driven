@@ -98,6 +98,6 @@ La cohérence doit précéder la cohésion, pas l’inverse.**
 
 ---
 
-### Note de transparence (IA Act)
-
-Cet article a été rédigé par l’auteur sur la base de son expérience professionnelle. Un outil d’intelligence artificielle a été utilisé **comme aide à la rédaction et à la reformulation**, sans génération autonome de contenu ni substitution à l’analyse humaine. Les positions, exemples et conclusions restent entièrement sous la responsabilité de l’auteur.
+>**Note de transparence**
+>
+>Cet article a été rédigé par l’auteur sur la base de son expérience professionnelle. Un outil d’intelligence artificielle a été utilisé **comme aide à la rédaction et à la reformulation**, sans génération autonome de contenu ni substitution à l’analyse humaine. Les positions, exemples et conclusions restent entièrement sous la responsabilité de l’auteur.
