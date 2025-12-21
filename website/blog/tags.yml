@@ -1,0 +1,53 @@
+# website/blog/tags.yml
+# Taxonomie officielle des tags de blog
+# Chaque clé est un slug unique, avec label, description, et permalink
+
+integration:
+  label: "intégration"
+  permalink: "/integration"
+  description: Connecter des systèmes indépendants par échanges et contrats.
+
+conception:
+  label: "conception"
+  permalink: "/conception"
+  description: Conception de logiciels, design patterns et bonnes pratiques. 
+
+ia:
+  label: "ia"
+  permalink: "/ia"
+  description: Intelligence artificielle appliquée à des cas concrets.
+
+data:
+  label: "data"
+  permalink: "/data"
+  description: Exploration, modélisation et valorisation de données.
+
+securite:
+  label: "securite"
+  permalink: "/securite"
+  description: Protection des systèmes et des données.
+
+frontend:
+  label: "frontend"
+  permalink: "/frontend"
+  description: Interfaces web, rendu et performance côté client.
+
+architecture:
+  label: "architecture"
+  permalink: "/architecture"
+  description: Principes généraux de conception d'applications et de systèmes.
+
+podcast:
+  label: "podcast"
+  permalink: "/podcast"
+  description: Épisodes audio, interviews et retours d'expérience.
+
+wavenet:
+  label: "Wavenet"
+  permalink: "/wavenet"
+  description: Contenus liés à Wavenet (podcast, culture, projets).
+
+methode-agile:
+  label: "methode-agile"
+  permalink: "/methode-agile"
+  description: Méthodes agiles, itérations et amélioration continue.

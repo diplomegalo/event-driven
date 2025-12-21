@@ -1,16 +1,24 @@
 ---
 title: Système distribué vs intégration - quand le manque de cohésion crée l’incohérence
+meta_title: "Système distribué vs intégration | Architecture logicielle robuste"
 slug: systeme-distribue-vs-integration
 description: Dans de nombreuses architectures modernes, le problème du découplage est souvent mal abordé. Cet article explore pourquoi plus de cohérence, et non moins de cohésion, est la clé d’une architecture robuste et fait la distinction entre système distribué et intégration.
 date: 2025-12-17
 category: Architecture & Design
 tags: 
-  - architecture solution
-  - microservices
+  - architecture
+  - integration
+keywords:
+  - architecture logicielle
   - système distribué
   - intégration
+  - microservices
   - domain driven design
   - bounded context
+  - cohérence applicative
+  - découplage
+  - architecture d’entreprise
+  - enterprise integration patterns
 authors:
     - pierre-arnaud-delsaut
 draft: false

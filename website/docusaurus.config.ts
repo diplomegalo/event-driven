@@ -35,6 +35,7 @@ const config: Config = {
           routeBasePath: '/',
           showReadingTime: true,
           blogSidebarCount: 0,
+          onInlineTags: 'throw'
         },
       },
     ],

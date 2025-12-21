@@ -1,21 +1,28 @@
 ---
 title: "The Wavenet’s Got Talent – Le rôle de l’analyste et du Scrum Master"
+meta_title: "Analyste fonctionnel et Scrum Master | Rôles IT et Agilité"
 slug: wgt-role-analyste-et-scrum-master
 description: "Chez Wavenet, les analystes ne se limitent pas à traduire des besoins : ils conçoivent, challengent, orchestrent et testent. Clotilde, Margaud et Andy racontent leur quotidien d’“analystes plus plus”."
 date: 2025-09-15
 category: "The Wavenet’s Got Talent"
 tags:
-  - analyste
+  - wavenet
+  - podcast
+keywords:
+  - analyste fonctionnel
   - scrum master
   - agilité
-  - Wavenet
-  - the wavenet's got talent 
+  - wavenet
   - podcast
+  - collaboration client
+  - méthodologie scrum
+  - gestion de projet IT
+  - rôles produit
+  - culture projet
+  - analyste plus plus
 authors:
   - pierre-arnaud-delsaut
 draft: false
-# image: (laisse vide pour l’instant)
-spotify_url: "https://open.spotify.com/episode/6ZxogW7wOAS996HPQm58EQ"
 ---
 
 Chez Wavenet, le rôle d’analyste ne se résume pas à “traduire” des besoins. C’est un métier **“plus plus”** : comprendre le fonctionnement réel des utilisateurs, **challenger** les demandes, **concevoir** une solution soutenable, puis **accompagner** le développement jusqu’aux tests et à la mise en production.  

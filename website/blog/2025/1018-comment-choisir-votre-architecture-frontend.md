@@ -1,20 +1,29 @@
 ---
 title: "Comment choisir votre architecture frontend ? SPA, SSR, SSG"
+meta_title: "Architecture frontend : SPA, SSR, SSG | Comparaison & Performance web"
 slug: "frontend-choisir-architecture-spa-ssr-ssg"
 description: "Définitions, construction, échanges client/serveur et comparaison selon des critères concrets (complexité, performance, SEO, sécurité, éco-conception) pour SPA, SSR et SSG."
 authors:
   - pierre-arnaud-delsaut
 tags: 
   - frontend
+  - conception
   - architecture
+  - podcast
+  - wavenet
+keywords:
+  - architecture frontend
   - SPA
   - SSR
   - SSG
-  - podcast
-  - focus tech
-  - performance
+  - performance web
   - SEO
-  - Wavenet
+  - rendering
+  - static site generation
+  - server side rendering
+  - single page application
+  - éco-conception
+  - scalabilité
 date: "2025-10-18"
 draft: false
 ---

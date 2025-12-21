@@ -1,16 +1,28 @@
 ---
 title: "La détection de fraude intelligente avec l'IA et le Machine Learning"
+meta_title: "Détection de fraude avec IA | Machine Learning bancaire on-premise"
 slug: "detection-fraude-intelligente-ia-machine-learning"
 description: "Retour d’expérience : comment une banque régionale a réduit par 5 les faux positifs grâce au machine learning, en respectant des contraintes fortes (on-premise, sécurité, conformité) et en impliquant le métier dès les premières itérations."
 date: "2025-11-04"
 category: "Retour d’expérience"
 tags:
-  - IA
-  - machine learning
-  - détection d'anomalies
-  - data science
+  - ia
+  - data
   - podcast
-  - Wavenet
+  - wavenet
+keywords:
+  - détection de fraude
+  - machine learning
+  - IA bancaire
+  - faux positifs
+  - on-premise
+  - sécurité données
+  - conformité
+  - data science
+  - modèle supervisé
+  - anti-fraude
+  - banque
+  - explicabilité IA
 authors:
   - pierre-arnaud-delsaut
 draft: false
