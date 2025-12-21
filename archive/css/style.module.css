@@ -1,0 +1,443 @@
+.page {
+  width: 100vw;
+  min-height: 100vh;
+  background: #fff;
+}
+
+.container {
+  width: 1100px;         /* Choisis la largeur fixe souhaitée */
+  margin: 0 auto;        /* Centre horizontalement */
+  display: flex;
+  gap: 2rem;
+  /* Ajoute un padding si besoin */
+}
+
+@media (max-width: 1200px) {
+  .container {
+    width: 98vw;         /* Pour éviter le débordement sur petits écrans */
+    min-width: 320px;
+  }
+}
+
+.columnLarge {
+  flex: 7; /* Colonne principale (80%) */
+}
+
+.columnSmall {
+  flex: 3; /* Colonne secondaire (20%) */
+}
+
+.title {
+  color: #40BBED; /* Couleur du titre */
+  font-size: 2rem; /* Taille du texte (modifiable selon vos besoins) */
+  text-align: left; /* Aligne le texte à gauche */
+  margin-bottom: 10px; /* Espacement sous le titre */
+}
+
+.titleLine {
+  width: 100%; /* Ligne qui prend toute la largeur */
+  height: 2px; /* Épaisseur de la ligne */
+  background-color: #40BBED; /* Couleur de la ligne */
+  margin: 0 auto 20px auto; /* Centrer la ligne et ajouter un espacement en bas */
+}
+
+.profileSection {
+  margin-bottom: 1.2rem; /* Réduit l'espace entre les sections */
+}
+
+.profileContent {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.profilePhoto {
+  width: 210px;          /* Augmente la taille de la photo de 50% */
+  height: 255px;
+  border-radius: 16px;
+  object-fit: cover;
+  border: 2px solid #ccc;
+  background: #f5f5f5;
+}
+
+.profileText {
+  color: #153060; /* Bleu foncé */
+  font-size: 1.1rem;
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+.profileDetails ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.profileDetails {
+  color: #153060; /* Bleu foncé */
+}
+
+.profileDetails li {
+  color: #153060; /* Force la couleur sur chaque ligne */
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.profileList {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+  color: #153060; /* Bleu foncé */
+  font-size: 1.1rem;
+  font-weight: 500;
+  line-height: 1.5;      /* Réduit l'interligne */
+}
+
+.profileList li {
+  margin-bottom: 0.5rem; /* Réduit l'espace entre les lignes */
+}
+
+summary {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #40BBED;
+  cursor: pointer;
+  outline: none;
+  list-style: none; /* masque le triangle natif sur certains navigateurs */
+  display: flex;
+  align-items: center;
+}
+
+summary::-webkit-details-marker {
+  display: none; /* masque le triangle natif sur Chrome/Safari */
+}
+
+summary::after {
+  content: " ...";
+  color: #40BBED;
+  font-weight: normal;
+  margin-left: 0.3em;
+}
+
+/* Supprime les trois points quand la section est ouverte */
+details[open] > summary::after {
+  content: "";
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.timelineItem {
+  background: #f8fbfd;
+  border-left: 3px solid #40BBED;
+  padding: 0.7rem 1rem 0.7rem 1.2rem;
+  border-radius: 6px;
+}
+
+.timelineDate {
+  font-weight: bold;
+  color: #153060;
+  margin-bottom: 0.3rem;
+}
+
+.timelineList {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+  color: #153060;
+  font-size: 1rem;
+}
+
+.timelineList li {
+  margin-bottom: 0.3rem;
+}
+
+.timelineSubTitle {
+  font-weight: bold;
+  color: #40BBED;
+  margin-bottom: 0.3rem;
+  margin-top: 1.2rem;
+  position: relative;
+  padding-top: 0.7rem;
+}
+
+.timelineSubTitle::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40px; /* ou 100% pour toute la largeur */
+  height: 2px;
+  background: #40BBED;
+}
+
+.timelineItemItalic{
+  font-style: italic;
+  color: #153060;
+}
+
+.skillsTableWrapper {
+  width: 100%;
+}
+
+.skillsTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1rem;
+  background: #fff;
+  border: 3px solid #40BBED;
+  table-layout: auto; /* ou fixed si tu veux une répartition stricte */
+}
+
+.skillsTable th, .skillsTable td {
+  border: 1px solid #40BBED;
+}
+
+.skillsTable th,
+.skillsTable td {
+  /* Ajoute ceci pour forcer l'expansion */
+  min-width: 120px;
+}
+
+.skillsTable th:first-child,
+.skillsTable td:first-child {
+  width: 22%;
+}
+
+.skillsTable th:nth-child(2),
+.skillsTable td:nth-child(2) {
+  width: 58%;
+}
+
+.skillsTable th:last-child{
+  width: 20%;
+  text-align: center;
+}
+
+.skillsTable th:first-child,
+.skillsTable td:first-child {
+  border-left-width: 3px;
+}
+.skillsTable th:last-child,
+.skillsTable td:last-child {
+  border-right-width: 3px;
+}
+.skillsTable tr:first-child th {
+  border-top-width: 3px;
+}
+.skillsTable tr:last-child td {
+  border-bottom-width: 3px;
+}
+
+.skillsTable th {
+  background: #f8fbfd;
+  color: #40BBED;
+  font-size: 1.15rem;
+}
+
+.skillsTable tr:nth-child(even) {
+  background: #f8fbfd;
+}
+
+.skillsCategory {
+  font-weight: bold;
+  color: #40BBED;
+}
+
+.skillsLegendWrapper {
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.skillsLegendTable {
+  width: 100%;
+  border-collapse: collapse;
+  background: #f8fbfd;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  border: 3px solid #40BBED;      /* Bordure extérieure épaisse */
+  table-layout: auto;
+}
+
+.skillsLegendTable th, .skillsLegendTable td {
+  border: 1px solid #40BBED;      /* Bordures internes */
+  width: 200px;
+  text-align: center;
+}
+
+.skillsLegendTable th:first-child,
+.skillsLegendTable td:first-child {
+  border-left-width: 3px;
+}
+.skillsLegendTable th:last-child,
+.skillsLegendTable td:last-child {
+  border-right-width: 3px;
+}
+.skillsLegendTable tr:first-child th {
+  border-top-width: 3px;
+}
+.skillsLegendTable tr:last-child td {
+  border-bottom-width: 3px;
+}
+
+.skillsLegendTitle {
+  text-align: center;
+  color: #153060;
+  font-size: 1.1rem;
+  font-weight: bold;
+  background: #eaf6fb;
+  padding: 0.5em 0;
+}
+
+.skillsLegendLabel {
+  font-size: 0.95em;
+  color: #153060;
+  margin-top: 0.2em;
+}
+
+.headerSection {
+  width: 100vw;
+  margin-left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  border: 1px dashed #bcd6ea;
+  margin-bottom: 2rem;
+  box-sizing: border-box;
+}
+
+.headerContent {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.2rem 2rem;
+  gap: 2rem;
+}
+
+.headerLeft,
+.headerMiddle,
+.headerRight {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.headerLeft {
+  flex: 1;
+  align-items: center;
+}
+
+.headerMiddle {
+  flex: 1;
+  align-items: center;
+  border-left: 1px dashed #bcd6ea;
+  border-right: 1px dashed #bcd6ea;
+  padding: 0 2rem;
+}
+
+.headerRight {
+  flex: 1;
+  align-items: flex-start;
+}
+
+.headerLogo {
+  max-width: 300px;
+  height: auto;
+  margin-bottom: 0.5rem;
+  border: 2px solid #d9d9d9; /* Bordure pour visualiser la limite */
+  border-radius: 12px;
+}
+
+.headerSlogan {
+  color: #8ed6f7;
+  font-size: 1.1rem;
+  margin-top: 0.2rem;
+}
+
+.headerCompany {
+  color: #8ed6f7;
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-bottom: 0.2rem;
+}
+
+.headerLabel {
+  color: #8ed6f7;
+  font-weight: bold;
+}
+
+.headerRight a {
+  color: #8ed6f7;
+  text-decoration: underline;
+  font-size: 1rem;
+}
+
+@media (max-width: 800px) {
+  .container {
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+    padding: 0 0.5rem;
+    gap: 0;
+  }
+
+  .columnLarge,
+  .columnSmall {
+    width: 100%;
+    flex: unset;
+    max-width: 100vw;
+  }
+
+  .headerContent {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem 0.5rem;
+  }
+
+  .headerLeft,
+  .headerMiddle,
+  .headerRight {
+    align-items: center;
+    padding: 0;
+    border: none;
+  }
+
+  .skillsTableWrapper,
+  .skillsLegendWrapper {
+    overflow-x: auto;
+  }
+
+  .skillsTable,
+  .skillsLegendTable {
+    font-size: 0.85rem;    /* Réduit la taille de la police */
+    min-width: 320px;      /* Réduit la largeur minimale */
+  }
+
+  .skillsTable th,
+  .skillsTable td,
+  .skillsLegendTable th,
+  .skillsLegendTable td {
+    min-width: 60px;       /* Réduit la largeur minimale des cellules */
+    padding: 0.3em 0.4em;  /* Réduit le padding */
+    font-size: 0.85em;     /* Réduit la taille de police dans les cellules */
+  }
+
+  /* Ajoutez ceci pour la section profil */
+  .profileContent {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .profilePhoto {
+    margin: 0 auto;
+    display: block;
+  }
+}
