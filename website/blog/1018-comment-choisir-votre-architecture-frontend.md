@@ -4,13 +4,26 @@ slug: "frontend-choisir-architecture-spa-ssr-ssg"
 description: "Définitions, construction, échanges client/serveur et comparaison selon des critères concrets (complexité, performance, SEO, sécurité, éco-conception) pour SPA, SSR et SSG."
 authors:
   - pierre-arnaud-delsaut
-tags: ["frontend","architecture","SPA","SSR","SSG","podcast","tech","performance","seo","web-performance","rendering","static-site","scalability","ux","best-practices", "wavenet"] 
+tags: 
+  - frontend
+  - architecture
+  - SPA
+  - SSR
+  - SSG
+  - podcast
+  - tech
+  - performance
+  - seo
+  - web-performance
+  - rendering
+  - static-site
+  - scalability
+  - ux
+  - best-practices
+  - wavenet
 date: "2025-10-18"
 draft: false
 ---
-
-# 🦆 Comment choisir votre architecture frontend ?
-## SPA, SSR, SSG : le match des architectures selon Wavenet
 
 Après avoir exploré dans un précédent épisode la question *« Les clients légers sont-ils devenus trop lourds ? »*, l’équipe du **Wavenet Podcast – Focus Tech** poursuit sa série consacrée au frontend.  
 Cette fois, il s’agit de mettre de l’ordre entre trois architectures souvent citées mais rarement comparées en détail : la **SPA**, le **SSR** et le **SSG**.  
@@ -19,7 +32,7 @@ Cette fois, il s’agit de mettre de l’ordre entre trois architectures souvent
 autant d’éléments **qui permettront de se faire une meilleure idée de comment procéder à un choix**.  
 
 Un épisode complet, pédagogique, et fidèle à l’esprit Wavenet : clair, technique, et sans détour. 🦆  
-
+<!-- truncate -->
 <iframe
     data-testid="embed-iframe" 
     style={{borderRadius: "12px"}}

@@ -22,12 +22,9 @@ draft: false
 spotify_url: "https://open.spotify.com/episode/6ZxogW7wOAS996HPQm58EQ"
 ---
 
-import React from 'react';
-
-## 🎧 Introduction
-
 Chez Wavenet, le rôle d’analyste ne se résume pas à “traduire” des besoins. C’est un métier **“plus plus”** : comprendre le fonctionnement réel des utilisateurs, **challenger** les demandes, **concevoir** une solution soutenable, puis **accompagner** le développement jusqu’aux tests et à la mise en production.  
 Dans cet épisode de *The Wavenet’s Got Talent*, [Clotilde Delhaye](https://www.linkedin.com/in/delhaye-clotilde-50b9a1210/), [Margaud Delvaux](https://www.linkedin.com/in/margaud-delvaux-7661a6118/) et [Andy Deffrasnes](https://www.linkedin.com/in/andy-deffrasnes-21920615/) racontent leur quotidien : l’interface entre le métier, les équipes techniques et la réalité des contraintes (budget, délais, expérience utilisateur).
+<!-- truncate -->
 
 <iframe
   data-testid="embed-iframe"

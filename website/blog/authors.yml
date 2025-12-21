@@ -1,10 +1,9 @@
 pierre-arnaud-delsaut:
   name: "Pierre-Arnaud Delsaut"
-  title: "Développeur | Architecte | Podcaster"
+  title: "Developer | Architect | Podcaster"
   image_url: "/img/authors/delsaut-pierre-arnaud.jpg"
   socials:
     linkedin: "https://www.linkedin.com/in/pierre-arnaud-delsaut/"
     github: "https://github.com/diplomegalo"
-  email: "pa.delsaut@wavenet.be"
-  page:
-    permalink: "authors/delsaut-pierre-arnaud"
+    email: "pa.delsaut@wavenet.be"
+page: true

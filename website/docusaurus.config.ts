@@ -42,16 +42,9 @@ const config: Config = {
         blog: {
           routeBasePath: '/',
           showReadingTime: true,
-          feedOptions: {
-            type: 'all',
-            title: 'Blog de Pierre-Arnaud Delsaut',
-            description: 'Articles et dossiers techniques sur le développement logiciel, l\'architecture et l\'ingénierie logicielle.',
-          }
+          blogSidebarCount: 0,
         },
-        theme: {
-          customCss: './src/css/custom.css',
-        },
-      } satisfies Preset.Options,
+      },
     ],
   ],
 
@@ -62,24 +55,10 @@ const config: Config = {
       disableSwitch: false, // Permet à l'utilisateur de changer de mode (optionnel)
     },
     navbar: {
-      title: 'Pierre-Arnaud Delsaut',
       logo: {
         alt: 'Blog Personnel de Pierre-Arnaud Delsaut',
-        src: 'img/logo.jpg',
+        src: 'img/logo.png',
       },
-      items: [
-        {
-          href: 'https://github.com/diplomegalo',
-          position: 'right',
-          className: 'navbar-github',
-          'aria-label': 'GitHub',
-        },
-        {
-          href: 'https://www.linkedin.com/in/pierre-arnaud-delsaut-b6a9a742/',
-          position: 'right',
-          className: 'navbar-linkedin',
-        }
-      ],
     },
     footer: {
       style: 'dark',

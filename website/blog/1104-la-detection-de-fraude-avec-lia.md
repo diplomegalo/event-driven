@@ -21,12 +21,10 @@ draft: false
 spotify_url: "https://open.spotify.com/episode/0wLu78ZnbwOvGimJcNfpVB?si=b6060d9dca6a488a"
 ---
 
-## 🎧 Chapeau
-
 Un épisode **retour d’expérience** passionnant : comment une **banque régionale** a réussi à réduire **par cinq** le nombre de faux positifs dans la détection de fraude grâce au **machine learning**.  
 Un projet mené **100 % on-premise**, dans un environnement hautement sécurisé, où chaque contrainte technique est devenue une opportunité d’innovation.  
 Porté par l’équipe Wavenet, ce cas concret démontre qu’il est possible d’intégrer l’IA dans des systèmes critiques, **sans compromis sur la confidentialité** ni sur la performance.
-
+<!-- truncate -->
 👥 Avec la participation de :
 
 - [**Simon Baudart**](https://www.linkedin.com/in/simon-baudart/) – Architecte technique, spécialiste des environnements sécurisés et de l’intégration de solutions IA.  

@@ -20,16 +20,10 @@ authors:
 draft: false
 ---
 
-# Système distribué vs intégration : quand le manque de cohésion crée l’incohérence
-
-**Plus de cohérence, moins de cohésion — pas l’inverse.**
-
-## Chapeau
-
 Dans de nombreuses architectures modernes dites **microservices**, au cœur de l’**architecture logicielle** et de l’**architecture d’entreprise**, le problème est souvent attaqué par le mauvais angle. On cherche d’abord à réduire la cohésion, à découpler, à isoler les fonctionnalités, en partant du principe que moins de dépendances visibles mènera mécaniquement à de meilleurs systèmes. Or, un principe simple mérite d’être rappelé — transmis par l’un de mes professeurs et largement confirmé par l’expérience de terrain : **plus de cohérence, moins de cohésion**, et non l’inverse.
 
 La cohésion n’est pas un objectif en soi, c’est une conséquence. Ce qui doit guider une architecture, c’est d’abord la cohérence du processus métier, de ses étapes et des données qu’elles manipulent. Chercher à réduire la cohésion sans s’assurer de cette cohérence revient à déplacer les problèmes plutôt qu’à les résoudre.
-
+<!-- truncate -->
 ## Isolation n’est pas autonomie
 
 Est-ce que l'extraction d'un ensemble de fonctionnalités d'une application (A) pour aller simplement les isoler dans une autre application (B) respecte-t-il réellement le principe de découplage ? Pas vraiment, car même si on a tendance à les considérer comme découplées parce qu’elles sont regroupées dans une application (B) qui possède son propre cycle de développement et de livraison, en pratique, la nouvelle application (B) isolée reste toujours dépendante de données et de fonctionnalités de l'application (A) initiale. En outre cette nouvelle application (B) isolées ne maîtrise plus ces dépendances parce qu'elles sont déplacées hors de son périmètre de contrôle.
