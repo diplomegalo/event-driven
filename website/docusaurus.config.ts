@@ -30,7 +30,9 @@ const config: Config = {
     [
       '@docusaurus/preset-classic',
       {
-        docs: false, 
+        docs: {
+          onInlineTags: 'throw',
+        }, 
         blog: {
           routeBasePath: '/',
           showReadingTime: true,
@@ -50,6 +52,14 @@ const config: Config = {
         alt: 'Blog Personnel de Pierre-Arnaud Delsaut',
         src: 'img/logo.png',
       },
+      items: [
+        {
+          type: 'doc',
+          docId: 'event-storming/event-storming',
+          position: 'left',
+          label: 'Event Storming',
+        },
+      ],
     },
     footer: {
       style: 'dark',
