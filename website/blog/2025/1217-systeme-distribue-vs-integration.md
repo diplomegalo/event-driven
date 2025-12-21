@@ -5,16 +5,12 @@ description: Dans de nombreuses architectures modernes, le problème du découpl
 date: 2025-12-17
 category: Architecture & Design
 tags: 
-  - Architecture logicielle
-  - Architecture d’entreprise
-  - Microservices
-  - Système distribué
-  - Intégration applicative
-  - DDD
-  - Bounded Context
-  - Event-Driven Architecture
-  - ESB
-  - EAI
+  - architecture solution
+  - microservices
+  - système distribué
+  - intégration
+  - domain driven design
+  - bounded context
 authors:
     - pierre-arnaud-delsaut
 draft: false

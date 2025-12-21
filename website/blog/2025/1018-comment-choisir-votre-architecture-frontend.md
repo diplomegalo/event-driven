@@ -11,16 +11,10 @@ tags:
   - SSR
   - SSG
   - podcast
-  - tech
+  - focus tech
   - performance
-  - seo
-  - web-performance
-  - rendering
-  - static-site
-  - scalability
-  - ux
-  - best-practices
-  - wavenet
+  - SEO
+  - Wavenet
 date: "2025-10-18"
 draft: false
 ---

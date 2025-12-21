@@ -6,15 +6,11 @@ date: "2025-11-04"
 category: "Retour d’expérience"
 tags:
   - IA
-  - Machine Learning
-  - Détection d'anomalies
-  - Banque
-  - Compliance
-  - On-premise
-  - AutoML
-  - Data Science
-  - Sécurité
-  - Solution
+  - machine learning
+  - détection d'anomalies
+  - data science
+  - podcast
+  - Wavenet
 authors:
   - pierre-arnaud-delsaut
 draft: false

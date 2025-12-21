@@ -5,16 +5,12 @@ description: "Chez Wavenet, les analystes ne se limitent pas à traduire des bes
 date: 2025-09-15
 category: "The Wavenet’s Got Talent"
 tags:
-  - Analyste fonctionnel
-  - Scrum Master
-  - Agilité
-  - Méthodologie Scrum
-  - Gestion de projet IT
-  - Collaboration client
+  - analyste
+  - scrum master
+  - agilité
   - Wavenet
-  - Solution
-  - Podcast RH
-  - Carrières IT
+  - the wavenet's got talent 
+  - podcast
 authors:
   - pierre-arnaud-delsaut
 draft: false
