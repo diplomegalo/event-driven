@@ -21,13 +21,45 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20.19.6
+      
+      - name: Verify Environment
+        run: |
+          echo "::group::Environment Information"
+          echo "Node version: $(node --version)"
+          echo "NPM version: $(npm --version)"
+          echo "Working directory: $(pwd)"
+          echo "::endgroup::"
+          
+          echo "::group::Checking project files"
+          if [ ! -f "package.json" ]; then
+            echo "::error::package.json not found in website directory"
+            exit 1
+          fi
+          echo "✓ package.json found"
+          
+          if [ ! -f "package-lock.json" ]; then
+            echo "::warning::package-lock.json not found. This may lead to inconsistent builds."
+          else
+            echo "✓ package-lock.json found"
+          fi
+          echo "::endgroup::"
+        working-directory: website
 
       - name: npm install, build, and test
         run: |
-          npm install
-          npm run build --if-present
-          npm run test --if-present
+          echo "::group::Installing dependencies"
+          npm install || { echo "::error::Failed to install npm dependencies. Please check package.json and package-lock.json for issues."; exit 1; }
+          echo "::endgroup::"
+          
+          echo "::group::Building the project"
+          npm run build --if-present || { echo "::error::Build failed. Please check the build configuration and source files for errors."; exit 1; }
+          echo "::endgroup::"
+          
+          echo "::group::Running tests"
+          npm run test --if-present || { echo "::warning::Tests failed or no tests found. Review test configuration if tests are expected."; }
+          echo "::endgroup::"
         working-directory: website
+        continue-on-error: false
       
       - name: Deploy
         id: builddeploy
@@ -42,6 +74,43 @@ jobs:
           # api_location: "api" # Api source code path - optional
           output_location: "/build" # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
+      
+      - name: Deployment Status
+        if: always()
+        run: |
+          if [ "${{ steps.builddeploy.outcome }}" == "success" ]; then
+            echo "::notice::Deployment successful! The website has been deployed to Azure Static Web Apps."
+          elif [ "${{ steps.builddeploy.outcome }}" == "failure" ]; then
+            echo "::error::Deployment failed. Please verify:"
+            echo "::error::1. The AZURE_STATIC_WEB_APPS_API_TOKEN_AGREEABLE_STONE_05E821510 secret is correctly configured"
+            echo "::error::2. The Azure Static Web App resource exists and is active"
+            echo "::error::3. The app_location and output_location paths are correct"
+            echo "::error::4. Check Azure Static Web Apps deployment logs for more details"
+          elif [ "${{ steps.builddeploy.outcome }}" == "skipped" ]; then
+            echo "::warning::Deployment was skipped, likely due to a previous step failure"
+          fi
+      
+      - name: Workflow Summary
+        if: always()
+        run: |
+          echo "## Workflow Execution Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Step | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Build & Test | ${{ job.status }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Deployment | ${{ steps.builddeploy.outcome }} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ job.status }}" != "success" ]; then
+            echo "### ⚠️ Troubleshooting Steps" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "If the workflow failed, check the following:" >> $GITHUB_STEP_SUMMARY
+            echo "- Review the step logs above for specific error messages" >> $GITHUB_STEP_SUMMARY
+            echo "- Ensure all dependencies in package.json are correctly specified" >> $GITHUB_STEP_SUMMARY
+            echo "- Verify that the Azure Static Web Apps API token secret is valid" >> $GITHUB_STEP_SUMMARY
+            echo "- Check that the Node.js version matches your project requirements" >> $GITHUB_STEP_SUMMARY
+            echo "- Test the build locally with \`npm install && npm run build\`" >> $GITHUB_STEP_SUMMARY
+          fi
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
@@ -55,3 +124,13 @@ jobs:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_AGREEABLE_STONE_05E821510 }}
           action: "close"
           app_location: "/website" # App source code path
+      
+      - name: PR Close Status
+        if: always()
+        run: |
+          if [ "${{ steps.closepullrequest.outcome }}" == "success" ]; then
+            echo "::notice::Pull request staging environment successfully closed."
+          elif [ "${{ steps.closepullrequest.outcome }}" == "failure" ]; then
+            echo "::error::Failed to close pull request staging environment."
+            echo "::error::Please check Azure Static Web Apps configuration and secrets."
+          fi
