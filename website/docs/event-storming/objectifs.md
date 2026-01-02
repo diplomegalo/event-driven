@@ -3,7 +3,7 @@ title: Objectifs de l'Event Storming
 description: Ce que vise la methode et comment elle le rend tangible
 id: event-storming-objectifs
 slug: /event-storming/objectifs
-sidebar_position: 3
+sidebar_position: 2
 ---
 
 1. **Ubiquitous Language** : creer un langage commun entre les acteurs d'un processus. Les participants identifient evenements, commandes, acteurs, modeles et systemes externes, ce qui met en lumiere et resout les differences de comprehension.

@@ -3,7 +3,7 @@ title: Deroulement d'un atelier
 description: Les phases types d'un Event Storming
 id: event-storming-deroulement
 slug: /event-storming/deroulement
-sidebar_position: 5
+sidebar_position: 4
 ---
 
 1. **Kick-off** : lancer l'atelier en rappelant le but (ex : "parcourir le processus du dossier de la creation a la cloture") sans detailler les etapes.

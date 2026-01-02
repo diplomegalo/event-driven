@@ -3,7 +3,7 @@ title: Participants et logistique
 description: Choisir les bons profils et preparer le terrain
 id: event-storming-participants-logistique
 slug: /event-storming/participants-logistique
-sidebar_position: 4
+sidebar_position: 3
 ---
 
 Avant de commencer, il faut reunir les bonnes personnes et un cadre clair. Cette page concentre l'essentiel pour que l'atelier soit utile et lisible : qui inviter, pourquoi eux, et avec quoi travailler.

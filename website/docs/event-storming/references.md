@@ -3,7 +3,7 @@ title: References Event Storming
 description: Ouvrages et sources principales
 id: event-storming-references
 slug: /event-storming/references
-sidebar_position: 8
+sidebar_position: 7
 ---
 
 ## Ouvrages

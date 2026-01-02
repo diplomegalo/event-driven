@@ -3,7 +3,7 @@ title: Remise en question et collaboration
 description: Iterer sur le processus et renforcer le travail d'equipe
 id: event-storming-amelioration-collaboration
 slug: /event-storming/amelioration-collaboration
-sidebar_position: 7
+sidebar_position: 6
 ---
 
 ## Remise en question du processus

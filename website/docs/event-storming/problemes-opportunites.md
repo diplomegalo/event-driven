@@ -3,7 +3,7 @@ title: Problemes et opportunites
 description: Identifier, prioriser et traiter ce qui ressort de l'atelier
 id: event-storming-problemes-opportunites
 slug: /event-storming/problemes-opportunites
-sidebar_position: 6
+sidebar_position: 5
 ---
 
 L'identification des problemes se fait tout au long de l'atelier. Une fois le processus clair, les Post-its de couleur rose (problemes) et verte (opportunites) peuvent etre ajoutes.
