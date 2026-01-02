@@ -55,9 +55,9 @@ const config: Config = {
       items: [
         {
           type: 'doc',
-          docId: 'event-storming/event-storming',
+          docId: 'methodologie/index',
           position: 'left',
-          label: 'Event Storming',
+          label: 'Méthodologie',
         },
       ],
     },
