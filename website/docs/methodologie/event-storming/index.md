@@ -11,7 +11,13 @@ En se concentrant sur les **événements métier significatifs**, cette techniqu
 - Construire une **vision partagée** des processus
 - Identifier les **acteurs**, les **données critiques** et les **systèmes impliqués**
 
+Pour finalement **modéliser** les processus métier de manière visuelle et intuitive en vue d'une **implémentation logicielle**.
+
+En trois mots : c'est une analyse !
+
 La méthode invite plusieurs **profils de collaborateurs** (métier, développeurs, architectes, ops) à travailler ensemble, ce qui favorise la **communication** et casse les **silos entre les équipes**.
+
+Une fois les ateliers terminés, le résultat est une **carte visuelle** des processus métier et des fonctionnalités, qui sert de base pour la conception du système.
 
 Bien qu'elle soit particulièrement populaire dans les contextes **DDD** et d'**architectures événementielles**, elle reste **agnostique de l'implémentation technique** et de l'architecture finale.
 

@@ -5,10 +5,12 @@ sidebar_position: 2
 ---
 
 :::info En résumé
-L'**Event Storming** est particulièrement **utile quand les connaissances sont fragmentées** entre différentes équipes ou départements. J'ai trouvé que rassembler tout le monde quelques heures permet d'éclaircir une situation bien plus rapidement. C'est un vrai gain de temps par rapport aux réunions dispersées ou au "ping-pong" d'emails interminables. Une fois les processus clarifiés, il est plus simple de **rationnaliser et simplifier** les flux de travail, ce qui améliore l'efficacité globale.
+L'**Event Storming** est particulièrement **utile quand les connaissances sont fragmentées** entre différentes équipes ou départements et qu'il est très difficile d'avoir une vue d'ensemble. J'ai trouvé que rassembler tout le monde quelques heures permet d'éclaircir une situation bien plus rapidement. C'est un vrai gain de temps par rapport aux réunions dispersées ou au "ping-pong" d'emails interminables. Une fois les processus clarifiés, il est plus simple de **rationnaliser et simplifier** les flux de travail et de l'analyser en vue de l'implémentation : c'est très efficace !
 :::
 
 ## Pourquoi faire un atelier Event Storming ?
+
+Parce qu'à un moment donné, c'est tellement compliqué qu'on ne s'y retrouve plus, ou parce que c'est tellement vieux qu'on ne sait plus pourquoi ça a été fait comme ça. Et ça, c'est le mal !
 
 L'Event Storming permet d'explorer et de comprendre un domaine métier complexe en réunissant différents profils autour d'une activité collaborative. L'objectif principal est de **créer une vision partagée** du processus métier, depuis une vue d'ensemble jusqu'aux détails d'implémentation.
 
@@ -20,17 +22,16 @@ La méthode se déroule en plusieurs étapes itératives, chacune avec ses propr
 
 - Identifier les événements métier majeurs
 - Repérer les acteurs impliqués
-- Faire émerger les problèmes et opportunités
 
-À cette étape, les **profils métier apportent vraiment de la valeur**. C'est leur connaissance de la logique métier qui fait émerger les vrais processus, pas ceux qu'on croit qui existent. Les questions techniques peuvent attendre.
+À cette étape, les **profils métier apportent vraiment de la valeur**. C'est leur connaissance de la logique métier qui fait émerger les vrais processus, pas ceux qu'on croit qui existent. À ce stade, les questions techniques peuvent attendre, on cherche surtout à comprendre "quoi" et "pourquoi" avec des gens qui vivent le métier au quotidien.
 
 **2. Process Modeling** : Affiner les processus critiques
 
 - Visualiser les enchaînements d'événements
 - Identifier les commandes (actions) qui déclenchent les événements
-- Clarifier les interactions entre acteurs
+- Clarifier les interactions entre acteurs et systèmes
 
-C'est ici que la vision transversale des **architectes** est importante. Leurs questions font ressortir les dépendances entre domaines et les contraintes d'intégration que le métier seul ne verrait pas.
+C'est ici que la vision transversale des **architectes** est importante. Leurs questions font ressortir les dépendances entre domaines et les contraintes d'intégration que le métier seul ne verrait pas. On reste néanmoins focalisé sur le métier, mais on commence à intégrer les aspects techniques pour préparer la suite.
 
 **3. Design Level** : Définir les périmètres techniques
 
@@ -48,6 +49,10 @@ Au-delà de la modélisation, l'Event Storming apporte :
 - **Une meilleure collaboration** : les silos entre équipes se brisent naturellement
 - **Une vision systémique** : les dépendances et interactions deviennent visibles
 - **Des décisions éclairées** : les problèmes cachés et opportunités émergent rapidement
+
+Et surtout, c'est un gain de temps énorme comparé aux approches traditionnelles. En quelques heures, on peut obtenir une compréhension qui aurait pris des jours ou semaines en réunions classiques.
+
+**On peut alors utiliser le résultat de l'atelier pour commencer à formaliser une analyse, créer un backlog produit, ou même directement démarrer la conception technique.**
 
 ## Ce que l'Event Storming n'est pas
 
