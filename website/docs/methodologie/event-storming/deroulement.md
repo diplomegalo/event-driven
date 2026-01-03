@@ -5,7 +5,7 @@ sidebar_position: 3
 ---
 
 :::info En résumé
-Un atelier Event Storming suit une progression logique : d'abord **clarifier l'objectif** (kick-off), puis **explorer librement** les événements, ensuite **organiser chronologiquement**, **enrichir avec les détails**, et enfin **valider par la narration**. Chaque étape a un rôle précis et se parcours l'une après l'autre. Le facilitateur doit veiller à ce que chacun participe et que le groupe ne s'égare pas. Il ne faut pas perdre de vue que ces étapes sont itératives au sein de trois grandes phases : Big Picture, Process Modeling, Design Level. Selon la phase, le niveau de détail et les objectifs changent.
+Un atelier Event Storming suit une progression logique : d'abord **clarifier l'objectif** (kick-off), puis **explorer librement** les événements, ensuite **organiser chronologiquement**, **enrichir avec les détails**, et enfin **valider par la narration**. Chaque étape a un rôle précis et se parcourt l'une après l'autre. Le facilitateur doit veiller à ce que chacun participe et que le groupe ne s'égare pas. Il ne faut pas perdre de vue que ces étapes sont itératives au sein de trois grandes phases : Big Picture, Process Modeling, Design Level. Selon la phase, le niveau de détail et les objectifs changent.
 :::
 
 ## Légende des Post-its
@@ -20,7 +20,7 @@ Avant de commencer, voici les codes couleurs utilisés durant l'atelier :
 6. **Contexte** (policy) : en **mauve**, la raison ou condition qui entoure l'exécution d'une commande (si, lorsque, à chaque fois que...).
 
 :::tip
-Utilisez des formats différents de Post-it's plus petits pour les acteurs, plus grands pour les notes importantes. C'est un petit truc qui rend le mur beaucoup plus lisible.
+Utilisez des formats différents de Post-its plus petits pour les acteurs, plus grands pour les notes importantes. C'est un petit truc qui rend le mur beaucoup plus lisible.
 :::
 
 Un événement peut être déclenché par :
@@ -30,7 +30,7 @@ Un événement peut être déclenché par :
 - Un autre événement (planifié ou non)
 
 :::tip
-Attention vous êtes le facilitateur, c'est donc à vous de connaître toutes les finesse de la méthode et non aux participants. Par conséquent, il n'est pas nécessaire de leur donner une explication complète des règles, mais seulement de ce qui est nécessaire, de manière à ne pas bloquer la réflexion des intervenants sur des détails protocolaires. Amener les à réfléchir plutôt qu'à se conformer. Néanmoins, en guise de rappel, vous pouvez afficher la légende des couleur des Post-it dans la pièce durant l'atelier. Cela permet aux participants de rester autonomes et de ne pas se sentir bloquer les couleurs alors qu'ils ont des choses importantes à dire (cf. [Participants et logistique](participants-logistique.md#avant-de-commencer)).
+Attention vous êtes le facilitateur, c'est donc à vous de connaître toutes les finesses de la méthode et non aux participants. Par conséquent, il n'est pas nécessaire de leur donner une explication complète des règles, mais seulement de ce qui est nécessaire, de manière à ne pas bloquer la réflexion des intervenants sur des détails protocolaires. Amenez-les à réfléchir plutôt qu'à se conformer. Néanmoins, en guise de rappel, vous pouvez afficher la légende des couleur des Post-it dans la pièce durant l'atelier. Cela permet aux participants de rester autonomes et de ne pas se sentir bloqués par les couleurs alors qu'ils ont des choses importantes à dire (cf. [Participants et logistique](participants-logistique.md#avant-de-commencer)).
 :::
 
 ## Les étapes du déroulement
@@ -83,7 +83,7 @@ Un phénomène courant dans les ateliers est l'effet "banc du fond" : certaines 
 Le facilitateur va arbitrer en écoutant les experts métiers, le cas échéant, si deux visions s'opposent, notez le problème. Le processus est itératif et vous reviendrez dessus plus tard.
 
 :::tip Changer d'approche si besoin
-Attendez vous à devoir changer d'approche en cours de route. Par exemple vous passerez d'une approche swimlanes à une approche milestones. N'écrivez donc pas directement sur le mur pour créer des zones ou des liens, mais utilisez un collant de couleur que vous pourrez déplacer.
+Attendez-vous à devoir changer d'approche en cours de route. Par exemple vous passerez d'une approche swimlanes à une approche milestones. N'écrivez donc pas directement sur le mur pour créer des zones ou des liens, mais utilisez un collant de couleur que vous pourrez déplacer.
 :::
 
 :::warning Correctif en itération
