@@ -5,7 +5,7 @@ sidebar_position: 3
 ---
 
 :::info En résumé
-Un atelier Event Storming suit une progression logique : d'abord **clarifier l'objectif** (kick-off), puis **explorer librement** les événements, ensuite **organiser chronologiquement**, **enrichir avec les détails**, et enfin **valider par la narration**. Chaque étape a un rôle précis et un timing. Le facilitateur doit veiller à ce que chacun participe et que le groupe ne s'égare pas. Il ne faut pas perdre de vue que ces étapes sont itératives au sein de trois grandes phases : Big Picture, Process Modeling, Design Level. Selon la phase, le niveau de détail et les objectifs changent.
+Un atelier Event Storming suit une progression logique : d'abord **clarifier l'objectif** (kick-off), puis **explorer librement** les événements, ensuite **organiser chronologiquement**, **enrichir avec les détails**, et enfin **valider par la narration**. Chaque étape a un rôle précis et se parcours l'une après l'autre. Le facilitateur doit veiller à ce que chacun participe et que le groupe ne s'égare pas. Il ne faut pas perdre de vue que ces étapes sont itératives au sein de trois grandes phases : Big Picture, Process Modeling, Design Level. Selon la phase, le niveau de détail et les objectifs changent.
 :::
 
 ## Légende des Post-its
@@ -20,7 +20,7 @@ Avant de commencer, voici les codes couleurs utilisés durant l'atelier :
 6. **Contexte** (policy) : en **mauve**, la raison ou condition qui entoure l'exécution d'une commande (si, lorsque, à chaque fois que...).
 
 :::tip
-Utilisez des formats différents de Post-its—plus petits pour les acteurs, plus grands pour les notes importantes. C'est un petit truc qui rend le mur beaucoup plus lisible.
+Utilisez des formats différents de Post-it's plus petits pour les acteurs, plus grands pour les notes importantes. C'est un petit truc qui rend le mur beaucoup plus lisible.
 :::
 
 Un événement peut être déclenché par :
@@ -43,9 +43,8 @@ Affichez cette légende durant tout l'atelier. Cela permet aux participants de r
 
 - Le facilitateur lance l'atelier en rappelant **le but** clairement. Exemple : "On explore le processus d'une création de dossier de la création à la clôture".
 - Définissez aussi ce qu'on NE fait PAS ("on ne parle pas des systèmes techniques en détail").
-- Pas de détails sur les étapes encore—c'est juste le contexte global.
 
-**Important** : C'est court et focalisé. Si vous traînez ici, vous perdez l'élan.
+C'est court et focalisé. Si vous traînez ici, vous perdez l'élan.
 
 ### 2. Exploration
 
@@ -94,16 +93,14 @@ Il se peut également que vous deviez redéfinir des événements ou en ajouter 
 **Comment ça marche** :
 Pour chaque événement (ou groupe d'événements), ajouter autour :
 
-1. **Commandes (bleu)** : l'action qui a déclenché l'événement. Les mettre AVANT l'événement orange.
+1. **Commandes (bleu)** : l'action qui a déclenché l'événement. Les mettre avant l'événement orange.
 2. **Acteurs (jaune)** : la personne/système qui exécute la commande. Mettre à côté du bleu.
 3. **Attributs (vert)** : les données nécessaires pour faire l'action (paramètres, informations critiques).
 4. **Policy (mauve)** : la condition qui entoure l'action ("SI le dossier est complet, ALORS...").
 5. **Problèmes (fuchsia)** : si vous voyez un piège, une ambiguïté, le noter.
 
-**Physiquement** : Les commandes vont À GAUCHE de l'événement, les attributs DESSOUS ou À DROITE. Prenez de la place sur le mur.
-
-:::warning Adapter les détails à la phase
-Cette étape peut être adaptée selon la phase de l'Event Storming. En Big Picture, on reste léger sur les détails (juste commandes et acteurs). Dans la phase de processus design on ajoute les dépendances systèmes externes et les conditions. En Design Level, on ajoute les attributs.
+:::tip Adapter les détails à la phase
+Cette étape peut être adaptée selon la phase de l'Event Storming. En Big Picture, on reste léger sur les détails (juste commandes et acteurs). Dans la phase de processus design on ajoute les dépendances systèmes externes et les conditions. En Design Level, on ajoute tout et de manière très précise. Les problèmes eux sont universels... Ils arrivent à toutes les étapes 😕
 :::
 
 ### 5. Parcours utilisateur / Narration inversée
@@ -129,5 +126,5 @@ En ce qui concerne la **narration inversée**, il s'agit du même exercice mais 
 - Identifiez les **interactions entre zones** : comment le domaine A communique avec le domaine B ?
 
 :::info Domain Driven Design
-Cette étape invite à réfléchir aux limites naturelles dans votre domaine et va avoir une influence importante : où mettez-vous les limites d'un microservice ? D'une équipe ? D'une base de données ?
+Cette étape invite à réfléchir aux limites naturelles dans votre domaine et va avoir une influence importante : où mettez-vous les limites d'un microservice ? D'une équipe ? D'une base de données ? Elle vous aidera aussi à organiser votre backlog en groupe fonctionnel. 
 :::
