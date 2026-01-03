@@ -15,8 +15,8 @@ Organiser un Event Storming réussi, c'est d'abord **réunir le bon nombre et le
 L'une des clés du succès est de comprendre que **tous les ateliers ne demandent pas les mêmes profils**. Selon que vous explorez la big picture ou que vous affinez les détails techniques, l'importance de chaque rôle varie.
 
 - **Big Picture Event Storming** : Privilégiez les profils **métier**. C'est le moment de comprendre le domaine, et c'est eux qui le connaissent mieux que quiconque.
-- **Process Modeling** : Vous commencez à avoir besoin de profils plus variés. Les métiers restent importants pour valider, mais les **architectes** deviennent essentiels car ils voient les dépendances et les impacts entre les systèmes.
-- **Design Level** : Ici, ce sont les **développeurs** qui prennent le devant. Le métier et les architectes peuvent rester pour valider, mais les décisions techniques dominent.
+- **Process Modeling** : Vous commencez à avoir besoin de profils plus variés. Les métiers restent importants pour valider, mais les **architectes** et les analystes deviennent essentiels car ils voient les dépendances et les impacts entre les systèmes.
+- **Design Level** : Ici, ce sont les **développeurs** qui prennent le devant. Le métier, les analystes et les architectes peuvent rester pour valider, mais les décisions techniques dominent.
 
 ### Les quatre rôles clés
 
@@ -28,10 +28,6 @@ Au-delà de ces variations, chaque atelier a potentiellement besoin de quatre r�
 - **Le développeur** : Il apporte la perspective technique. Souvent, il pose les bonnes questions qui font émerger les détails oubliés.
 
 Faire discuter des profils métier et technique directement dès le début, c'est intentionnel, car c'est souvent dans ces conversations qu'on découvre les malentendus ou les écarts de compréhension qui doivent être résolus. Reste néanmoins au facilitateur de veiller à ce que chacun ait la parole et que les débats restent constructifs en fonction de l'objectif de l'atelier.
-
-:::info Les mauvais élèves
-Un phénomène courant dans les ateliers est l'effet "banc du fond" : certaines personnes, souvent plus introverties ou moins familières avec la méthode, hésitent à prendre la parole, un peu comme les élèves du fond de la classe. Le facilitateur doit être vigilant pour encourager ces participants à s'exprimer, car ils peuvent apporter des perspectives précieuses qui enrichissent la discussion. De même, il faut savoir ramener l'attention du groupe si des discussions parallèles se créent.
-:::
 
 ## La logistique de l'atelier
 
