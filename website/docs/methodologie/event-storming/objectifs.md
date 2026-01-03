@@ -5,14 +5,14 @@ sidebar_position: 2
 ---
 
 :::info En résumé
-L'**Event Storming** est particulièrement **utile quand les connaissances sont fragmentées** entre différentes équipes ou départements et qu'il est très difficile d'avoir une vue d'ensemble. J'ai trouvé que rassembler tout le monde quelques heures permet d'éclaircir une situation bien plus rapidement. C'est un vrai gain de temps par rapport aux réunions dispersées ou au "ping-pong" d'emails interminables. Une fois les processus clarifiés, il est plus simple de **rationnaliser et simplifier** les flux de travail et de l'analyser en vue de l'implémentation : c'est très efficace !
+L'**Event Storming** permet de collecter les informations d'un processus et de comprendre ce qu'il faut implémenter. Cette méthode est particulièrement **utile quand les connaissances sont fragmentées** entre différentes équipes ou départements et qu'il est très difficile d'avoir une vue d'ensemble. J'ai trouvé que rassembler tout le monde quelques heures permet d'éclaircir une situation bien plus rapidement. C'est un vrai gain de temps par rapport aux réunions dispersées ou au "ping-pong" d'emails interminables. Une fois les processus clarifiés, il est plus simple de **rationnaliser et simplifier** les flux de travail et de l'analyser en vue de l'implémentation : c'est très efficace !
 :::
 
 ## Pourquoi faire un atelier Event Storming ?
 
-Parce qu'à un moment donné, c'est tellement compliqué qu'on ne s'y retrouve plus, ou parce que c'est tellement vieux qu'on ne sait plus pourquoi ça a été fait comme ça. Et ça, c'est le mal !
+Parce qu'à un moment donné, c'est tellement compliqué qu'on ne s'y retrouve plus, ou parce que c'est tellement vieux qu'on ne sait plus pourquoi ça a été fait comme ça, ou finalement ce n'est qu'en ayant cinq personnes d'équipes ou de personnes différentes que l'on peut comprendre un processus. Et ça : c'est le mal !
 
-L'Event Storming permet d'explorer et de comprendre un domaine métier complexe en réunissant différents profils autour d'une activité collaborative. L'objectif principal est de **créer une vision partagée** du processus métier, depuis une vue d'ensemble jusqu'aux détails d'implémentation.
+L'Event Storming permet d'explorer et de comprendre un domaine métier complexe en réunissant différents profils autour d'une activité collaborative. L'objectif principal est de **d'extraire une vision partagée et complète** du processus métier, depuis une vue d'ensemble jusqu'aux détails d'implémentation.
 
 ### Une approche progressive en trois niveaux
 
@@ -39,7 +39,11 @@ C'est ici que la vision transversale des **architectes** est importante. Leurs q
 - Définir les bounded contexts (périmètres fonctionnels)
 - Préciser les responsabilités de chaque système
 
-À cette étape, les **profils techniques deviennent essentiels**. Ils posent les questions précises qui font ressortir les détails cachés auxquels le métier doit répondre. Le métier peut rester pour valider, mais ce sont les décisions techniques qui dominent. J'ai remarqué qu'il faut d'ailleurs veiller à avoir un interlocuteur métier ayant des dispositions techniques pour bien comprendre les questions et y répondre.
+À cette étape, les **profils techniques deviennent essentiels**. Ils posent les questions précises qui font ressortir les détails cachés auxquels le métier doit répondre. Le métier peut rester pour valider, mais ce sont les décisions techniques qui dominent. 
+
+:::tip Profil métier et technique 
+J'ai pu remarquer qu'à ce stade, il est essentiel d'avoir un interlocuteur métier ayant des dispositions techniques pour bien comprendre les questions et y répondre. Si vous n'avez pas ce type de profil dans l'équipe métier, essayez d'ajouter un analyste fonctionnel.
+:::
 
 ### Les bénéfices concrets
 
@@ -60,4 +64,6 @@ L'Event Storming n'est pas une méthode de modélisation de processus métier cl
 
 **Le livrable n'est pas une analyse prête à l'emploi** : le résultat d'un atelier (mur de Post-its, photos, notes) ne peut pas être directement intégré dans un document d'analyse ou une spécification technique. Il nécessite une phase de **consolidation et de formalisation** pour transformer les insights collectifs en documentation exploitable. L'atelier produit avant tout une **compréhension partagée** qui doit ensuite être structurée dans une analyse ou dans un backlog selon les besoins du projet.
 
-Produire une analyse formelle à partir d'un atelier Event Storming demande beaucoup de temps et d'efforts. Une manière de pouvoir réduire ce temps est d'ajouter les grandes étapes dans un backlog, puis de les détailler progressivement en fonction des priorités du projet. De cette manière, on évite une perte de temps due au formalisme excessif et l'attente d'une documentation parfaite avant de commencer le travail de développement.
+:::tip Rester efficace 
+Produire une analyse formelle à partir d'un atelier Event Storming demande beaucoup de temps et d'efforts. En outre, il faut attendre la fin de l'écriture du document complet avant de pouvoir commencer l'implémentation. Une manière de pouvoir réduire ce temps est d'ajouter les informations dans un backlog, puis de les détailler progressivement en fonction des priorités du projet. De cette manière, on évite une perte de temps due au formalisme excessif et l'attente d'une documentation parfaite avant de commencer le travail de développement.
+:::
