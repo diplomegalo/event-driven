@@ -47,7 +47,7 @@ C'est précisément cette **diversité de perspectives** qui fait la richesse de
 
 ### Pourquoi prioriser ?
 
-À la fin d'un atelier, le mur peut être couvert de dizaines de Post-its fuchsia. Tous ne sont pas égaux : certains sont bloquants, d'autres sont des détails ou encore un blocage personnel. Prioriser permet de **focaliser l'énergie** sur ce qui compte vraiment.
+À la fin d'un atelier, le mur peut être couvert de dizaines de Post-its fuchsia. Tous ne sont pas égaux : certains sont bloquants, d'autres sont des détails ou encore des blocages personnels. Prioriser permet de **focaliser l'énergie** sur ce qui compte vraiment.
 
 ### Comment prioriser ?
 
@@ -82,7 +82,6 @@ Quelques constats courants :
 - **Complexité héritée** : Certaines étapes existent uniquement parce qu'une ancienne technologie l'imposait, mais ce n'est plus pertinent
 - **Variations non documentées** : Chaque équipe exécute le processus différemment, avec sa terminologie et ses outils
 - **Écarts entre théorie et pratique** : Le processus officiel décrit quelque chose, mais la réalité opérationnelle est très différente
-- **Doublons inutiles** : Plusieurs étapes produisent les mêmes résultats ou collectent les mêmes données de manières presque identiques.
 
 Ces découvertes sont précieuses. Elles invitent à **repenser le processus** : comment pourrait-il être plus simple, plus rapide, plus efficace ? Comment pourrions-nous réduire les variantes et converger vers un flux standardisé ?
 
@@ -104,10 +103,11 @@ Voici quelques situations concrètes des problèmes qui peuvent survenir **penda
 
 **Solution** :
 
-- Relancez avec des questions précises : "Qu'est-ce qui se passe immédiatement APRÈS [l'événement de départ] ?"
-- Donnez un exemple : "Imaginez que vous êtes [l'acteur principal], quelle est votre première action ?"
-- Impliquez directement un expert métier : "Toi qui le fais tous les jours, quel est le PREMIER événement ?"
-- Si ça ne vient toujours pas, c'est peut-être que personne ne maîtrise vraiment le processus. Arrêtez et reportez l'atelier.
+- Relancez avec des questions précises : "Qu'est-ce qui se passe immédiatement après... ?"
+- Donnez un exemple : "Imaginez que vous êtes... Quelle est votre première action ?"
+- Impliquez directement un expert métier : "Toi qui le fais tous les jours, quel est la première chose que tu fais ?"
+
+Si ça ne vient toujours pas, c'est peut-être que personne ne maîtrise vraiment le processus. Arrêtez et reportez l'atelier.
 
 ### Deux versions conflictuelles du processus émergent
 
@@ -124,7 +124,7 @@ Voici quelques situations concrètes des problèmes qui peuvent survenir **penda
 
 ### Le groupe ne progresse plus, se perd dans les détails
 
-**Symptôme** : Vous êtes bloqué sur une phase depuis longtemps, les discussions s'éternisent, les gens commencent à regarder leurs téléphones.
+**Symptôme** : Vous êtes bloqué sur une phase depuis longtemps, les discussions s'éternisent, les gens commencent à bailler.
 
 **Cause** : Vous essayez peut-être d'aller trop loin dans les détails, ou vous avez perdu le cap sur l'objectif initial.
 
@@ -146,19 +146,5 @@ Voici quelques situations concrètes des problèmes qui peuvent survenir **penda
 - En tant que facilitateur, challengez : "Est-ce qu'on a vraiment besoin de cette étape ?"
 - Posez des questions ouvertes : "Peut-on faire plus simple ici ?"
 - Distinguez le **processus nominal** (le cas normal) des **cas d'exception** (à traiter séparément)
-- Séparez les étapes critiques des détails secondaires et validez les étapes les unes après les autres
-- Rappelez que l'Event Storming sert aussi à **simplifier**, pas juste à documenter l'existant
-
-## Itérations régulières
-
-L'Event Storming n'est pas un exercice ponctuel. Les processus évoluent, les équipes apprennent, les problèmes se révèlent. Des **itérations régulières** permettent de :
-
-- **Affiner les processus** découverts
-- **Comparer avec d'autres domaines** pour tendre vers la standardisation
-- **Mesurer les améliorations** après avoir traité les problèmes prioritaires
-
-## Le bénéfice : un canal de communication durable
-
-Dans des organisations en silos, réunir des équipes autour d'un processus crée un **canal de communication supplémentaire**. L'Event Storming favorise des **interactions dynamiques et constructives** grâce aux liens créés entre participants.
-
-Les problèmes et opportunités identifiés deviennent un **langage commun** : tout le monde comprend ce qui bloque, ce qui pourrait être amélioré, et pourquoi. C'est cette compréhension partagée qui permet ensuite de collaborer efficacement sur les solutions.
+- Découpez le problème en plusieurs étapes et validez les les unes après les autres
+- Rappelez que l'Event Storming sert aussi à **simplifier**, pas juste à documenter l'existant.
