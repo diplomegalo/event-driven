@@ -62,6 +62,10 @@ C'est court et focalisé. Si vous traînez ici, vous perdez l'élan.
 - Posez des questions : "Quelqu'un d'autre a-t-il un événement ?"
 - N'acceptez pas les débats sur l'ordre encore : "on rangera après"
 
+:::info Les mauvais élèves
+Un phénomène courant dans les ateliers est l'effet "banc du fond" : certaines personnes, souvent plus introverties ou moins familières avec la méthode, hésitent à prendre la parole, un peu comme les élèves du fond de la classe. Le facilitateur doit être vigilant pour encourager ces participants à s'exprimer, car ils peuvent apporter des perspectives précieuses qui enrichissent la discussion. De même, il faut savoir ramener l'attention du groupe si des discussions parallèles se créent.
+:::
+
 ### 3. Chronologie
 
 **Objectif** : Organiser les événements dans un ordre logique.
