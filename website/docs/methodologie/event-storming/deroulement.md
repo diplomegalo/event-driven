@@ -30,7 +30,7 @@ Un événement peut être déclenché par :
 - Un autre événement (planifié ou non)
 
 :::tip
-Affichez cette légende durant tout l'atelier. Cela permet aux participants de rester autonomes et de ne pas vous déranger constamment pour confirmer les couleurs (cf. [Participants et logistique](participants-logistique.md#avant-de-commencer)).
+Attention vous êtes le facilitateur, c'est donc à vous de connaître toutes les finesse de la méthode et non aux participants. Par conséquent, il n'est pas nécessaire de leur donner une explication complète des règles, mais seulement de ce qui est nécessaire, de manière à ne pas bloquer la réflexion des intervenants sur des détails protocolaires. Amener les à réfléchir plutôt qu'à se conformer. Néanmoins, en guise de rappel, vous pouvez afficher la légende des couleur des Post-it dans la pièce durant l'atelier. Cela permet aux participants de rester autonomes et de ne pas se sentir bloquer les couleurs alors qu'ils ont des choses importantes à dire (cf. [Participants et logistique](participants-logistique.md#avant-de-commencer)).
 :::
 
 ## Les étapes du déroulement
