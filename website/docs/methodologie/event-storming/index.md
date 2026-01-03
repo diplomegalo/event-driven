@@ -13,11 +13,11 @@ En se concentrant sur les **événements métier significatifs**, cette techniqu
 
 Pour finalement **modéliser** les processus métier de manière visuelle et intuitive en vue d'une **implémentation logicielle**.
 
-En trois mots : c'est une analyse !
-
 La méthode invite plusieurs **profils de collaborateurs** (métier, développeurs, architectes, ops) à travailler ensemble, ce qui favorise la **communication** et casse les **silos entre les équipes**.
 
 Une fois les ateliers terminés, le résultat est une **carte visuelle** des processus métier et des fonctionnalités, qui sert de base pour la conception du système.
+
+En résumé, c'est comme faire une analyse, mais tous ensemble et avec des Post-it ! 
 
 Bien qu'elle soit particulièrement populaire dans les contextes **DDD** et d'**architectures événementielles**, elle reste **agnostique de l'implémentation technique** et de l'architecture finale.
 
