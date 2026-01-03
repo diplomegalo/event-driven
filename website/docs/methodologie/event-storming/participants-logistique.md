@@ -29,6 +29,10 @@ Au-delà de ces variations, chaque atelier a potentiellement besoin de quatre r�
 
 Faire discuter des profils métier et technique directement dès le début, c'est intentionnel, car c'est souvent dans ces conversations qu'on découvre les malentendus ou les écarts de compréhension qui doivent être résolus. Reste néanmoins au facilitateur de veiller à ce que chacun ait la parole et que les débats restent constructifs en fonction de l'objectif de l'atelier.
 
+::: les Analystes
+Le rôle d'analyste n'est pas repris tel quel, car en fonction des entreprises voir même des personnalités, ce profil peut combiner plusieurs rôles et avoir une vision métier et fonctionnelle, transversale, voir même technique. Il est donc tout à fait normal et intéressant d'avoir ce type de profil dans les ateliers pour remplir un ou plusieurs rôle. Attention toutefois de ne pas rentrer dans un effet pervers ou un analyste "connais tous sur tous", "a toujours fait comme ça", ou "fait ce qu'on lui demande". La discussion devient alors très difficile, rentre trop vite dans les détails et les débats se bloquent rapidement ou pour longtemps. Choisissez vos profils avec soin et n'hésitez pas à en écarter certains même s'ils ont une bonne connaissance. 
+:::
+
 ## La logistique de l'atelier
 
 ### Avant de commencer
