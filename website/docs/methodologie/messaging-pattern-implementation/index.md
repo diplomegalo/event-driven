@@ -7,7 +7,7 @@ draft: true
 
 ## Organisation de la documentation
 
-Pour cette documentation, je me base principalement sur le livre *Enterprise Integration Patterns* de Gregor Hohpe et Bobby Woolf, qui est la référence en la matière.
+Pour cette documentation, je me base principalement sur le livre *Enterprise Integration Patterns* de Gregor Hohpe et Bobby Woolf, qui est la référence en la matière. Ce livre a été publié en 2003, mais reste malgré tout d'actualité, car les concepts fondamentaux de l'intégration d'entreprise et du messaging asynchrone qu'il présente sont toujours valables, même dans le contexte des architectures cloud modernes.
 
 Le livre est organisé en six grandes sections, chacune couvrant un aspect clé de l'intégration d'entreprise :
 
@@ -42,7 +42,14 @@ Bonne lecture !
 
 ## Références
 
+### Bibliographie
+
 | Référence | Couverture |
 |-----------|-----------|
 | HOHPE, Gregor et WOOLF, Bobby. *Enterprise Integration Patterns: Designing, Building, and Deploying Messaging Solutions*. Boston: Addison-Wesley Professional, 2003. ISBN 0321200683. | ![Enterprise Integration Patterns](https://www.oreilly.com/covers/urn:orm:book:0321200683/300w/) |
-| [Enterprise Integration Patterns on Azure - Introduction](https://pacodelacruz.io/enterprise-integration-patterns-on-azure-intro) | - |
+
+### Articles et ressources en ligne
+
+| URL | |
+|--|--|
+| [Enterprise Integration Patterns on Azure - Introduction](https://pacodelacruz.io/enterprise-integration-patterns-on-azure-intro) | Blog de Paco de la Cruz |
