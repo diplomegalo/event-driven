@@ -17,6 +17,10 @@ Contrairement au Content-Based Router qui **dirige** les messages vers différen
 3. **Éviter la prolifération de canaux** - Au lieu de créer une queue par type de consommateur, on utilise un seul canal avec des filtres
 4. **Consommation sélective** - Un système ne traite que ce qui le concerne vraiment
 
+:::note Prolifération des canaux
+L'implémentation de filtre pour éviter la prolifération des canaux est dépendante des capacités du message broker utilisé.
+:::
+
 ## Dangers et pièges
 
 1. **Perte silencieuse de messages** - Un message filtré disparaît sans trace, risque d'oublier des cas métier importants
@@ -25,18 +29,9 @@ Contrairement au Content-Based Router qui **dirige** les messages vers différen
 4. **Duplication logique** - Si plusieurs systèmes appliquent les mêmes filtres, on a de la redondance et des incohérences possibles
 5. **Violation de la cohérence** - On peut créer des inconsistances métier si le filtrage n'est pas correctement aligné avec la logique du domaine
 
-::: note Trade-off de performance et coûts infrastructure
+:::tip Coûts infrastructure
 
-En gagnant en performance côté consommateurs (qui ne traitent plus les messages inutiles), on **perd de l'autre côté** en charge sur le message broker :
+En gagnant en performance côté consommateurs (qui ne traitent plus les messages inutiles), on **perd de l'autre côté** en charge sur le message broker. Le tri qui n'était pas fait dans les consommateurs est désormais effectué dans le broker, la collection de filtres peut vite devenir énorme et complexe, et cela impacte directement les coûts infrastructure (CPU, mémoire, bande passante du broker).
 
-- Le tri qui n'était pas fait dans les consommateurs est désormais effectué dans le broker
-- La collection de filtres peut vite devenir énorme et complexe
-- Cela impacte directement les **coûts infrastructure** (CPU, mémoire, bande passante du broker)
-
-Il est donc impératif de discuter avec les équipes d'infrastructure pour :
-
-- Valider que le broker peut supporter la charge additionnelle
-- Mesurer l'impact réel sur les coûts
-- Mettre en place du monitoring sur les règles de filtrage
-- Évaluer un équilibre entre filtrage au niveau broker vs. au niveau consommateur selon le contexte
+**Il est donc impératif de discuter avec les équipes d'infrastructure** pour valider que le broker peut supporter la charge additionnelle, mesurer l'impact réel sur les coûts, mettre en place du monitoring sur les règles de filtrage, et évaluer un équilibre entre filtrage au niveau broker vs. au niveau consommateur selon le contexte.
 :::
