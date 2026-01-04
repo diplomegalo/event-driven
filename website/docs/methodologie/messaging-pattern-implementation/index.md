@@ -1,6 +1,6 @@
 ---
 title: Messaging - Patterns et Implémentations
-description: Patterns de messaging asynchrone et leur implémentation dans les systèmes cloud et de message brokers
+description: Patterns de messaging asynchrone et leur implémentation dans les systèmes de message brokers
 pagination_prev: null
 draft: true
 ---
@@ -11,8 +11,8 @@ Pour cette documentation, je me base principalement sur le livre *Enterprise Int
 
 Le livre est organisé en six grandes sections, chacune couvrant un aspect clé de l'intégration d'entreprise :
 
-:::mermaid
-graph TD
+```mermaid
+flowchart TD
 
 A[Messaging]
 A-->B[Message Channels]
@@ -21,7 +21,7 @@ A-->D[Pipes and Filters]
 A-->E[Message Router]
 A-->F[Message Translator]
 A-->G[Message Endpoint]
-:::
+```
 
 Ces sections sont reprises dans les chapitres du livre :
 
