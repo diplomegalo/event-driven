@@ -2,7 +2,7 @@
 title: Messaging - Patterns et Implémentations
 description: Patterns de messaging asynchrone et leur implémentation dans les systèmes de message brokers
 pagination_prev: null
-draft: true
+draft: false
 ---
 
 ## Organisation de la documentation
