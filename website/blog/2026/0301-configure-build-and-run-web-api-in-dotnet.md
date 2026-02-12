@@ -146,3 +146,6 @@ app.MapGet("/health", ...) maps a single route to a delegate.
 - Endpoint mapping present?
 - Environment checks (Swagger)?
 - app.Run() at the end?
+
+
+### Yes. Use... adds middleware to the pipeline; Map... registers endpoints (URL pattern + HTTP verb) to a handler. Execution happens when routing selects a mapped endpoint.
